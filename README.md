@@ -1,4 +1,4 @@
-# Kalpa Studio — Web Design Portfolio & Shop
+# Dark Rebel — Web Design Portfolio & Shop
 > Dark editorial design system inspired by WPKoi Kalpa theme.  
 > Pure HTML/CSS/JS — no framework, no server, no hosting cost.
 
