@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('ks_theme')||'dark'}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Carrito — DARK REBEL DESIGN</title>
   <link rel="stylesheet" href="css/style.css" />
@@ -25,6 +26,7 @@
   <div class="nav-right">
     <a href="cart.html" class="nav-cart-btn"><span data-i18n="nav.cart">Carrito</span> <span class="cart-count" style="display:none">0</span></a>
     <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">EN</button>
+    <button class="theme-btn" id="theme-toggle" aria-label="Toggle theme"><i data-lucide="sun"></i><i data-lucide="moon"></i></button>
     <button class="nav-hamburger"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -94,6 +96,7 @@
   </div>
 </footer>
 
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
 <script>

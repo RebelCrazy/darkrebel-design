@@ -177,3 +177,24 @@ const currentPage = location.pathname.split('/').pop() || 'index.html';
 document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(a => {
   if (a.getAttribute('href') === currentPage) a.classList.add('active');
 });
+
+// ── THEME TOGGLE ──
+(function () {
+  try {
+    var saved = localStorage.getItem('ks_theme') || 'dark';
+    document.documentElement.dataset.theme = saved;
+  } catch (e) {}
+})();
+
+document.addEventListener('DOMContentLoaded', function () {
+  var btn = document.getElementById('theme-toggle');
+  if (btn) {
+    btn.addEventListener('click', function () {
+      var current = document.documentElement.dataset.theme || 'dark';
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('ks_theme', next); } catch (e) {}
+    });
+  }
+  if (window.lucide) lucide.createIcons();
+});
