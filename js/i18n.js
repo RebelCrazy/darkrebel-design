@@ -1,11 +1,11 @@
-/* ═══════════════════════════════════
-   KALPA STUDIO — i18n (ES / EN)
+﻿/* ═══════════════════════════════════
+   DARK REBEL DESIGN — i18n (ES / EN)
 ═══════════════════════════════════ */
 
 const TRANSLATIONS = {
   en: {
     /* ── NAV / TOPBAR ── */
-    'topbar.cta': 'Get in touch: hello@kalpastudio.com',
+    'topbar.cta': 'Get in touch: info@darkrebel.store',
     'nav.home': 'Home', 'nav.about': 'About', 'nav.services': 'Services',
     'nav.blog': 'Blog', 'nav.contact': 'Contact', 'nav.cart': 'Cart',
 
@@ -17,8 +17,8 @@ const TRANSLATIONS = {
     'footer.brand-identity': 'Brand Identity', 'footer.web-design': 'Web Design',
     'footer.uiux': 'UI/UX Audit', 'footer.social-kit': 'Social Media Kit',
     'footer.retainer': 'Monthly Retainer',
-    'footer.rights': '© 2026 Kalpa Studio. All rights reserved.',
-    'footer.rights.short': '© 2026 Kalpa Studio',
+    'footer.rights': '© 2026 DARK REBEL DESIGN. All rights reserved.',
+    'footer.rights.short': '© 2026 DARK REBEL DESIGN',
     'footer.cta.services': 'Services', 'footer.cta.contact': 'Contact us',
 
     /* ── INDEX — Hero ── */
@@ -94,7 +94,7 @@ const TRANSLATIONS = {
 
     /* ── INDEX — Contact CTA ── */
     'cta.phone': 'Phone', 'cta.email.label': 'Email', 'cta.office': 'Office', 'cta.social': 'Social',
-    'cta.remote': 'Remote-first studio', 'cta.based': 'Based in NYC & Berlin',
+    'cta.remote': 'Guadalajara, Jalisco', 'cta.based': 'Tel: +52 33 4007 9524',
     'cta.form.title': 'Let\'s talk<br><span class="text-accent">about your project</span>',
     'form.name.label': 'Your name', 'form.name.ph': 'Alex Johnson',
     'form.email.label': 'Email address', 'form.email.ph': 'alex@company.com',
@@ -109,11 +109,11 @@ const TRANSLATIONS = {
 
     /* ── ABOUT ── */
     'about.hero.label': 'Who we are',
-    'about.hero.title': 'About<br><span class="text-accent">Kalpa.</span>',
+    'about.hero.title': 'About<br><span class="text-accent">Dark Rebel.</span>',
     'about.hero.desc': 'We are a remote-first design studio that believes great design is never decoration — it\'s strategy made visible.',
     'about.story.label': 'Our story',
     'about.story.title': 'We never dreamed<br>about success.<br><span class="text-accent">We worked for it.</span>',
-    'about.story.p1': 'Founded in 2020, Kalpa Studio started as a one-person operation with a single belief: that small brands deserve world-class design. Today we\'re a distributed team of designers, strategists and storytellers serving clients across 20+ countries.',
+    'about.story.p1': 'Founded in 2020, DARK REBEL DESIGN started as a one-person operation with a single belief: that small brands deserve world-class design. Today we\'re a distributed team of designers, strategists and storytellers serving clients across 20+ countries.',
     'about.story.p2': 'Every project begins with a question: what should people feel when they encounter this brand? The answer shapes everything that follows — from logo to layout, from typeface to tone of voice.',
     'stats.pj': 'Projects', 'stats.countries': 'Countries', 'stats.years': 'Years',
     'team.label': 'The team',
@@ -133,7 +133,7 @@ const TRANSLATIONS = {
     'shop.filter.all': 'All', 'shop.filter.branding': 'Branding',
     'shop.filter.web': 'Web Design', 'shop.filter.consulting': 'Consulting',
     'shop.no-products': 'No services in this category yet.',
-    'why.label': 'Why Kalpa',
+    'why.label': 'Why Dark Rebel',
     'why.title': 'No surprises.<br>Just <span class="text-accent">results.</span>',
     'why.01.title': 'Fixed pricing',
     'why.01.desc': 'What you see is what you pay. No hourly rate surprises, scope creep billing or hidden fees.',
@@ -160,10 +160,10 @@ const TRANSLATIONS = {
     /* ── CONTACT PAGE ── */
     'contact.hero.label': 'Get in touch',
     'contact.hero.title': 'Let\'s<br><span class="text-accent">talk.</span>',
-    'contact.hero.desc': 'We respond within 48 hours. For urgent inquiries, email us directly at <a href="mailto:hello@kalpastudio.com" style="color:var(--accent)">hello@kalpastudio.com</a>.',
+    'contact.hero.desc': 'We respond within 48 hours. For urgent inquiries, email us directly at <a href="mailto:info@darkrebel.store" style="color:var(--accent)">info@darkrebel.store</a>.',
     'contact.phone': 'Phone', 'contact.email.label': 'Email',
-    'contact.location': 'Location', 'contact.remote': 'Remote-first studio',
-    'contact.based': 'NYC & Berlin based', 'contact.social': 'Social',
+    'contact.location': 'Location', 'contact.remote': 'Guadalajara, Jalisco',
+    'contact.based': 'Tel: +52 33 4007 9524', 'contact.social': 'Social',
     'contact.form.title': 'Start your<br><span class="text-accent">project today</span>',
     'contact.fullname': 'Full name *', 'contact.fullname.ph': 'Your name',
     'contact.email2': 'Email address *', 'contact.email2.ph': 'you@company.com',
@@ -201,17 +201,17 @@ const TRANSLATIONS = {
     'cart.submitted': 'Order submitted! We\'ll contact you within 24h ✓',
 
     /* ── PAGE TITLES ── */
-    'page.index.title': 'Kalpa Studio — Digital Design',
-    'page.about.title': 'About — Kalpa Studio',
-    'page.shop.title': 'Services & Shop — Kalpa Studio',
-    'page.blog.title': 'Blog — Kalpa Studio',
-    'page.contact.title': 'Contact — Kalpa Studio',
-    'page.cart.title': 'Cart — Kalpa Studio',
+    'page.index.title': 'DARK REBEL DESIGN — Digital Design',
+    'page.about.title': 'About — DARK REBEL DESIGN',
+    'page.shop.title': 'Services & Shop — DARK REBEL DESIGN',
+    'page.blog.title': 'Blog — DARK REBEL DESIGN',
+    'page.contact.title': 'Contact — DARK REBEL DESIGN',
+    'page.cart.title': 'Cart — DARK REBEL DESIGN',
   },
 
   es: {
     /* ── NAV / TOPBAR ── */
-    'topbar.cta': 'Contáctanos: hello@kalpastudio.com',
+    'topbar.cta': 'Contáctanos: info@darkrebel.store',
     'nav.home': 'Inicio', 'nav.about': 'Nosotros', 'nav.services': 'Servicios',
     'nav.blog': 'Blog', 'nav.contact': 'Contacto', 'nav.cart': 'Carrito',
 
@@ -223,8 +223,8 @@ const TRANSLATIONS = {
     'footer.brand-identity': 'Identidad de Marca', 'footer.web-design': 'Diseño Web',
     'footer.uiux': 'Auditoría UI/UX', 'footer.social-kit': 'Kit de Redes Sociales',
     'footer.retainer': 'Retención Mensual',
-    'footer.rights': '© 2026 Kalpa Studio. Todos los derechos reservados.',
-    'footer.rights.short': '© 2026 Kalpa Studio',
+    'footer.rights': '© 2026 DARK REBEL DESIGN. Todos los derechos reservados.',
+    'footer.rights.short': '© 2026 DARK REBEL DESIGN',
     'footer.cta.services': 'Servicios', 'footer.cta.contact': 'Contáctanos',
 
     /* ── INDEX — Hero ── */
@@ -300,7 +300,7 @@ const TRANSLATIONS = {
 
     /* ── INDEX — Contact CTA ── */
     'cta.phone': 'Teléfono', 'cta.email.label': 'Correo', 'cta.office': 'Oficina', 'cta.social': 'Redes sociales',
-    'cta.remote': 'Estudio remoto', 'cta.based': 'Con base en NYC y Berlín',
+    'cta.remote': 'Guadalajara, Jalisco', 'cta.based': 'Tel: 33 4007 9524',
     'cta.form.title': 'Hablemos<br><span class="text-accent">de tu proyecto</span>',
     'form.name.label': 'Tu nombre', 'form.name.ph': 'Alex García',
     'form.email.label': 'Correo electrónico', 'form.email.ph': 'alex@empresa.com',
@@ -315,11 +315,11 @@ const TRANSLATIONS = {
 
     /* ── ABOUT ── */
     'about.hero.label': 'Quiénes somos',
-    'about.hero.title': 'Sobre<br><span class="text-accent">Kalpa.</span>',
+    'about.hero.title': 'Sobre<br><span class="text-accent">Dark Rebel.</span>',
     'about.hero.desc': 'Somos un estudio de diseño remoto que cree que el gran diseño nunca es decoración — es estrategia hecha visible.',
     'about.story.label': 'Nuestra historia',
     'about.story.title': 'Nunca soñamos<br>con el éxito.<br><span class="text-accent">Lo trabajamos.</span>',
-    'about.story.p1': 'Fundado en 2020, Kalpa Studio comenzó como una operación unipersonal con una creencia: que las marcas pequeñas merecen diseño de clase mundial. Hoy somos un equipo distribuido de diseñadores, estrategas y narradores que sirven a clientes en más de 20 países.',
+    'about.story.p1': 'Fundado en 2020, DARK REBEL DESIGN comenzó como una operación unipersonal con una creencia: que las marcas pequeñas merecen diseño de clase mundial. Hoy somos un equipo distribuido de diseñadores, estrategas y narradores que sirven a clientes en más de 20 países.',
     'about.story.p2': 'Cada proyecto comienza con una pregunta: ¿qué deben sentir las personas al encontrarse con esta marca? La respuesta da forma a todo lo que sigue — desde el logo hasta el diseño, desde la tipografía hasta el tono de voz.',
     'stats.pj': 'Proyectos', 'stats.countries': 'Países', 'stats.years': 'Años',
     'team.label': 'El equipo',
@@ -339,7 +339,7 @@ const TRANSLATIONS = {
     'shop.filter.all': 'Todos', 'shop.filter.branding': 'Branding',
     'shop.filter.web': 'Diseño Web', 'shop.filter.consulting': 'Consultoría',
     'shop.no-products': 'Aún no hay servicios en esta categoría.',
-    'why.label': 'Por qué Kalpa',
+    'why.label': 'Por qué Dark Rebel',
     'why.title': 'Sin sorpresas.<br>Solo <span class="text-accent">resultados.</span>',
     'why.01.title': 'Precios fijos',
     'why.01.desc': 'Lo que ves es lo que pagas. Sin sorpresas por tarifa por hora, facturación por alcance o cargos ocultos.',
@@ -366,10 +366,10 @@ const TRANSLATIONS = {
     /* ── CONTACT PAGE ── */
     'contact.hero.label': 'Contáctanos',
     'contact.hero.title': 'Hablemos<br><span class="text-accent">ya.</span>',
-    'contact.hero.desc': 'Respondemos en 48 horas. Para consultas urgentes, escríbenos directamente a <a href="mailto:hello@kalpastudio.com" style="color:var(--accent)">hello@kalpastudio.com</a>.',
+    'contact.hero.desc': 'Respondemos en 48 horas. Para consultas urgentes, escríbenos directamente a <a href="mailto:info@darkrebel.store" style="color:var(--accent)">info@darkrebel.store</a>.',
     'contact.phone': 'Teléfono', 'contact.email.label': 'Correo',
-    'contact.location': 'Ubicación', 'contact.remote': 'Estudio remoto',
-    'contact.based': 'Con base en NYC y Berlín', 'contact.social': 'Redes sociales',
+    'contact.location': 'Ubicación', 'contact.remote': 'Guadalajara, Jalisco',
+    'contact.based': 'Tel: 33 4007 9524', 'contact.social': 'Redes sociales',
     'contact.form.title': 'Comienza tu<br><span class="text-accent">proyecto hoy</span>',
     'contact.fullname': 'Nombre completo *', 'contact.fullname.ph': 'Tu nombre',
     'contact.email2': 'Correo electrónico *', 'contact.email2.ph': 'tú@empresa.com',
@@ -407,12 +407,12 @@ const TRANSLATIONS = {
     'cart.submitted': '¡Pedido enviado! Nos pondremos en contacto contigo en 24h ✓',
 
     /* ── PAGE TITLES ── */
-    'page.index.title': 'Kalpa Studio — Diseño Digital',
-    'page.about.title': 'Nosotros — Kalpa Studio',
-    'page.shop.title': 'Servicios y Paquetes — Kalpa Studio',
-    'page.blog.title': 'Blog — Kalpa Studio',
-    'page.contact.title': 'Contacto — Kalpa Studio',
-    'page.cart.title': 'Carrito — Kalpa Studio',
+    'page.index.title': 'DARK REBEL DESIGN — Diseño Digital',
+    'page.about.title': 'Nosotros — DARK REBEL DESIGN',
+    'page.shop.title': 'Servicios y Paquetes — DARK REBEL DESIGN',
+    'page.blog.title': 'Blog — DARK REBEL DESIGN',
+    'page.contact.title': 'Contacto — DARK REBEL DESIGN',
+    'page.cart.title': 'Carrito — DARK REBEL DESIGN',
   }
 };
 

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel — Kalpa Studio</title>
+  <title>Admin Panel — DARK REBEL DESIGN</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
     /* Extra admin styles */
@@ -45,7 +45,7 @@
   </div>
   <div class="login-box">
     <div class="display-md">Admin<span style="color:var(--accent)">.</span></div>
-    <div class="label" style="margin-top:0.5rem;margin-bottom:2rem">Kalpa Studio — Restricted Area</div>
+    <div class="label" style="margin-top:0.5rem;margin-bottom:2rem">DARK REBEL DESIGN — Restricted Area</div>
     <div class="form-group">
       <label>Username</label>
       <input type="text" id="login-user" placeholder="admin" autocomplete="username" />
@@ -58,7 +58,7 @@
     <button class="btn btn-primary w-100" onclick="doLogin()">Enter panel</button>
     <div class="login-error" id="login-error">❌ Invalid credentials. Try again.</div>
     <p style="font-size:0.75rem;color:var(--text2);margin-top:1.5rem;text-align:center">
-      Default: <code style="color:var(--accent)">admin</code> / <code style="color:var(--accent)">kalpa2026</code>
+      Default: <code style="color:var(--accent)">admin</code> / <code style="color:var(--accent)">rebel2026</code>
     </p>
   </div>
 </div>
@@ -73,7 +73,7 @@
   <!-- SIDEBAR -->
   <aside class="admin-sidebar">
     <div class="admin-logo">
-      Kalpa<span>.</span>
+      Dark Rebel<span>.</span>
       <div class="admin-badge">Admin</div>
     </div>
     <nav class="admin-nav">
@@ -210,11 +210,11 @@
       <div style="max-width:560px">
         <div class="form-group">
           <label>Studio Name</label>
-          <input type="text" id="s-name" placeholder="Kalpa Studio" />
+          <input type="text" id="s-name" placeholder="DARK REBEL DESIGN" />
         </div>
         <div class="form-group">
           <label>Contact Email</label>
-          <input type="email" id="s-email" placeholder="hello@kalpastudio.com" />
+          <input type="email" id="s-email" placeholder="info@darkrebel.store" />
         </div>
         <div class="form-group">
           <label>Tagline</label>
@@ -259,8 +259,8 @@
 // ══════════════════════════
 const ADMIN_CREDS_KEY = 'ks_admin_creds';
 function getCreds() {
-  try { return JSON.parse(localStorage.getItem(ADMIN_CREDS_KEY)) || { user: 'admin', pass: 'kalpa2026' }; }
-  catch { return { user: 'admin', pass: 'kalpa2026' }; }
+  try { return JSON.parse(localStorage.getItem(ADMIN_CREDS_KEY)) || { user: 'admin', pass: 'rebel2026' }; }
+  catch { return { user: 'admin', pass: 'rebel2026' }; }
 }
 
 function doLogin() {
@@ -521,8 +521,8 @@ function initAdmin() {
   renderDashboard();
   // Load settings fields
   const s = JSON.parse(localStorage.getItem('ks_settings') || '{}');
-  document.getElementById('s-name').value    = s.name    || 'Kalpa Studio';
-  document.getElementById('s-email').value   = s.email   || 'hello@kalpastudio.com';
+  document.getElementById('s-name').value    = s.name    || 'DARK REBEL DESIGN';
+  document.getElementById('s-email').value   = s.email   || 'info@darkrebel.store';
   document.getElementById('s-tagline').value = s.tagline || 'Digital Design Studio';
 }
 
