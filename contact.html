@@ -1,38 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact — Kalpa Studio</title>
+  <title>Contacto — Kalpa Studio</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body data-page="contact">
 <div id="cursor"></div><div id="cursor-ring"></div><div class="toast"></div>
 <div class="topbar">
-  <span class="topbar-email">hello@kalpastudio.com</span>
+  <span class="topbar-email" data-i18n="topbar.cta">Contáctanos: hello@kalpastudio.com</span>
   <div class="topbar-socials"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div>
 </div>
 <nav class="nav">
   <a href="index.html" class="nav-logo">Kalpa<span>.</span></a>
   <div class="nav-links">
-    <a href="index.html">Home</a><a href="about.html">About</a>
-    <a href="shop.html">Services</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
+    <a href="index.html" data-i18n="nav.home">Inicio</a><a href="about.html" data-i18n="nav.about">Nosotros</a>
+    <a href="shop.html" data-i18n="nav.services">Servicios</a><a href="blog.html" data-i18n="nav.blog">Blog</a><a href="contact.html" data-i18n="nav.contact">Contacto</a>
   </div>
   <div class="nav-right">
-    <a href="cart.html" class="nav-cart-btn">Cart <span class="cart-count" style="display:none">0</span></a>
+    <a href="cart.html" class="nav-cart-btn"><span data-i18n="nav.cart">Carrito</span> <span class="cart-count" style="display:none">0</span></a>
+    <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">EN</button>
     <button class="nav-hamburger"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <nav class="mobile-nav">
-  <a href="index.html">Home</a><a href="about.html">About</a>
-  <a href="shop.html">Services</a><a href="blog.html">Blog</a>
-  <a href="contact.html">Contact</a><a href="cart.html">Cart</a>
+  <a href="index.html" data-i18n="nav.home">Inicio</a><a href="about.html" data-i18n="nav.about">Nosotros</a>
+  <a href="shop.html" data-i18n="nav.services">Servicios</a><a href="blog.html" data-i18n="nav.blog">Blog</a>
+  <a href="contact.html" data-i18n="nav.contact">Contacto</a><a href="cart.html" data-i18n="nav.cart">Carrito</a>
 </nav>
 
 <div class="page-hero">
   <div class="page-hero-bg-text">HELLO</div>
-  <div class="page-hero-label label">Get in touch</div>
-  <h1 class="display reveal">Let's<br><span class="text-accent">talk.</span></h1>
-  <p class="body-lg reveal reveal-delay-1" style="max-width:500px;margin-top:1.5rem">We respond within 48 hours. For urgent inquiries, email us directly at <a href="mailto:hello@kalpastudio.com" style="color:var(--accent)">hello@kalpastudio.com</a>.</p>
+  <div class="page-hero-label label" data-i18n="contact.hero.label">Contáctanos</div>
+  <h1 class="display reveal" data-i18n-html="contact.hero.title">Hablemos<br><span class="text-accent">ya.</span></h1>
+  <p class="body-lg reveal reveal-delay-1" style="max-width:500px;margin-top:1.5rem" data-i18n-html="contact.hero.desc">Respondemos en 48 horas. Para consultas urgentes, escríbenos directamente a <a href="mailto:hello@kalpastudio.com" style="color:var(--accent)">hello@kalpastudio.com</a>.</p>
 </div>
 
 <section class="section">
@@ -40,22 +41,22 @@
     <div class="contact-grid">
       <div class="contact-info reveal">
         <div class="contact-info-block">
-          <div class="label">Phone</div>
+          <div class="label" data-i18n="contact.phone">Teléfono</div>
           <p>+1 (555) 000-0000</p>
           <p>+1 (555) 000-0001</p>
         </div>
         <div class="contact-info-block">
-          <div class="label">Email</div>
+          <div class="label" data-i18n="contact.email.label">Correo</div>
           <p><a href="mailto:hello@kalpastudio.com" style="color:var(--accent)">hello@kalpastudio.com</a></p>
           <p><a href="mailto:sales@kalpastudio.com" style="color:var(--accent)">sales@kalpastudio.com</a></p>
         </div>
         <div class="contact-info-block">
-          <div class="label">Location</div>
-          <p>Remote-first studio</p>
-          <p>NYC &amp; Berlin based</p>
+          <div class="label" data-i18n="contact.location">Ubicación</div>
+          <p data-i18n="contact.remote">Estudio remoto</p>
+          <p data-i18n="contact.based">Con base en NYC y Berlín</p>
         </div>
         <div class="contact-info-block">
-          <div class="label">Social</div>
+          <div class="label" data-i18n="contact.social">Redes sociales</div>
           <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.5rem">
             <a href="#" style="color:var(--accent);font-size:0.875rem">Instagram</a>
             <a href="#" style="color:var(--accent);font-size:0.875rem">Behance</a>
@@ -65,36 +66,36 @@
         </div>
       </div>
       <div class="contact-form reveal">
-        <h2 class="headline" style="margin-bottom:2rem">Start your<br><span class="text-accent">project today</span></h2>
+        <h2 class="headline" style="margin-bottom:2rem" data-i18n-html="contact.form.title">Comienza tu<br><span class="text-accent">proyecto hoy</span></h2>
         <div class="form-group">
-          <label>Full name *</label>
-          <input type="text" id="c-name" placeholder="Your name" />
+          <label data-i18n="contact.fullname">Nombre completo *</label>
+          <input type="text" id="c-name" data-i18n-placeholder="contact.fullname.ph" placeholder="Tu nombre" />
         </div>
         <div class="form-group">
-          <label>Email address *</label>
-          <input type="email" id="c-email" placeholder="you@company.com" />
+          <label data-i18n="contact.email2">Correo electrónico *</label>
+          <input type="email" id="c-email" data-i18n-placeholder="contact.email2.ph" placeholder="tú@empresa.com" />
         </div>
         <div class="form-group">
-          <label>Company / Brand</label>
-          <input type="text" id="c-company" placeholder="Optional" />
+          <label data-i18n="contact.company">Empresa / Marca</label>
+          <input type="text" id="c-company" data-i18n-placeholder="contact.company.ph" placeholder="Opcional" />
         </div>
         <div class="form-group">
-          <label>Service needed</label>
+          <label data-i18n="contact.service">Servicio requerido</label>
           <select id="c-service">
-            <option value="">Select a service…</option>
-            <option>Brand Identity Package</option>
-            <option>Web Design — Landing Page</option>
-            <option>Full Website Design</option>
-            <option>UI/UX Audit</option>
-            <option>Social Media Kit</option>
-            <option>Monthly Retainer</option>
-            <option>Other / Custom</option>
+            <option value="" data-i18n="contact.service.ph">Selecciona un servicio…</option>
+            <option data-i18n="contact.service.opt1">Paquete de Identidad de Marca</option>
+            <option data-i18n="contact.service.opt2">Diseño Web — Página de Aterrizaje</option>
+            <option data-i18n="contact.service.opt3">Diseño Completo de Sitio Web</option>
+            <option data-i18n="contact.service.opt4">Auditoría UI/UX</option>
+            <option data-i18n="contact.service.opt5">Kit de Redes Sociales</option>
+            <option data-i18n="contact.service.opt6">Retención Mensual</option>
+            <option data-i18n="contact.service.opt7">Otro / Personalizado</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Estimated budget</label>
+          <label data-i18n="contact.budget">Presupuesto estimado</label>
           <select id="c-budget">
-            <option value="">Select a range…</option>
+            <option value="" data-i18n="contact.budget.ph">Selecciona un rango…</option>
             <option>Under $500</option>
             <option>$500 – $1,000</option>
             <option>$1,000 – $3,000</option>
@@ -103,10 +104,10 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Message *</label>
-          <textarea id="c-message" rows="5" placeholder="Tell us about your project, goals, timeline and any references you love…"></textarea>
+          <label data-i18n="contact.message">Mensaje *</label>
+          <textarea id="c-message" rows="5" data-i18n-placeholder="contact.message.ph" placeholder="Cuéntanos sobre tu proyecto, objetivos, plazos y referencias que te gusten…"></textarea>
         </div>
-        <button class="btn btn-primary w-100" onclick="submitContact()">Send message →</button>
+        <button class="btn btn-primary w-100" onclick="submitContact()" data-i18n="contact.send">Enviar mensaje →</button>
       </div>
     </div>
   </div>
@@ -115,22 +116,23 @@
 <footer class="footer">
   <div class="container">
     <div class="footer-main">
-      <div><div class="footer-brand-name">Kalpa<span>.</span></div><p class="footer-brand-desc">Premium digital design studio.</p></div>
-      <div><div class="footer-col-title">Pages</div><div class="footer-links"><a href="index.html">Home</a><a href="about.html">About</a><a href="shop.html">Services</a><a href="contact.html">Contact</a></div></div>
-      <div><div class="footer-col-title">Services</div><div class="footer-links"><a href="shop.html">Brand Identity</a><a href="shop.html">Web Design</a><a href="shop.html">UI/UX</a></div></div>
-      <div><div class="footer-col-title">Follow</div><div class="footer-links"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div></div>
+      <div><div class="footer-brand-name">Kalpa<span>.</span></div><p class="footer-brand-desc" data-i18n="footer.desc.short">Estudio de diseño digital premium.</p></div>
+      <div><div class="footer-col-title" data-i18n="footer.pages">Páginas</div><div class="footer-links"><a href="index.html" data-i18n="footer.home">Inicio</a><a href="about.html" data-i18n="footer.about">Sobre nosotros</a><a href="shop.html" data-i18n="footer.services">Servicios</a><a href="contact.html" data-i18n="nav.contact">Contacto</a></div></div>
+      <div><div class="footer-col-title" data-i18n="footer.services">Servicios</div><div class="footer-links"><a href="shop.html" data-i18n="footer.brand-identity">Identidad de Marca</a><a href="shop.html" data-i18n="footer.web-design">Diseño Web</a><a href="shop.html" data-i18n="footer.uiux">UI/UX</a></div></div>
+      <div><div class="footer-col-title" data-i18n="footer.follow">Síguenos</div><div class="footer-links"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div></div>
     </div>
-    <div class="footer-bottom"><span>© 2026 Kalpa Studio</span><div class="footer-socials"><a href="#">IG</a><a href="#">BE</a><a href="#">LI</a></div></div>
+    <div class="footer-bottom"><span data-i18n="footer.rights.short">© 2026 Kalpa Studio</span><div class="footer-socials"><a href="#">IG</a><a href="#">BE</a><a href="#">LI</a></div></div>
   </div>
 </footer>
+<script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
 <script>
 function submitContact() {
   const name = document.getElementById('c-name').value.trim();
   const email = document.getElementById('c-email').value.trim();
   const msg = document.getElementById('c-message').value.trim();
-  if (!name || !email || !msg) { showToast('Please fill in required fields'); return; }
-  showToast('Message sent! We\'ll reply within 48h ✓');
+  if (!name || !email || !msg) { showToast(window.t ? window.t('contact.validate') : 'Please fill in required fields'); return; }
+  showToast(window.t ? window.t('contact.toast') : 'Message sent! ✓');
   setTimeout(() => {
     document.getElementById('c-name').value = '';
     document.getElementById('c-email').value = '';

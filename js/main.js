@@ -61,8 +61,10 @@ document.querySelectorAll('.faq-item').forEach(item => {
 
 // ── MORPHING TEXT ──
 function startMorphText(el, words, speed = 2200) {
+  const gen = (el._morphGen = (el._morphGen || 0) + 1);
   let i = 0, charI = 0, deleting = false, current = '';
   const tick = () => {
+    if (el._morphGen !== gen) return; // cancelled by new call
     const target = words[i];
     if (!deleting) {
       current = target.slice(0, ++charI);
@@ -76,10 +78,16 @@ function startMorphText(el, words, speed = 2200) {
   };
   tick();
 }
-document.querySelectorAll('[data-morph]').forEach(el => {
-  const words = el.dataset.morph.split(',').map(s => s.trim());
-  startMorphText(el, words);
-});
+function initMorphElements(lang) {
+  const l = lang || (window.getCurrentLang ? window.getCurrentLang() : 'es');
+  document.querySelectorAll('[data-morph-en]').forEach(el => {
+    const raw = l === 'en' ? el.dataset.morphEn : (el.dataset.morphEs || el.dataset.morphEn || '');
+    const words = raw.split(',').map(s => s.trim()).filter(Boolean);
+    if (words.length) startMorphText(el, words);
+  });
+}
+initMorphElements();
+document.addEventListener('langchange', e => initMorphElements(e.detail.lang));
 
 // ── CART HELPERS ──
 function getCart() {

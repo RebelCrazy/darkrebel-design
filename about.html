@@ -1,55 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About — Kalpa Studio</title>
+  <title>Nosotros — Kalpa Studio</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body data-page="about">
 <div id="cursor"></div><div id="cursor-ring"></div><div class="toast"></div>
 <div class="topbar">
-  <span class="topbar-email">hello@kalpastudio.com</span>
+  <span class="topbar-email" data-i18n="topbar.cta">Contáctanos: hello@kalpastudio.com</span>
   <div class="topbar-socials"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div>
 </div>
 <nav class="nav">
   <a href="index.html" class="nav-logo">Kalpa<span>.</span></a>
   <div class="nav-links">
-    <a href="index.html">Home</a><a href="about.html">About</a>
-    <a href="shop.html">Services</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
+    <a href="index.html" data-i18n="nav.home">Inicio</a><a href="about.html" data-i18n="nav.about">Nosotros</a>
+    <a href="shop.html" data-i18n="nav.services">Servicios</a><a href="blog.html" data-i18n="nav.blog">Blog</a><a href="contact.html" data-i18n="nav.contact">Contacto</a>
   </div>
   <div class="nav-right">
-    <a href="cart.html" class="nav-cart-btn">Cart <span class="cart-count" style="display:none">0</span></a>
+    <a href="cart.html" class="nav-cart-btn"><span data-i18n="nav.cart">Carrito</span> <span class="cart-count" style="display:none">0</span></a>
+    <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">EN</button>
     <button class="nav-hamburger"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <nav class="mobile-nav">
-  <a href="index.html">Home</a><a href="about.html">About</a>
-  <a href="shop.html">Services</a><a href="blog.html">Blog</a>
-  <a href="contact.html">Contact</a><a href="cart.html">Cart</a>
+  <a href="index.html" data-i18n="nav.home">Inicio</a><a href="about.html" data-i18n="nav.about">Nosotros</a>
+  <a href="shop.html" data-i18n="nav.services">Servicios</a><a href="blog.html" data-i18n="nav.blog">Blog</a>
+  <a href="contact.html" data-i18n="nav.contact">Contacto</a><a href="cart.html" data-i18n="nav.cart">Carrito</a>
 </nav>
 
 <div class="page-hero">
   <div class="page-hero-bg-text">ABOUT</div>
-  <div class="page-hero-label label">Who we are</div>
-  <h1 class="display reveal">About<br><span class="text-accent">Kalpa.</span></h1>
-  <p class="body-lg reveal reveal-delay-1" style="max-width:540px;margin-top:1.5rem">We are a remote-first design studio that believes great design is never decoration — it's strategy made visible.</p>
+  <div class="page-hero-label label" data-i18n="about.hero.label">Quiénes somos</div>
+  <h1 class="display reveal" data-i18n-html="about.hero.title">Sobre<br><span class="text-accent">Kalpa.</span></h1>
+  <p class="body-lg reveal reveal-delay-1" style="max-width:540px;margin-top:1.5rem" data-i18n="about.hero.desc">Somos un estudio de diseño remoto que cree que el gran diseño nunca es decoración — es estrategia hecha visible.</p>
 </div>
 
 <section class="section" style="border-bottom:1px solid var(--border)">
   <div class="container">
     <div class="grid-2" style="gap:5rem;align-items:center">
       <div class="reveal">
-        <div class="label">Our story</div>
+        <div class="label" data-i18n="about.story.label">Nuestra historia</div>
         <div class="section-divider"></div>
-        <h2 class="display-md">We never dreamed<br>about success.<br><span class="text-accent">We worked for it.</span></h2>
+        <h2 class="display-md" data-i18n-html="about.story.title">Nunca soñamos<br>con el éxito.<br><span class="text-accent">Lo trabajamos.</span></h2>
       </div>
       <div class="reveal">
-        <p class="body-lg" style="margin-bottom:1.5rem">Founded in 2020, Kalpa Studio started as a one-person operation with a single belief: that small brands deserve world-class design. Today we're a distributed team of designers, strategists and storytellers serving clients across 20+ countries.</p>
-        <p class="body-lg">Every project begins with a question: what should people feel when they encounter this brand? The answer shapes everything that follows — from logo to layout, from typeface to tone of voice.</p>
+        <p class="body-lg" style="margin-bottom:1.5rem" data-i18n="about.story.p1">Fundado en 2020, Kalpa Studio comenzó como una operación unipersonal con una creencia: que las marcas pequeñas merecen diseño de clase mundial. Hoy somos un equipo distribuido de diseñadores, estrategas y narradores que sirven a clientes en más de 20 países.</p>
+        <p class="body-lg" data-i18n="about.story.p2">Cada proyecto comienza con una pregunta: ¿qué deben sentir las personas al encontrarse con esta marca? La respuesta da forma a todo lo que sigue — desde el logo hasta el diseño, desde la tipografía hasta el tono de voz.</p>
         <div style="display:flex;gap:3rem;margin-top:2.5rem">
-          <div><div style="font-family:var(--font-display);font-size:3.5rem;color:var(--accent);line-height:1">120+</div><div class="label" style="margin-top:0.5rem">Projects</div></div>
-          <div><div style="font-family:var(--font-display);font-size:3.5rem;color:var(--accent);line-height:1">20+</div><div class="label" style="margin-top:0.5rem">Countries</div></div>
-          <div><div style="font-family:var(--font-display);font-size:3.5rem;color:var(--accent);line-height:1">5</div><div class="label" style="margin-top:0.5rem">Years</div></div>
+          <div><div style="font-family:var(--font-display);font-size:3.5rem;color:var(--accent);line-height:1">120+</div><div class="label" style="margin-top:0.5rem" data-i18n="stats.pj">Proyectos</div></div>
+          <div><div style="font-family:var(--font-display);font-size:3.5rem;color:var(--accent);line-height:1">20+</div><div class="label" style="margin-top:0.5rem" data-i18n="stats.countries">Países</div></div>
+          <div><div style="font-family:var(--font-display);font-size:3.5rem;color:var(--accent);line-height:1">5</div><div class="label" style="margin-top:0.5rem" data-i18n="stats.years">Años</div></div>
         </div>
       </div>
     </div>
@@ -58,45 +59,46 @@
 
 <section class="section" style="border-bottom:1px solid var(--border)">
   <div class="container">
-    <div class="section-header text-center reveal"><div class="label">The team</div><div class="section-divider" style="margin:1rem auto"></div><h2 class="display-md">The people<br>behind the work</h2></div>
+    <div class="section-header text-center reveal"><div class="label" data-i18n="team.label">El equipo</div><div class="section-divider" style="margin:1rem auto"></div><h2 class="display-md" data-i18n-html="team.title">Las personas<br>detrás del trabajo</h2></div>
     <div class="grid-3" style="margin-top:4rem">
       <div class="reveal" style="border:1px solid var(--border);padding:2rem">
         <div style="width:80px;height:80px;border-radius:50%;background:var(--muted);margin-bottom:1.5rem;overflow:hidden"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80" alt="Team" style="width:100%;height:100%;object-fit:cover;filter:grayscale(30%)"></div>
         <h3 class="subhead">Alex Reyes</h3>
-        <div class="label" style="margin:0.5rem 0">Founder &amp; Creative Director</div>
-        <p style="font-size:0.875rem;color:var(--text2)">10 years in brand design. Former creative at Wolff Olins and Landor. Obsessed with type and systems.</p>
+        <div class="label" style="margin:0.5rem 0" data-i18n="team.alex.role">Fundador y Director Creativo</div>
+        <p style="font-size:0.875rem;color:var(--text2)" data-i18n="team.alex.desc">10 años en diseño de marca. Ex creativo en Wolff Olins y Landor. Obsesionado con la tipografía y los sistemas.</p>
       </div>
       <div class="reveal reveal-delay-1" style="border:1px solid var(--border);padding:2rem">
         <div style="width:80px;height:80px;border-radius:50%;background:var(--muted);margin-bottom:1.5rem;overflow:hidden"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80" alt="Team" style="width:100%;height:100%;object-fit:cover;filter:grayscale(30%)"></div>
         <h3 class="subhead">Sara Kovács</h3>
-        <div class="label" style="margin:0.5rem 0">Lead UI/UX Designer</div>
-        <p style="font-size:0.875rem;color:var(--text2)">Interaction design specialist. Figma power user. Converts complex user flows into joyful experiences.</p>
+        <div class="label" style="margin:0.5rem 0" data-i18n="team.sara.role">Diseñadora Principal UI/UX</div>
+        <p style="font-size:0.875rem;color:var(--text2)" data-i18n="team.sara.desc">Especialista en diseño de interacción. Power user de Figma. Convierte flujos de usuario complejos en experiencias encantadoras.</p>
       </div>
       <div class="reveal reveal-delay-2" style="border:1px solid var(--border);padding:2rem">
         <div style="width:80px;height:80px;border-radius:50%;background:var(--muted);margin-bottom:1.5rem;overflow:hidden"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80" alt="Team" style="width:100%;height:100%;object-fit:cover;filter:grayscale(30%)"></div>
         <h3 class="subhead">Marcus Bell</h3>
-        <div class="label" style="margin:0.5rem 0">Brand Strategist</div>
-        <p style="font-size:0.875rem;color:var(--text2)">MBA + design thinking. Bridges business goals and creative execution so nothing is designed in a vacuum.</p>
+        <div class="label" style="margin:0.5rem 0" data-i18n="team.marcus.role">Estratega de Marca</div>
+        <p style="font-size:0.875rem;color:var(--text2)" data-i18n="team.marcus.desc">MBA + design thinking. Conecta los objetivos de negocio con la ejecución creativa para que nada se diseñe en el vacío.</p>
       </div>
     </div>
   </div>
 </section>
 
 <div style="padding:clamp(4rem,8vw,8rem) 0;border-bottom:1px solid var(--border);overflow:hidden">
-  <div class="display-md reveal" style="padding:0 clamp(1.5rem,5vw,4rem)">Learn as if you will live forever,<br>live like you will <span class="text-accent">die tomorrow.</span></div>
+  <div class="display-md reveal" style="padding:0 clamp(1.5rem,5vw,4rem)" data-i18n-html="about.quote">Aprende como si fueras a vivir para siempre,<br>vive como si fueras a <span class="text-accent">morir mañana.</span></div>
 </div>
 
 <footer class="footer">
   <div class="container">
     <div class="footer-main">
-      <div><div class="footer-brand-name">Kalpa<span>.</span></div><p class="footer-brand-desc">Premium digital design studio.</p></div>
-      <div><div class="footer-col-title">Pages</div><div class="footer-links"><a href="index.html">Home</a><a href="about.html">About</a><a href="shop.html">Services</a><a href="contact.html">Contact</a></div></div>
-      <div><div class="footer-col-title">Services</div><div class="footer-links"><a href="shop.html">Brand Identity</a><a href="shop.html">Web Design</a><a href="shop.html">UI/UX</a></div></div>
-      <div><div class="footer-col-title">Follow</div><div class="footer-links"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div></div>
+      <div><div class="footer-brand-name">Kalpa<span>.</span></div><p class="footer-brand-desc" data-i18n="footer.desc.short">Estudio de diseño digital premium.</p></div>
+      <div><div class="footer-col-title" data-i18n="footer.pages">Páginas</div><div class="footer-links"><a href="index.html" data-i18n="footer.home">Inicio</a><a href="about.html" data-i18n="footer.about">Sobre nosotros</a><a href="shop.html" data-i18n="footer.services">Servicios</a><a href="contact.html" data-i18n="nav.contact">Contacto</a></div></div>
+      <div><div class="footer-col-title" data-i18n="footer.services">Servicios</div><div class="footer-links"><a href="shop.html" data-i18n="footer.brand-identity">Identidad de Marca</a><a href="shop.html" data-i18n="footer.web-design">Diseño Web</a><a href="shop.html" data-i18n="footer.uiux">UI/UX</a></div></div>
+      <div><div class="footer-col-title" data-i18n="footer.follow">Síguenos</div><div class="footer-links"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div></div>
     </div>
-    <div class="footer-bottom"><span>© 2026 Kalpa Studio</span><div class="footer-socials"><a href="#">IG</a><a href="#">BE</a><a href="#">LI</a></div></div>
+    <div class="footer-bottom"><span data-i18n="footer.rights.short">© 2026 Kalpa Studio</span><div class="footer-socials"><a href="#">IG</a><a href="#">BE</a><a href="#">LI</a></div></div>
   </div>
 </footer>
+<script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

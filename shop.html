@@ -41,9 +41,9 @@
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="page-hero-bg-text">SHOP</div>
-  <div class="page-hero-label label">What we offer</div>
-  <h1 class="display reveal">Services<br>&amp; <span class="text-accent">Packages</span></h1>
-  <p class="body-lg reveal reveal-delay-1" style="max-width:520px; margin-top:1.5rem">Fixed-price packages designed for clarity. Pick what you need, add to cart and we'll reach out to kick off the project.</p>
+  <div class="page-hero-label label" data-i18n="shop.hero.label">Lo que ofrecemos</div>
+  <h1 class="display reveal" data-i18n-html="shop.hero.title">Servicios<br>y <span class="text-accent">Paquetes</span></h1>
+  <p class="body-lg reveal reveal-delay-1" style="max-width:520px; margin-top:1.5rem" data-i18n="shop.hero.desc">Paquetes a precio fijo diseñados para mayor claridad. Elige lo que necesitas, agrégalo al carrito y nos pondremos en contacto.</p>
 </div>
 
 <!-- SHOP SECTION -->
@@ -52,10 +52,10 @@
 
     <!-- Filters -->
     <div class="shop-filters">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="Branding">Branding</button>
-      <button class="filter-btn" data-filter="Web Design">Web Design</button>
-      <button class="filter-btn" data-filter="Consulting">Consulting</button>
+      <button class="filter-btn active" data-filter="all" data-i18n="shop.filter.all">Todos</button>
+      <button class="filter-btn" data-filter="Branding" data-i18n="shop.filter.branding">Branding</button>
+      <button class="filter-btn" data-filter="Web Design" data-i18n="shop.filter.web">Diseño Web</button>
+      <button class="filter-btn" data-filter="Consulting" data-i18n="shop.filter.consulting">Consultoría</button>
     </div>
 
     <!-- Product Grid -->
@@ -63,8 +63,8 @@
       <!-- injected by JS -->
     </div>
 
-    <div id="no-products" class="hidden" style="padding:4rem 0; text-align:center; color:var(--text2)">
-      No services in this category yet.
+    <div id="no-products" class="hidden" style="padding:4rem 0; text-align:center; color:var(--text2)" data-i18n="shop.no-products">
+      Aún no hay servicios en esta categoría.
     </div>
   </div>
 </section>
@@ -72,24 +72,24 @@
 <!-- WHY US -->
 <section class="section" style="background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border)">
   <div class="container text-center">
-    <div class="label reveal">Why Kalpa</div>
+    <div class="label reveal" data-i18n="why.label">Por qué Kalpa</div>
     <div class="section-divider" style="margin:1rem auto 2rem"></div>
-    <h2 class="display-md reveal">No surprises.<br>Just <span class="text-accent">results.</span></h2>
+    <h2 class="display-md reveal" data-i18n-html="why.title">Sin sorpresas.<br>Solo <span class="text-accent">resultados.</span></h2>
     <div class="grid-3" style="margin-top:4rem; text-align:left">
       <div class="reveal" style="padding:2rem; border:1px solid var(--border)">
         <div style="font-family:var(--font-display); font-size:2.5rem; color:var(--accent); margin-bottom:1rem">01</div>
-        <h3 class="subhead" style="margin-bottom:0.75rem">Fixed pricing</h3>
-        <p class="text-muted" style="font-size:0.9rem">What you see is what you pay. No hourly rate surprises, scope creep billing or hidden fees.</p>
+        <h3 class="subhead" style="margin-bottom:0.75rem" data-i18n="why.01.title">Precios fijos</h3>
+        <p class="text-muted" style="font-size:0.9rem" data-i18n="why.01.desc">Lo que ves es lo que pagas. Sin sorpresas por tarifa por hora, facturación por alcance o cargos ocultos.</p>
       </div>
       <div class="reveal reveal-delay-1" style="padding:2rem; border:1px solid var(--border)">
         <div style="font-family:var(--font-display); font-size:2.5rem; color:var(--accent); margin-bottom:1rem">02</div>
-        <h3 class="subhead" style="margin-bottom:0.75rem">Fast turnaround</h3>
-        <p class="text-muted" style="font-size:0.9rem">We respect your deadlines. All packages include committed delivery dates agreed before work starts.</p>
+        <h3 class="subhead" style="margin-bottom:0.75rem" data-i18n="why.02.title">Entrega rápida</h3>
+        <p class="text-muted" style="font-size:0.9rem" data-i18n="why.02.desc">Respetamos tus plazos. Todos los paquetes incluyen fechas de entrega comprometidas acordadas antes de comenzar el trabajo.</p>
       </div>
       <div class="reveal reveal-delay-2" style="padding:2rem; border:1px solid var(--border)">
         <div style="font-family:var(--font-display); font-size:2.5rem; color:var(--accent); margin-bottom:1rem">03</div>
-        <h3 class="subhead" style="margin-bottom:0.75rem">Unlimited revisions</h3>
-        <p class="text-muted" style="font-size:0.9rem">We don't count rounds. We iterate until the work is right. Your satisfaction is the only deadline.</p>
+        <h3 class="subhead" style="margin-bottom:0.75rem" data-i18n="why.03.title">Revisiones ilimitadas</h3>
+        <p class="text-muted" style="font-size:0.9rem" data-i18n="why.03.desc">No contamos rondas. Iteramos hasta que el trabajo sea correcto. Tu satisfacción es el único plazo.</p>
       </div>
     </div>
   </div>
@@ -101,19 +101,20 @@
     <div class="footer-main">
       <div>
         <div class="footer-brand-name">Kalpa<span>.</span></div>
-        <p class="footer-brand-desc">Premium digital design studio. Brand identity, web design, UI/UX consulting.</p>
+        <p class="footer-brand-desc" data-i18n="footer.desc.short">Estudio de diseño digital premium.</p>
       </div>
-      <div><div class="footer-col-title">Pages</div><div class="footer-links"><a href="index.html">Home</a><a href="about.html">About</a><a href="shop.html">Services</a><a href="contact.html">Contact</a></div></div>
-      <div><div class="footer-col-title">Services</div><div class="footer-links"><a href="shop.html">Brand Identity</a><a href="shop.html">Web Design</a><a href="shop.html">UI/UX Audit</a></div></div>
-      <div><div class="footer-col-title">Follow us</div><div class="footer-links"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div></div>
+      <div><div class="footer-col-title" data-i18n="footer.pages">Páginas</div><div class="footer-links"><a href="index.html" data-i18n="footer.home">Inicio</a><a href="about.html" data-i18n="footer.about">Sobre nosotros</a><a href="shop.html" data-i18n="footer.services">Servicios</a><a href="contact.html" data-i18n="nav.contact">Contacto</a></div></div>
+      <div><div class="footer-col-title" data-i18n="footer.services">Servicios</div><div class="footer-links"><a href="shop.html" data-i18n="footer.brand-identity">Identidad de Marca</a><a href="shop.html" data-i18n="footer.web-design">Diseño Web</a><a href="shop.html" data-i18n="footer.uiux">Auditoría UI/UX</a></div></div>
+      <div><div class="footer-col-title" data-i18n="footer.follow">Síguenos</div><div class="footer-links"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div></div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Kalpa Studio</span>
+      <span data-i18n="footer.rights.short">© 2026 Kalpa Studio</span>
       <div class="footer-socials"><a href="#">IG</a><a href="#">BE</a><a href="#">LI</a></div>
     </div>
   </div>
 </footer>
 
+<script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
 <script>
 let activeFilter = 'all';
@@ -170,6 +171,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 
 renderProducts('all');
+document.addEventListener('langchange', () => renderProducts(activeFilter));
 </script>
 </body>
 </html>
