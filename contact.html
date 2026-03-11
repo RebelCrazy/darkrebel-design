@@ -4,6 +4,7 @@
   <meta charset="UTF-8" /><script>try{document.documentElement.dataset.theme=localStorage.getItem('ks_theme')||'dark'}catch(e){}</script><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contacto — DARK REBEL DESIGN</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 </head>
 <body data-page="contact">
 <div id="cursor"></div><div id="cursor-ring"></div><div class="toast"></div>
@@ -12,7 +13,7 @@
   <div class="topbar-socials"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div>
 </div>
 <nav class="nav">
-  <a href="index.html" class="nav-logo">Dark Rebel<span>.</span></a>
+  <a href="index.html" class="nav-logo"><img src="logo.svg" alt="Dark Rebel Design" /></a>
   <div class="nav-links">
     <a href="index.html" data-i18n="nav.home">Inicio</a><a href="about.html" data-i18n="nav.about">Nosotros</a>
     <a href="shop.html" data-i18n="nav.services">Servicios</a><a href="blog.html" data-i18n="nav.blog">Blog</a><a href="contact.html" data-i18n="nav.contact">Contacto</a>
@@ -95,11 +96,11 @@
           <label data-i18n="contact.budget">Presupuesto estimado</label>
           <select id="c-budget">
             <option value="" data-i18n="contact.budget.ph">Selecciona un rango…</option>
-            <option>Under $500</option>
-            <option>$500 – $1,000</option>
-            <option>$1,000 – $3,000</option>
-            <option>$3,000 – $10,000</option>
-            <option>$10,000+</option>
+            <option data-i18n="contact.budget.u500">Menos de $500</option>
+            <option data-i18n="contact.budget.500k">$500 – $1,000</option>
+            <option data-i18n="contact.budget.1k">$1,000 – $3,000</option>
+            <option data-i18n="contact.budget.3k">$3,000 – $10,000</option>
+            <option data-i18n="contact.budget.10k">$10,000+</option>
           </select>
         </div>
         <div class="form-group">
@@ -115,7 +116,7 @@
 <footer class="footer">
   <div class="container">
     <div class="footer-main">
-      <div><div class="footer-brand-name">Dark Rebel<span>.</span></div><p class="footer-brand-desc" data-i18n="footer.desc.short">Estudio de diseño digital premium.</p></div>
+      <div><div class="footer-brand-name"><img src="logo.svg" alt="Dark Rebel Design" /></div><p class="footer-brand-desc" data-i18n="footer.desc.short">Estudio de diseño digital premium.</p></div>
       <div><div class="footer-col-title" data-i18n="footer.pages">Páginas</div><div class="footer-links"><a href="index.html" data-i18n="footer.home">Inicio</a><a href="about.html" data-i18n="footer.about">Sobre nosotros</a><a href="shop.html" data-i18n="footer.services">Servicios</a><a href="contact.html" data-i18n="nav.contact">Contacto</a></div></div>
       <div><div class="footer-col-title" data-i18n="footer.services">Servicios</div><div class="footer-links"><a href="shop.html" data-i18n="footer.brand-identity">Identidad de Marca</a><a href="shop.html" data-i18n="footer.web-design">Diseño Web</a><a href="shop.html" data-i18n="footer.uiux">UI/UX</a></div></div>
       <div><div class="footer-col-title" data-i18n="footer.follow">Síguenos</div><div class="footer-links"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div></div>
@@ -140,5 +141,9 @@ function submitContact() {
   }, 500);
 }
 </script>
+
+<button id="scroll-top-btn" class="scroll-top" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L4 14h16L12 4z"/></svg>
+</button>
 </body>
 </html>

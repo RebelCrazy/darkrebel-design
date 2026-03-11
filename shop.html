@@ -1,43 +1,45 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('ks_theme')||'dark'}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Services & Shop — DARK REBEL DESIGN</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 </head>
-<body>
+<body data-page="shop">
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 <div class="toast"></div>
 
 <div class="topbar">
-  <span class="topbar-email">info@darkrebel.store</span>
+  <span class="topbar-email" data-i18n="topbar.cta">Contáctanos: info@darkrebel.store</span>
   <div class="topbar-socials">
     <a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a>
   </div>
 </div>
 
 <nav class="nav">
-  <a href="index.html" class="nav-logo">Dark Rebel<span>.</span></a>
+  <a href="index.html" class="nav-logo"><img src="logo.svg" alt="Dark Rebel Design" /></a>
   <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="shop.html">Services</a>
-    <a href="blog.html">Blog</a>
-    <a href="contact.html">Contact</a>
+    <a href="index.html" data-i18n="nav.home">Inicio</a>
+    <a href="about.html" data-i18n="nav.about">Nosotros</a>
+    <a href="shop.html" data-i18n="nav.services">Servicios</a>
+    <a href="blog.html" data-i18n="nav.blog">Blog</a>
+    <a href="contact.html" data-i18n="nav.contact">Contacto</a>
   </div>
   <div class="nav-right">
-    <a href="cart.html" class="nav-cart-btn">Cart <span class="cart-count" style="display:none">0</span></a>
+    <a href="cart.html" class="nav-cart-btn"><span data-i18n="nav.cart">Carrito</span> <span class="cart-count" style="display:none">0</span></a>
+    <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">EN</button>
     <button class="theme-btn" id="theme-toggle" aria-label="Toggle theme"><i data-lucide="sun"></i><i data-lucide="moon"></i></button>
     <button class="nav-hamburger"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <nav class="mobile-nav">
-  <a href="index.html">Home</a><a href="about.html">About</a>
-  <a href="shop.html">Services</a><a href="blog.html">Blog</a>
-  <a href="contact.html">Contact</a><a href="cart.html">Cart</a>
+  <a href="index.html" data-i18n="nav.home">Inicio</a><a href="about.html" data-i18n="nav.about">Nosotros</a>
+  <a href="shop.html" data-i18n="nav.services">Servicios</a><a href="blog.html" data-i18n="nav.blog">Blog</a>
+  <a href="contact.html" data-i18n="nav.contact">Contacto</a><a href="cart.html" data-i18n="nav.cart">Carrito</a>
 </nav>
 
 <!-- PAGE HERO -->
@@ -77,21 +79,21 @@
     <div class="label reveal" data-i18n="why.label">Por qué Dark Rebel</div>
     <div class="section-divider" style="margin:1rem auto 2rem"></div>
     <h2 class="display-md reveal" data-i18n-html="why.title">Sin sorpresas.<br>Solo <span class="text-accent">resultados.</span></h2>
-    <div class="grid-3" style="margin-top:4rem; text-align:left">
-      <div class="reveal" style="padding:2rem; border:1px solid var(--border)">
-        <div style="font-family:var(--font-display); font-size:2.5rem; color:var(--accent); margin-bottom:1rem">01</div>
-        <h3 class="subhead" style="margin-bottom:0.75rem" data-i18n="why.01.title">Precios fijos</h3>
-        <p class="text-muted" style="font-size:0.9rem" data-i18n="why.01.desc">Lo que ves es lo que pagas. Sin sorpresas por tarifa por hora, facturación por alcance o cargos ocultos.</p>
+    <div class="values-grid" style="margin-top:4rem; text-align:left">
+      <div class="value-card reveal">
+        <div style="font-family:var(--font-display); font-size:clamp(3rem,4vw,5rem); color:var(--accent); line-height:1; margin-bottom:1.5rem">01</div>
+        <h3 class="subhead" style="margin-bottom:0.875rem" data-i18n="why.01.title">Precios fijos</h3>
+        <p class="value-desc" data-i18n="why.01.desc">Lo que ves es lo que pagas. Sin sorpresas por tarifa por hora, facturación por alcance o cargos ocultos.</p>
       </div>
-      <div class="reveal reveal-delay-1" style="padding:2rem; border:1px solid var(--border)">
-        <div style="font-family:var(--font-display); font-size:2.5rem; color:var(--accent); margin-bottom:1rem">02</div>
-        <h3 class="subhead" style="margin-bottom:0.75rem" data-i18n="why.02.title">Entrega rápida</h3>
-        <p class="text-muted" style="font-size:0.9rem" data-i18n="why.02.desc">Respetamos tus plazos. Todos los paquetes incluyen fechas de entrega comprometidas acordadas antes de comenzar el trabajo.</p>
+      <div class="value-card reveal reveal-delay-1">
+        <div style="font-family:var(--font-display); font-size:clamp(3rem,4vw,5rem); color:var(--accent); line-height:1; margin-bottom:1.5rem">02</div>
+        <h3 class="subhead" style="margin-bottom:0.875rem" data-i18n="why.02.title">Entrega rápida</h3>
+        <p class="value-desc" data-i18n="why.02.desc">Respetamos tus plazos. Todos los paquetes incluyen fechas de entrega comprometidas acordadas antes de comenzar el trabajo.</p>
       </div>
-      <div class="reveal reveal-delay-2" style="padding:2rem; border:1px solid var(--border)">
-        <div style="font-family:var(--font-display); font-size:2.5rem; color:var(--accent); margin-bottom:1rem">03</div>
-        <h3 class="subhead" style="margin-bottom:0.75rem" data-i18n="why.03.title">Revisiones ilimitadas</h3>
-        <p class="text-muted" style="font-size:0.9rem" data-i18n="why.03.desc">No contamos rondas. Iteramos hasta que el trabajo sea correcto. Tu satisfacción es el único plazo.</p>
+      <div class="value-card reveal reveal-delay-2">
+        <div style="font-family:var(--font-display); font-size:clamp(3rem,4vw,5rem); color:var(--accent); line-height:1; margin-bottom:1.5rem">03</div>
+        <h3 class="subhead" style="margin-bottom:0.875rem" data-i18n="why.03.title">Revisiones ilimitadas</h3>
+        <p class="value-desc" data-i18n="why.03.desc">No contamos rondas. Iteramos hasta que el trabajo sea correcto. Tu satisfacción es el único plazo.</p>
       </div>
     </div>
   </div>
@@ -102,7 +104,7 @@
   <div class="container">
     <div class="footer-main">
       <div>
-        <div class="footer-brand-name">Dark Rebel<span>.</span></div>
+        <div class="footer-brand-name"><img src="logo.svg" alt="Dark Rebel Design" /></div>
         <p class="footer-brand-desc" data-i18n="footer.desc.short">Estudio de diseño digital premium.</p>
       </div>
       <div><div class="footer-col-title" data-i18n="footer.pages">Páginas</div><div class="footer-links"><a href="index.html" data-i18n="footer.home">Inicio</a><a href="about.html" data-i18n="footer.about">Sobre nosotros</a><a href="shop.html" data-i18n="footer.services">Servicios</a><a href="contact.html" data-i18n="nav.contact">Contacto</a></div></div>
@@ -150,8 +152,9 @@ function renderProducts(filter) {
             $${p.price}
             ${p.oldPrice ? `<span class="old">$${p.oldPrice}</span>` : ''}
           </div>
-          <button class="add-cart-btn" onclick='addToCart(${JSON.stringify(p)})' title="Add to cart">+</button>
+          <button class="add-cart-btn" onclick='addToCart(${JSON.stringify({id:p.id,name:p.name,cat:p.cat,price:p.price,oldPrice:p.oldPrice,badge:p.badge,img:p.img,desc:p.desc})})' title="Add to cart">+</button>
         </div>
+        <a href="service.html?id=${p.id}" class="product-detail-link">Ver detalles →</a>
       </div>
     </div>
   `).join('');
@@ -176,5 +179,9 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 renderProducts('all');
 document.addEventListener('langchange', () => renderProducts(activeFilter));
 </script>
+
+<button id="scroll-top-btn" class="scroll-top" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L4 14h16L12 4z"/></svg>
+</button>
 </body>
 </html>

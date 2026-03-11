@@ -68,12 +68,13 @@ function startMorphText(el, words, speed = 2200) {
     const target = words[i];
     if (!deleting) {
       current = target.slice(0, ++charI);
+      el.textContent = current;
       if (charI === target.length) { deleting = true; return setTimeout(tick, speed); }
     } else {
       current = target.slice(0, --charI);
+      el.textContent = current;
       if (charI === 0) { deleting = false; i = (i + 1) % words.length; }
     }
-    el.textContent = current;
     setTimeout(tick, deleting ? 40 : 80);
   };
   tick();
@@ -111,7 +112,7 @@ function addToCart(product) {
   else cart.push({ ...product, qty: 1 });
   saveCart(cart);
   updateCartBadge();
-  showToast('Added to cart ✓');
+  showToast(typeof t === 'function' ? t('cart.added') : 'Added to cart ✓');
 }
 window.addToCart = addToCart;
 updateCartBadge();
@@ -158,12 +159,54 @@ function getProducts() {
   if (stored) try { return JSON.parse(stored); } catch {}
   // Default seed products
   const defaults = [
-    { id: 'p1', name: 'Brand Identity Package', cat: 'Branding', price: 299, oldPrice: 399, desc: 'Complete brand system: logo, colors, typography, guidelines.', badge: 'Popular', status: 'active', img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80' },
-    { id: 'p2', name: 'Web Design — Landing Page', cat: 'Web Design', price: 199, oldPrice: null, desc: 'Custom landing page design with mobile-first approach.', badge: '', status: 'active', img: 'https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&q=80' },
-    { id: 'p3', name: 'UI/UX Audit', cat: 'Consulting', price: 149, oldPrice: null, desc: 'Full interface audit with actionable recommendations.', badge: 'New', status: 'active', img: 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=600&q=80' },
-    { id: 'p4', name: 'Full Website Design', cat: 'Web Design', price: 799, oldPrice: 999, desc: 'Multi-page website design: up to 8 pages, responsive.', badge: 'Best Value', status: 'active', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80' },
-    { id: 'p5', name: 'Social Media Kit', cat: 'Branding', price: 99, oldPrice: null, desc: 'Templates for Instagram, LinkedIn & Twitter/X.', badge: '', status: 'active', img: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&q=80' },
-    { id: 'p6', name: 'Monthly Retainer — Design', cat: 'Consulting', price: 499, oldPrice: null, desc: '20h/month dedicated design support and iterations.', badge: '', status: 'draft', img: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80' },
+    {
+      id: 'p1', name: 'Brand Identity Package', cat: 'Branding', price: 299, oldPrice: 399,
+      desc: 'Complete brand system: logo, colors, typography, guidelines.',
+      fullDesc: 'A complete brand identity built to last. We research your market, define your visual language and deliver a cohesive system your team can use across every touchpoint — from business cards to social media.',
+      deliverables: ['Primary & secondary logo suite (SVG + PNG)', 'Full color palette with hex, RGB & CMYK values', 'Typography system (2–3 typefaces with usage rules)', 'Brand guidelines PDF (30+ pages)', 'Business card & letterhead design', 'Social media profile assets'],
+      timeline: '10–14 business days',
+      badge: 'Popular', status: 'active', img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80'
+    },
+    {
+      id: 'p2', name: 'Web Design — Landing Page', cat: 'Web Design', price: 199, oldPrice: null,
+      desc: 'Custom landing page design with mobile-first approach.',
+      fullDesc: 'A high-converting landing page designed from scratch around your offer. Every section is crafted to guide visitors toward a single, clear action — whether that\'s booking a call, signing up or buying.',
+      deliverables: ['1 fully responsive landing page design (Figma)', 'Desktop, tablet & mobile layouts', 'Copywriting structure & section hierarchy', 'Interaction & hover state specs', 'Developer-ready handoff file', 'Unlimited revisions until approved'],
+      timeline: '5–7 business days',
+      badge: '', status: 'active', img: 'https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&q=80'
+    },
+    {
+      id: 'p3', name: 'UI/UX Audit', cat: 'Consulting', price: 149, oldPrice: null,
+      desc: 'Full interface audit with actionable recommendations.',
+      fullDesc: 'We analyze your existing product or website through the lens of usability, visual hierarchy and conversion. You receive a prioritized list of issues and clear fixes — no vague advice, only concrete actions.',
+      deliverables: ['Full heuristic evaluation (Nielsen\'s 10 principles)', 'Annotated screenshots of every issue found', 'Prioritized action list (critical / medium / low)', 'Quick-win fixes deliverable within 48 h', 'Loom video walkthrough of findings', '30-min follow-up call'],
+      timeline: '3–5 business days',
+      badge: 'New', status: 'active', img: 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=600&q=80'
+    },
+    {
+      id: 'p4', name: 'Full Website Design', cat: 'Web Design', price: 799, oldPrice: 999,
+      desc: 'Multi-page website design: up to 8 pages, responsive.',
+      fullDesc: 'A complete website design system for growing businesses. Up to 8 pages designed with a consistent visual language, clear navigation and conversion-focused layouts that work beautifully on every device.',
+      deliverables: ['Up to 8 unique page designs (Figma)', 'Responsive layouts for all breakpoints', 'Custom icon set & illustration direction', 'Interactive prototype for stakeholder review', 'Full developer handoff with specs & assets', 'Post-launch design support (30 days)'],
+      timeline: '18–24 business days',
+      badge: 'Best Value', status: 'active', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80'
+    },
+    {
+      id: 'p5', name: 'Social Media Kit', cat: 'Branding', price: 99, oldPrice: null,
+      desc: 'Templates for Instagram, LinkedIn & Twitter/X.',
+      fullDesc: 'Stop starting from scratch every time you post. This kit gives you a set of on-brand, editable templates for your main social channels — designed to look professional and take minutes to update.',
+      deliverables: ['15 Canva / Figma editable templates', 'Feed post, story & highlight cover sizes', 'Instagram, LinkedIn & X/Twitter formats', 'All templates aligned to your brand colors & fonts', 'Quick-start usage guide', 'One round of custom adjustments'],
+      timeline: '3–4 business days',
+      badge: '', status: 'active', img: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&q=80'
+    },
+    {
+      id: 'p6', name: 'Monthly Retainer — Design', cat: 'Consulting', price: 499, oldPrice: null,
+      desc: '20h/month dedicated design support and iterations.',
+      fullDesc: 'A dedicated design partner in your corner every month. Ideal for fast-growing teams that need ongoing design firepower without the overhead of a full-time hire.',
+      deliverables: ['20 hours of dedicated design time per month', 'Async collaboration via Figma & Slack', 'Unlimited design requests (queue-based)', 'Monthly strategy & review call (1 h)', 'Priority turnaround on urgent tasks', 'Roll over up to 5 unused hours'],
+      timeline: 'Ongoing monthly subscription',
+      badge: '', status: 'draft', img: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80'
+    },
   ];
   localStorage.setItem('ks_products', JSON.stringify(defaults));
   return defaults;
@@ -197,4 +240,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
   if (window.lucide) lucide.createIcons();
+
+  // ── SCROLL TO TOP ──
+  var scrollBtn = document.getElementById('scroll-top-btn');
+  if (scrollBtn) {
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 400) {
+        scrollBtn.classList.add('visible');
+      } else {
+        scrollBtn.classList.remove('visible');
+      }
+    });
+    scrollBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 });

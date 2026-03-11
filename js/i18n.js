@@ -126,6 +126,16 @@ const TRANSLATIONS = {
     'team.marcus.desc': 'MBA + design thinking. Bridges business goals and creative execution so nothing is designed in a vacuum.',
     'about.quote': 'Learn as if you will live forever,<br>live like you will <span class="text-accent">die tomorrow.</span>',
 
+    /* ── ABOUT — Values ── */
+    'about.values.label': 'Our approach',
+    'about.values.title': 'What<br><span class="text-accent">guides us.</span>',
+    'about.value1.title': 'Strategic Design',
+    'about.value1.desc': 'We don\'t do decoration. Every visual decision is anchored in real business objectives and deep user understanding.',
+    'about.value2.title': 'Real Collaboration',
+    'about.value2.desc': 'We work with you, not just for you. Transparent process, clear feedback loops and no unnecessary jargon at any stage.',
+    'about.value3.title': 'Craft Without Compromise',
+    'about.value3.desc': 'Details matter. From typography to interaction tracking, we deliver work we\'re genuinely proud of.',
+
     /* ── SHOP ── */
     'shop.hero.label': 'What we offer',
     'shop.hero.title': 'Services<br>& <span class="text-accent">Packages</span>',
@@ -141,6 +151,19 @@ const TRANSLATIONS = {
     'why.02.desc': 'We respect your deadlines. All packages include committed delivery dates agreed before work starts.',
     'why.03.title': 'Unlimited revisions',
     'why.03.desc': 'We don\'t count rounds. We iterate until the work is right. Your satisfaction is the only deadline.',
+
+    /* ── CONTACT — Budget options ── */
+    'contact.budget.u500': 'Under $500',
+    'contact.budget.500k': '$500 \u2013 $1,000',
+    'contact.budget.1k': '$1,000 \u2013 $3,000',
+    'contact.budget.3k': '$3,000 \u2013 $10,000',
+    'contact.budget.10k': '$10,000+',
+
+    /* ── CART — add to cart toast ── */
+    'cart.added': 'Added to cart \u2713',
+
+    /* ── POST — TOC ── */
+    'post.toc.label': 'Contents',
 
     /* ── BLOG PAGE ── */
     'blog.hero.label': 'Thoughts & insights',
@@ -331,7 +354,15 @@ const TRANSLATIONS = {
     'team.marcus.role': 'Estratega de Marca',
     'team.marcus.desc': 'MBA + design thinking. Conecta los objetivos de negocio con la ejecución creativa para que nada se diseñe en el vacío.',
     'about.quote': 'Aprende como si fueras a vivir para siempre,<br>vive como si fueras a <span class="text-accent">morir mañana.</span>',
-
+    /* ── ABOUT — Valores ── */
+    'about.values.label': 'Nuestro enfoque',
+    'about.values.title': 'Lo que<br><span class="text-accent">nos gu\u00eda.</span>',
+    'about.value1.title': 'Dise\u00f1o Estrat\u00e9gico',
+    'about.value1.desc': 'No trabajamos decoraci\u00f3n. Cada decisi\u00f3n visual est\u00e1 anclada en objetivos de negocio reales y comprensi\u00f3n profunda del usuario.',
+    'about.value2.title': 'Colaboraci\u00f3n Real',
+    'about.value2.desc': 'Trabajamos contigo, no solo para ti. Proceso transparente, feedback loops claros y sin jerga innecesaria en cada etapa.',
+    'about.value3.title': 'Craft Sin Concesiones',
+    'about.value3.desc': 'Los detalles importan. Desde la tipograf\u00eda hasta el tracking de interacci\u00f3n, entregamos trabajo del que realmente nos enorgullecemos.',
     /* ── SHOP ── */
     'shop.hero.label': 'Lo que ofrecemos',
     'shop.hero.title': 'Servicios<br>y <span class="text-accent">Paquetes</span>',
@@ -405,6 +436,17 @@ const TRANSLATIONS = {
     'cart.after': 'Tras el pago, nos pondremos en contacto contigo en 24h para confirmar los detalles del proyecto.',
     'cart.removed': 'Artículo eliminado',
     'cart.submitted': '¡Pedido enviado! Nos pondremos en contacto contigo en 24h ✓',
+    'cart.added': 'Agregado al carrito ✓',
+
+    /* ── CONTACT — Opciones de presupuesto ── */
+    'contact.budget.u500': 'Menos de $500',
+    'contact.budget.500k': '$500 – $1,000',
+    'contact.budget.1k': '$1,000 – $3,000',
+    'contact.budget.3k': '$3,000 – $10,000',
+    'contact.budget.10k': '$10,000+',
+
+    /* ── POST — TOC ── */
+    'post.toc.label': 'Contenido',
 
     /* ── PAGE TITLES ── */
     'page.index.title': 'DARK REBEL DESIGN — Diseño Digital',

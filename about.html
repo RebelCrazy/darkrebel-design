@@ -4,6 +4,7 @@
   <meta charset="UTF-8" /><script>try{document.documentElement.dataset.theme=localStorage.getItem('ks_theme')||'dark'}catch(e){}</script><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nosotros — DARK REBEL DESIGN</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 </head>
 <body data-page="about">
 <div id="cursor"></div><div id="cursor-ring"></div><div class="toast"></div>
@@ -12,7 +13,7 @@
   <div class="topbar-socials"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div>
 </div>
 <nav class="nav">
-  <a href="index.html" class="nav-logo">Dark Rebel<span>.</span></a>
+  <a href="index.html" class="nav-logo"><img src="logo.svg" alt="Dark Rebel Design" /></a>
   <div class="nav-links">
     <a href="index.html" data-i18n="nav.home">Inicio</a><a href="about.html" data-i18n="nav.about">Nosotros</a>
     <a href="shop.html" data-i18n="nav.services">Servicios</a><a href="blog.html" data-i18n="nav.blog">Blog</a><a href="contact.html" data-i18n="nav.contact">Contacto</a>
@@ -49,9 +50,9 @@
         <p class="body-lg" style="margin-bottom:1.5rem" data-i18n="about.story.p1">Fundado en 2020, DARK REBEL DESIGN comenzó como una operación unipersonal con una creencia: que las marcas pequeñas merecen diseño de clase mundial. Hoy somos un equipo distribuido de diseñadores, estrategas y narradores que sirven a clientes en más de 20 países.</p>
         <p class="body-lg" data-i18n="about.story.p2">Cada proyecto comienza con una pregunta: ¿qué deben sentir las personas al encontrarse con esta marca? La respuesta da forma a todo lo que sigue — desde el logo hasta el diseño, desde la tipografía hasta el tono de voz.</p>
         <div style="display:flex;gap:3rem;margin-top:2.5rem">
-          <div><div style="font-family:var(--font-display);font-size:3.5rem;color:var(--accent);line-height:1">120+</div><div class="label" style="margin-top:0.5rem" data-i18n="stats.pj">Proyectos</div></div>
-          <div><div style="font-family:var(--font-display);font-size:3.5rem;color:var(--accent);line-height:1">20+</div><div class="label" style="margin-top:0.5rem" data-i18n="stats.countries">Países</div></div>
-          <div><div style="font-family:var(--font-display);font-size:3.5rem;color:var(--accent);line-height:1">5</div><div class="label" style="margin-top:0.5rem" data-i18n="stats.years">Años</div></div>
+          <div><div style="font-family:var(--font-display);font-size:clamp(3.5rem,5vw,5.5rem);color:var(--accent);line-height:1">120+</div><div class="label" style="margin-top:0.75rem" data-i18n="stats.pj">Proyectos</div></div>
+          <div><div style="font-family:var(--font-display);font-size:clamp(3.5rem,5vw,5.5rem);color:var(--accent);line-height:1">20+</div><div class="label" style="margin-top:0.75rem" data-i18n="stats.countries">Países</div></div>
+          <div><div style="font-family:var(--font-display);font-size:clamp(3.5rem,5vw,5.5rem);color:var(--accent);line-height:1">5</div><div class="label" style="margin-top:0.75rem" data-i18n="stats.years">Años</div></div>
         </div>
       </div>
     </div>
@@ -60,25 +61,58 @@
 
 <section class="section" style="border-bottom:1px solid var(--border)">
   <div class="container">
+    <div class="section-header reveal">
+      <div class="label" data-i18n="about.values.label">Nuestro enfoque</div>
+      <div class="section-divider"></div>
+      <h2 class="display-md" data-i18n-html="about.values.title">Lo que<br><span class="text-accent">nos guía.</span></h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <div class="value-icon"><i data-lucide="target"></i></div>
+        <div class="value-title" data-i18n="about.value1.title">Diseño Estratégico</div>
+        <p class="value-desc" data-i18n="about.value1.desc">No trabajamos decoración. Cada decisión visual está anclada en objetivos de negocio reales y comprensión profunda del usuario.</p>
+      </div>
+      <div class="value-card reveal reveal-delay-1">
+        <div class="value-icon"><i data-lucide="users"></i></div>
+        <div class="value-title" data-i18n="about.value2.title">Colaboración Real</div>
+        <p class="value-desc" data-i18n="about.value2.desc">Trabajamos contigo, no solo para ti. Proceso transparente, feedback loops claros y sin jerga innecesaria en cada etapa.</p>
+      </div>
+      <div class="value-card reveal reveal-delay-2">
+        <div class="value-icon"><i data-lucide="award"></i></div>
+        <div class="value-title" data-i18n="about.value3.title">Craft Sin Concesiones</div>
+        <p class="value-desc" data-i18n="about.value3.desc">Los detalles importan. Desde la tipografía hasta el tracking de interacción, entregamos trabajo del que realmente nos enorgullecemos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="border-bottom:1px solid var(--border)">
+  <div class="container">
     <div class="section-header text-center reveal"><div class="label" data-i18n="team.label">El equipo</div><div class="section-divider" style="margin:1rem auto"></div><h2 class="display-md" data-i18n-html="team.title">Las personas<br>detrás del trabajo</h2></div>
-    <div class="grid-3" style="margin-top:4rem">
-      <div class="reveal" style="border:1px solid var(--border);padding:2rem">
-        <div style="width:80px;height:80px;border-radius:50%;background:var(--muted);margin-bottom:1.5rem;overflow:hidden"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80" alt="Team" style="width:100%;height:100%;object-fit:cover;filter:grayscale(30%)"></div>
-        <h3 class="subhead">Alex Reyes</h3>
-        <div class="label" style="margin:0.5rem 0" data-i18n="team.alex.role">Fundador y Director Creativo</div>
-        <p style="font-size:0.875rem;color:var(--text2)" data-i18n="team.alex.desc">10 años en diseño de marca. Ex creativo en Wolff Olins y Landor. Obsesionado con la tipografía y los sistemas.</p>
+    <div class="team-grid" style="margin-top:4rem">
+      <div class="team-card reveal">
+        <div class="team-photo"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Alex Reyes" loading="lazy"></div>
+        <div class="team-info">
+          <h3 class="subhead">Alex Reyes</h3>
+          <div class="label" data-i18n="team.alex.role">Fundador y Director Creativo</div>
+          <p data-i18n="team.alex.desc">10 años en diseño de marca. Ex creativo en Wolff Olins y Landor. Obsesionado con la tipografía y los sistemas.</p>
+        </div>
       </div>
-      <div class="reveal reveal-delay-1" style="border:1px solid var(--border);padding:2rem">
-        <div style="width:80px;height:80px;border-radius:50%;background:var(--muted);margin-bottom:1.5rem;overflow:hidden"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80" alt="Team" style="width:100%;height:100%;object-fit:cover;filter:grayscale(30%)"></div>
-        <h3 class="subhead">Sara Kovács</h3>
-        <div class="label" style="margin:0.5rem 0" data-i18n="team.sara.role">Diseñadora Principal UI/UX</div>
-        <p style="font-size:0.875rem;color:var(--text2)" data-i18n="team.sara.desc">Especialista en diseño de interacción. Power user de Figma. Convierte flujos de usuario complejos en experiencias encantadoras.</p>
+      <div class="team-card reveal reveal-delay-1">
+        <div class="team-photo"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80" alt="Sara Kovács" loading="lazy"></div>
+        <div class="team-info">
+          <h3 class="subhead">Sara Kovács</h3>
+          <div class="label" data-i18n="team.sara.role">Diseñadora Principal UI/UX</div>
+          <p data-i18n="team.sara.desc">Especialista en diseño de interacción. Power user de Figma. Convierte flujos de usuario complejos en experiencias encantadoras.</p>
+        </div>
       </div>
-      <div class="reveal reveal-delay-2" style="border:1px solid var(--border);padding:2rem">
-        <div style="width:80px;height:80px;border-radius:50%;background:var(--muted);margin-bottom:1.5rem;overflow:hidden"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80" alt="Team" style="width:100%;height:100%;object-fit:cover;filter:grayscale(30%)"></div>
-        <h3 class="subhead">Marcus Bell</h3>
-        <div class="label" style="margin:0.5rem 0" data-i18n="team.marcus.role">Estratega de Marca</div>
-        <p style="font-size:0.875rem;color:var(--text2)" data-i18n="team.marcus.desc">MBA + design thinking. Conecta los objetivos de negocio con la ejecución creativa para que nada se diseñe en el vacío.</p>
+      <div class="team-card reveal reveal-delay-2">
+        <div class="team-photo"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80" alt="Marcus Bell" loading="lazy"></div>
+        <div class="team-info">
+          <h3 class="subhead">Marcus Bell</h3>
+          <div class="label" data-i18n="team.marcus.role">Estratega de Marca</div>
+          <p data-i18n="team.marcus.desc">MBA + design thinking. Conecta los objetivos de negocio con la ejecución creativa para que nada se diseñe en el vacío.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -91,7 +125,7 @@
 <footer class="footer">
   <div class="container">
     <div class="footer-main">
-      <div><div class="footer-brand-name">Dark Rebel<span>.</span></div><p class="footer-brand-desc" data-i18n="footer.desc.short">Estudio de diseño digital premium.</p></div>
+      <div><div class="footer-brand-name"><img src="logo.svg" alt="Dark Rebel Design" /></div><p class="footer-brand-desc" data-i18n="footer.desc.short">Estudio de diseño digital premium.</p></div>
       <div><div class="footer-col-title" data-i18n="footer.pages">Páginas</div><div class="footer-links"><a href="index.html" data-i18n="footer.home">Inicio</a><a href="about.html" data-i18n="footer.about">Sobre nosotros</a><a href="shop.html" data-i18n="footer.services">Servicios</a><a href="contact.html" data-i18n="nav.contact">Contacto</a></div></div>
       <div><div class="footer-col-title" data-i18n="footer.services">Servicios</div><div class="footer-links"><a href="shop.html" data-i18n="footer.brand-identity">Identidad de Marca</a><a href="shop.html" data-i18n="footer.web-design">Diseño Web</a><a href="shop.html" data-i18n="footer.uiux">UI/UX</a></div></div>
       <div><div class="footer-col-title" data-i18n="footer.follow">Síguenos</div><div class="footer-links"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div></div>
@@ -102,5 +136,9 @@
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
+
+<button id="scroll-top-btn" class="scroll-top" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L4 14h16L12 4z"/></svg>
+</button>
 </body>
 </html>
