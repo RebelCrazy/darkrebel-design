@@ -2,9 +2,7 @@ name = "darkrebel-design"
 compatibility_date = "2026-03-11"
 compatibility_flags = ["nodejs_compat"]
 
-# 1. Configuración de Next.js para Cloudflare Pages
-[assets]
-directory = ".next" # O "out" si usas exportación estática
+
 
 # 2. Vinculación de la base de datos D1
 [[d1_databases]]
