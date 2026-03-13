@@ -1,11 +1,11 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Panel — DARK REBEL DESIGN</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <style>
     /* Extra admin styles */
     .img-preview {
@@ -29,10 +29,24 @@
     .activity-text { font-size: 0.875rem; }
     .activity-time { font-size: 0.75rem; color: var(--text2); margin-top: 0.2rem; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .admin-logo-img {
+      width: 148px;
+      height: auto;
+      display: block;
+      margin-bottom: 0.5rem;
+      filter: brightness(0) saturate(100%) invert(100%);
+    }
+    .login-brand {
+      width: 140px;
+      height: auto;
+      display: block;
+      margin: 0 auto 1rem auto;
+      filter: brightness(0) saturate(100%) invert(100%);
+    }
     @media(max-width:600px){ .form-row { grid-template-columns: 1fr; } }
   </style>
 </head>
-<body>
+<body data-page="admin">
 
 <!-- ══════════════════════════════════
      LOGIN SCREEN
@@ -45,21 +59,22 @@
     <div style="font-family:var(--font-display);font-size:30vw;color:var(--border);opacity:0.3;user-select:none;line-height:1">ADM</div>
   </div>
   <div class="login-box">
+    <img src="/logo.svg" alt="Dark Rebel Design" class="login-brand" />
     <div class="display-md">Admin<span style="color:var(--accent)">.</span></div>
-    <div class="label" style="margin-top:0.5rem;margin-bottom:2rem">DARK REBEL DESIGN — Restricted Area</div>
+    <div class="label" style="margin-top:0.5rem;margin-bottom:2rem" data-i18n="admin.login.restricted">DARK REBEL DESIGN — Restricted Area</div>
     <div class="form-group">
-      <label>Username</label>
-      <input type="text" id="login-user" placeholder="admin" autocomplete="username" />
+      <label data-i18n="admin.login.user">Username</label>
+      <input type="text" id="login-user" placeholder="admin" autocomplete="username" data-i18n-placeholder="admin.login.userPh" />
     </div>
     <div class="form-group">
-      <label>Password</label>
-      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password"
+      <label data-i18n="admin.login.pass">Password</label>
+      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" data-i18n-placeholder="admin.login.passPh"
              onkeydown="if(event.key==='Enter') doLogin()" />
     </div>
-    <button class="btn btn-primary w-100" onclick="doLogin()">Enter panel</button>
-    <div class="login-error" id="login-error">❌ Invalid credentials. Try again.</div>
+    <button class="btn btn-primary w-100" onclick="doLogin()" data-i18n="admin.login.enter">Enter panel</button>
+    <div class="login-error" id="login-error" data-i18n="admin.login.invalid">❌ Invalid credentials. Try again.</div>
     <p style="font-size:0.75rem;color:var(--text2);margin-top:1.5rem;text-align:center">
-      Default: <code style="color:var(--accent)">admin</code> / <code style="color:var(--accent)">rebel2026</code>
+      <span data-i18n="admin.login.default">Default:</span> <code style="color:var(--accent)">admin</code> / <code style="color:var(--accent)">rebel2026</code>
     </p>
   </div>
 </div>
@@ -74,30 +89,31 @@
   <!-- SIDEBAR -->
   <aside class="admin-sidebar">
     <div class="admin-logo">
+      <img src="/logo.svg" alt="Dark Rebel Design" class="admin-logo-img" />
       Dark Rebel<span>.</span>
-      <div class="admin-badge">Admin</div>
+      <div class="admin-badge" data-i18n="admin.badge">Admin</div>
     </div>
     <nav class="admin-nav">
       <div class="admin-nav-section">
-        <div class="admin-nav-label">Dashboard</div>
+        <div class="admin-nav-label" data-i18n="admin.nav.dashboard">Dashboard</div>
         <div class="admin-nav-link active" onclick="showPanel('dashboard',this)">
-          📊 Overview
+          📊 <span data-i18n="admin.nav.overview">Overview</span>
         </div>
       </div>
       <div class="admin-nav-section" style="margin-top:1rem">
-        <div class="admin-nav-label">Catalog</div>
-        <div class="admin-nav-link" onclick="showPanel('products',this)">📦 Products / Services</div>
-        <div class="admin-nav-link" onclick="showPanel('add-product',this)">➕ Add New Product</div>
+        <div class="admin-nav-label" data-i18n="admin.nav.catalog">Catalog</div>
+        <div class="admin-nav-link" onclick="showPanel('products',this)">📦 <span data-i18n="admin.nav.products">Products / Services</span></div>
+        <div class="admin-nav-link" onclick="showPanel('add-product',this)">➕ <span data-i18n="admin.nav.add">Add New Product</span></div>
       </div>
       <div class="admin-nav-section" style="margin-top:1rem">
-        <div class="admin-nav-label">Site</div>
-        <div class="admin-nav-link" onclick="showPanel('settings',this)">⚙️ Settings</div>
-        <div class="admin-nav-link" onclick="window.open('index.html','_blank')">🔗 View Site</div>
+        <div class="admin-nav-label" data-i18n="admin.nav.site">Site</div>
+        <div class="admin-nav-link" onclick="showPanel('settings',this)">⚙️ <span data-i18n="admin.nav.settings">Settings</span></div>
+        <div class="admin-nav-link" onclick="window.open('/index.html','_blank')">🔗 <span data-i18n="admin.nav.viewSite">View Site</span></div>
       </div>
     </nav>
     <div style="padding:1.5rem;border-top:1px solid var(--border);margin-top:auto">
-      <div style="font-size:0.75rem;color:var(--text2);margin-bottom:0.75rem">Logged in as <strong style="color:var(--text)">admin</strong></div>
-      <button class="btn btn-sm w-100" onclick="doLogout()">Logout</button>
+      <div style="font-size:0.75rem;color:var(--text2);margin-bottom:0.75rem"><span data-i18n="admin.loggedAs">Logged in as</span> <strong style="color:var(--text)">admin</strong></div>
+      <button class="btn btn-sm w-100" onclick="doLogout()" data-i18n="admin.logout">Logout</button>
     </div>
   </aside>
 
@@ -107,35 +123,36 @@
       <div class="admin-page-title" id="admin-page-title">Overview</div>
       <div style="display:flex;gap:1rem;align-items:center">
         <span style="font-size:0.75rem;color:var(--text2)" id="admin-clock"></span>
-        <a href="shop.html" class="btn btn-sm" target="_blank">Live Shop ↗</a>
+        <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">EN</button>
+        <a href="/shop.html" class="btn btn-sm" target="_blank" data-i18n="admin.liveShop">Live Shop ↗</a>
       </div>
     </div>
 
     <!-- ── DASHBOARD PANEL ── -->
     <div class="admin-panel active" id="panel-dashboard">
       <div class="stat-cards" id="stat-cards"></div>
-      <h3 class="subhead" style="margin-bottom:1.5rem">Recent Activity</h3>
+      <h3 class="subhead" style="margin-bottom:1.5rem" data-i18n="admin.recent">Recent Activity</h3>
       <div class="admin-activity" id="activity-log">
-        <div class="activity-item"><div class="activity-dot"></div><div><div class="activity-text">Admin panel initialized</div><div class="activity-time">Just now</div></div></div>
+        <div class="activity-item"><div class="activity-dot"></div><div><div class="activity-text" data-i18n="admin.activity.init">Admin panel initialized</div><div class="activity-time" data-i18n="admin.activity.now">Just now</div></div></div>
       </div>
     </div>
 
     <!-- ── PRODUCTS PANEL ── -->
     <div class="admin-panel" id="panel-products">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
-        <h3 class="subhead">All Products</h3>
-        <button class="btn btn-primary btn-sm" onclick="showPanel('add-product', document.querySelector('[onclick*=add-product]'))">+ Add new</button>
+        <h3 class="subhead" data-i18n="admin.products.all">All Products</h3>
+        <button class="btn btn-primary btn-sm" onclick="showPanel('add-product', document.querySelector('[onclick*=add-product]'))" data-i18n="admin.products.add">+ Add new</button>
       </div>
       <div style="overflow-x:auto">
         <table class="admin-table" id="products-table">
           <thead>
             <tr>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Price</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th data-i18n="admin.table.image">Image</th>
+              <th data-i18n="admin.table.name">Name</th>
+              <th data-i18n="admin.table.category">Category</th>
+              <th data-i18n="admin.table.price">Price</th>
+              <th data-i18n="admin.table.status">Status</th>
+              <th data-i18n="admin.table.actions">Actions</th>
             </tr>
           </thead>
           <tbody id="products-tbody"></tbody>
@@ -145,16 +162,16 @@
 
     <!-- ── ADD/EDIT PRODUCT PANEL ── -->
     <div class="admin-panel" id="panel-add-product">
-      <h3 class="subhead" id="form-panel-title" style="margin-bottom:2rem">Add New Product</h3>
+      <h3 class="subhead" id="form-panel-title" style="margin-bottom:2rem" data-i18n="admin.form.addTitle">Add New Product</h3>
       <form onsubmit="saveProduct(event)" style="max-width:720px">
         <input type="hidden" id="edit-id" value="">
         <div class="form-row">
           <div class="form-group">
-            <label>Product / Service Name *</label>
+            <label data-i18n="admin.form.name">Product / Service Name *</label>
             <input type="text" id="f-name" placeholder="e.g. Brand Identity Package" required />
           </div>
           <div class="form-group">
-            <label>Category *</label>
+            <label data-i18n="admin.form.category">Category *</label>
             <select id="f-cat" required>
               <option value="">Select…</option>
               <option value="Branding">Branding</option>
@@ -167,68 +184,68 @@
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Price (USD) *</label>
+            <label data-i18n="admin.form.price">Price (USD) *</label>
             <input type="number" id="f-price" placeholder="299" min="0" required />
           </div>
           <div class="form-group">
-            <label>Old Price (optional)</label>
+            <label data-i18n="admin.form.oldPrice">Old Price (optional)</label>
             <input type="number" id="f-oldprice" placeholder="399" min="0" />
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Badge (optional)</label>
+            <label data-i18n="admin.form.badge">Badge (optional)</label>
             <input type="text" id="f-badge" placeholder="Popular, New, Best Value…" maxlength="20" />
           </div>
           <div class="form-group">
-            <label>Status *</label>
+            <label data-i18n="admin.form.status">Status *</label>
             <select id="f-status" required>
-              <option value="active">Active (visible in shop)</option>
-              <option value="draft">Draft (hidden)</option>
-              <option value="out">Out of stock</option>
+              <option value="active" data-i18n="admin.status.active">Active (visible in shop)</option>
+              <option value="draft" data-i18n="admin.status.draft">Draft (hidden)</option>
+              <option value="out" data-i18n="admin.status.out">Out of stock</option>
             </select>
           </div>
         </div>
         <div class="form-group">
-          <label>Description *</label>
+          <label data-i18n="admin.form.description">Description *</label>
           <textarea id="f-desc" rows="3" placeholder="Brief description of what this service includes…" required></textarea>
         </div>
         <div class="form-group">
-          <label>Image URL</label>
+          <label data-i18n="admin.form.imageUrl">Image URL</label>
           <input type="url" id="f-img" placeholder="https://images.unsplash.com/…" oninput="previewImg(this.value)" />
           <img id="img-preview" class="img-preview hidden" alt="preview" />
         </div>
         <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap">
-          <button type="submit" class="btn btn-primary">Save product</button>
-          <button type="button" class="btn" onclick="resetForm()">Cancel / Reset</button>
+          <button type="submit" class="btn btn-primary" data-i18n="admin.form.save">Save product</button>
+          <button type="button" class="btn" onclick="resetForm()" data-i18n="admin.form.cancel">Cancel / Reset</button>
         </div>
       </form>
     </div>
 
     <!-- ── SETTINGS PANEL ── -->
     <div class="admin-panel" id="panel-settings">
-      <h3 class="subhead" style="margin-bottom:2rem">Site Settings</h3>
+      <h3 class="subhead" style="margin-bottom:2rem" data-i18n="admin.settings.title">Site Settings</h3>
       <div style="max-width:560px">
         <div class="form-group">
-          <label>Studio Name</label>
+          <label data-i18n="admin.settings.studio">Studio Name</label>
           <input type="text" id="s-name" placeholder="DARK REBEL DESIGN" />
         </div>
         <div class="form-group">
-          <label>Contact Email</label>
+          <label data-i18n="admin.settings.email">Contact Email</label>
           <input type="email" id="s-email" placeholder="info@darkrebel.store" />
         </div>
         <div class="form-group">
-          <label>Tagline</label>
+          <label data-i18n="admin.settings.tagline">Tagline</label>
           <input type="text" id="s-tagline" placeholder="Digital Design Studio" />
         </div>
         <div class="form-group">
-          <label>Change Admin Password</label>
+          <label data-i18n="admin.settings.password">Change Admin Password</label>
           <input type="password" id="s-pass" placeholder="Leave blank to keep current" />
         </div>
-        <button class="btn btn-primary" onclick="saveSettings()">Save settings</button>
+        <button class="btn btn-primary" onclick="saveSettings()" data-i18n="admin.settings.save">Save settings</button>
         <div style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border)">
-          <h4 class="subhead" style="margin-bottom:1rem; color:var(--red)">Danger Zone</h4>
-          <button class="btn btn-red btn-sm" onclick="resetAllData()">Reset all products to defaults</button>
+          <h4 class="subhead" style="margin-bottom:1rem; color:var(--red)" data-i18n="admin.settings.danger">Danger Zone</h4>
+          <button class="btn btn-red btn-sm" onclick="resetAllData()" data-i18n="admin.settings.reset">Reset all products to defaults</button>
         </div>
       </div>
     </div>
@@ -240,20 +257,21 @@
 <div class="modal-overlay" id="delete-modal">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title">Confirm Delete</div>
+      <div class="modal-title" data-i18n="admin.modal.title">Confirm Delete</div>
       <button class="modal-close" onclick="closeModal('delete-modal')">×</button>
     </div>
     <div class="modal-body">
-      <p>Are you sure you want to delete <strong id="delete-name"></strong>? This cannot be undone.</p>
+      <p><span data-i18n="admin.modal.textStart">Are you sure you want to delete</span> <strong id="delete-name"></strong>? <span data-i18n="admin.modal.textEnd">This cannot be undone.</span></p>
     </div>
     <div class="modal-footer">
-      <button class="btn" onclick="closeModal('delete-modal')">Cancel</button>
-      <button class="btn btn-red" id="confirm-delete-btn">Delete</button>
+      <button class="btn" onclick="closeModal('delete-modal')" data-i18n="admin.modal.cancel">Cancel</button>
+      <button class="btn btn-red" id="confirm-delete-btn" data-i18n="admin.modal.delete">Delete</button>
     </div>
   </div>
 </div>
 
-<script src="js/main.js"></script>
+<script src="/js/i18n.js"></script>
+<script src="/js/main.js"></script>
 <script>
 // ══════════════════════════
 // AUTH
@@ -326,14 +344,20 @@ updateClock();
 // ══════════════════════════
 // PANEL NAVIGATION
 // ══════════════════════════
-const pageTitles = { dashboard:'Overview', products:'Products / Services', 'add-product':'Add New Product', settings:'Settings' };
+const pageTitles = {
+  dashboard: 'admin.nav.overview',
+  products: 'admin.nav.products',
+  'add-product': 'admin.nav.add',
+  settings: 'admin.nav.settings'
+};
 
 function showPanel(name, clickedEl) {
   document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + name).classList.add('active');
   document.querySelectorAll('.admin-nav-link').forEach(l => l.classList.remove('active'));
   if (clickedEl) clickedEl.classList.add('active');
-  document.getElementById('admin-page-title').textContent = pageTitles[name] || name;
+  const titleKey = pageTitles[name] || name;
+  document.getElementById('admin-page-title').textContent = typeof t === 'function' ? t(titleKey) : titleKey;
   if (name === 'products') renderProductsTable();
   if (name === 'dashboard') renderDashboard();
 }
@@ -350,11 +374,11 @@ function renderDashboard() {
   const cartItems = getCart().reduce((s,i)=>s+i.qty,0);
 
   document.getElementById('stat-cards').innerHTML = `
-    <div class="stat-card"><div class="stat-value">${total}</div><div class="stat-label">Total Products</div><div class="stat-change">↑ All services</div></div>
-    <div class="stat-card"><div class="stat-value">${active}</div><div class="stat-label">Active / Visible</div><div class="stat-change" style="color:var(--accent)">In shop now</div></div>
-    <div class="stat-card"><div class="stat-value">${draft}</div><div class="stat-label">Drafts</div><div class="stat-change" style="color:var(--text2)">Hidden from shop</div></div>
-    <div class="stat-card"><div class="stat-value">$${avgPrice}</div><div class="stat-label">Avg. Price</div><div class="stat-change">Per service</div></div>
-    <div class="stat-card"><div class="stat-value">${cartItems}</div><div class="stat-label">Items in cart</div><div class="stat-change" style="color:var(--accent)">Active session</div></div>
+    <div class="stat-card"><div class="stat-value">${total}</div><div class="stat-label">${t('admin.stats.total')}</div><div class="stat-change">↑ ${t('admin.stats.allServices')}</div></div>
+    <div class="stat-card"><div class="stat-value">${active}</div><div class="stat-label">${t('admin.stats.activeVisible')}</div><div class="stat-change" style="color:var(--accent)">${t('admin.stats.inShop')}</div></div>
+    <div class="stat-card"><div class="stat-value">${draft}</div><div class="stat-label">${t('admin.stats.drafts')}</div><div class="stat-change" style="color:var(--text2)">${t('admin.stats.hidden')}</div></div>
+    <div class="stat-card"><div class="stat-value">$${avgPrice}</div><div class="stat-label">${t('admin.stats.avgPrice')}</div><div class="stat-change">${t('admin.stats.perService')}</div></div>
+    <div class="stat-card"><div class="stat-value">${cartItems}</div><div class="stat-label">${t('admin.stats.cartItems')}</div><div class="stat-change" style="color:var(--accent)">${t('admin.stats.activeSession')}</div></div>
   `;
 }
 
@@ -363,7 +387,11 @@ function renderDashboard() {
 // ══════════════════════════
 function renderProductsTable() {
   const products = getProducts();
-  const statusLabel = { active:'Active', draft:'Draft', out:'Out of stock' };
+  const statusLabel = {
+    active: t('admin.status.short.active'),
+    draft: t('admin.status.short.draft'),
+    out: t('admin.status.short.out')
+  };
   const statusClass = { active:'status-active', draft:'status-draft', out:'status-out' };
 
   document.getElementById('products-tbody').innerHTML = products.map((p,i) => `
@@ -374,11 +402,11 @@ function renderProductsTable() {
       <td><strong style="color:var(--accent)">$${p.price}</strong>${p.oldPrice?`<br><span style="font-size:0.75rem;color:var(--text2);text-decoration:line-through">$${p.oldPrice}</span>`:''}</td>
       <td><span class="status-badge ${statusClass[p.status]}">${statusLabel[p.status]}</span></td>
       <td style="display:flex;gap:0.5rem;flex-wrap:wrap">
-        <button class="btn btn-sm" onclick="editProduct('${p.id}')">Edit</button>
-        <button class="btn btn-sm btn-red" onclick="confirmDelete('${p.id}','${p.name.replace(/'/g,"\\'")}')">Delete</button>
+        <button class="btn btn-sm" onclick="editProduct('${p.id}')">${t('admin.table.edit')}</button>
+        <button class="btn btn-sm btn-red" onclick="confirmDelete('${p.id}','${p.name.replace(/'/g,"\\'")}')">${t('admin.table.delete')}</button>
       </td>
     </tr>
-  `).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:2rem">No products yet.</td></tr>';
+  `).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:2rem">${t('admin.table.empty')}</td></tr>`;
 }
 
 // ══════════════════════════
@@ -395,7 +423,7 @@ function resetForm() {
   document.getElementById('f-desc').value = '';
   document.getElementById('f-img').value = '';
   document.getElementById('img-preview').classList.add('hidden');
-  document.getElementById('form-panel-title').textContent = 'Add New Product';
+  document.getElementById('form-panel-title').textContent = t('admin.form.addTitle');
 }
 
 function editProduct(id) {
@@ -411,7 +439,7 @@ function editProduct(id) {
   document.getElementById('f-desc').value = p.desc;
   document.getElementById('f-img').value = p.img || '';
   previewImg(p.img || '');
-  document.getElementById('form-panel-title').textContent = 'Edit Product';
+  document.getElementById('form-panel-title').textContent = t('admin.form.editTitle');
   showPanel('add-product', document.querySelector('[onclick*="add-product"]'));
 }
 
@@ -448,8 +476,8 @@ function saveProduct(e) {
     products.push(product);
   }
   saveProducts(products);
-  addActivity(`${editId ? 'Updated' : 'Created'} product: "${product.name}"`);
-  showToast(editId ? 'Product updated ✓' : 'Product added ✓');
+  addActivity(`${editId ? t('admin.activity.updated') : t('admin.activity.created')} "${product.name}"`);
+  showToast(editId ? t('admin.toast.updated') : t('admin.toast.added'));
   resetForm();
   showPanel('products', document.querySelector('[onclick*="products,"]'));
   renderDashboard();
@@ -466,11 +494,11 @@ function confirmDelete(id, name) {
   document.getElementById('confirm-delete-btn').onclick = () => {
     const products = getProducts().filter(p => p.id !== id);
     saveProducts(products);
-    addActivity(`Deleted product: "${name}"`);
+    addActivity(`${t('admin.activity.deleted')} "${name}"`);
     renderProductsTable();
     renderDashboard();
     closeModal('delete-modal');
-    showToast('Product deleted');
+    showToast(t('admin.toast.deleted'));
   };
 }
 function closeModal(id) {
@@ -500,20 +528,33 @@ function saveSettings() {
     creds.pass = newPass;
     localStorage.setItem(ADMIN_CREDS_KEY, JSON.stringify(creds));
     document.getElementById('s-pass').value = '';
-    showToast('Password updated ✓');
+    showToast(t('admin.toast.password'));
   } else {
-    showToast('Settings saved ✓');
+    showToast(t('admin.toast.settings'));
   }
-  addActivity('Settings updated');
+  addActivity(t('admin.activity.settings'));
 }
 
 function resetAllData() {
-  if (!confirm('This will reset all products to defaults. Are you sure?')) return;
+  if (!confirm(t('admin.confirm.reset'))) return;
   localStorage.removeItem('ks_products');
-  showToast('Products reset to defaults ✓');
+  showToast(t('admin.toast.reset'));
   renderProductsTable();
   renderDashboard();
 }
+
+document.addEventListener('langchange', () => {
+  const activePanel = document.querySelector('.admin-panel.active');
+  if (activePanel && activePanel.id === 'panel-products') renderProductsTable();
+  if (activePanel && activePanel.id === 'panel-dashboard') renderDashboard();
+  if (activePanel && activePanel.id === 'panel-add-product') {
+    const isEditing = !!document.getElementById('edit-id').value;
+    document.getElementById('form-panel-title').textContent = isEditing ? t('admin.form.editTitle') : t('admin.form.addTitle');
+  }
+  const pageName = (activePanel && activePanel.id || '').replace('panel-', '');
+  const key = pageTitles[pageName] || 'admin.nav.overview';
+  document.getElementById('admin-page-title').textContent = t(key);
+});
 
 // ══════════════════════════
 // INIT
