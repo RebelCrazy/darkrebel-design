@@ -1,11 +1,18 @@
 import { BarChart3 } from "lucide-react";
 import Link from "next/link";
-import { listarProyectosActivos } from "@/lib/db";
+import { listarProyectosActivos, type Proyecto } from "@/lib/db";
 
 export const runtime = "edge";
 
 export default async function DashboardPage() {
-  const proyectos = await listarProyectosActivos();
+  let proyectos: Proyecto[] = [];
+  let setupError: string | null = null;
+
+  try {
+    proyectos = await listarProyectosActivos();
+  } catch (error) {
+    setupError = error instanceof Error ? error.message : "Error desconocido de configuracion";
+  }
 
   return (
     <main className="space-y-8">
@@ -23,7 +30,16 @@ export default async function DashboardPage() {
       </header>
 
       <section className="grid gap-4">
-        {proyectos.length === 0 ? (
+        {setupError ? (
+          <article className="panel border-red-500/30 p-6 text-sm text-red-200">
+            <p className="font-medium">El portal esta desplegado, pero falta configuracion de backend.</p>
+            <p className="mt-2 text-red-100/90">Detalle: {setupError}</p>
+            <p className="mt-3 text-red-100/90">
+              Verifica en Cloudflare Pages el binding D1 llamado DB, las variables de entorno y la
+              migracion de la tabla proyectos.
+            </p>
+          </article>
+        ) : proyectos.length === 0 ? (
           <article className="panel p-6 text-sm text-zinc-400">
             No hay proyectos activos todavia.
           </article>
