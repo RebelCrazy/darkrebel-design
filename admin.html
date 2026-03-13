@@ -73,9 +73,7 @@
     </div>
     <button class="btn btn-primary w-100" onclick="doLogin()" data-i18n="admin.login.enter">Enter panel</button>
     <div class="login-error" id="login-error" data-i18n="admin.login.invalid">❌ Invalid credentials. Try again.</div>
-    <p style="font-size:0.75rem;color:var(--text2);margin-top:1.5rem;text-align:center">
-      <span data-i18n="admin.login.default">Default:</span> <code style="color:var(--accent)">admin</code> / <code style="color:var(--accent)">rebel2026</code>
-    </p>
+
   </div>
 </div>
 
@@ -184,11 +182,11 @@
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label data-i18n="admin.form.price">Price (USD) *</label>
+            <label data-i18n="admin.form.price">Precio (MXN) *</label>
             <input type="number" id="f-price" placeholder="299" min="0" required />
           </div>
           <div class="form-group">
-            <label data-i18n="admin.form.oldPrice">Old Price (optional)</label>
+            <label data-i18n="admin.form.oldPrice">Precio anterior (opcional)</label>
             <input type="number" id="f-oldprice" placeholder="399" min="0" />
           </div>
         </div>
@@ -377,7 +375,7 @@ function renderDashboard() {
     <div class="stat-card"><div class="stat-value">${total}</div><div class="stat-label">${t('admin.stats.total')}</div><div class="stat-change">↑ ${t('admin.stats.allServices')}</div></div>
     <div class="stat-card"><div class="stat-value">${active}</div><div class="stat-label">${t('admin.stats.activeVisible')}</div><div class="stat-change" style="color:var(--accent)">${t('admin.stats.inShop')}</div></div>
     <div class="stat-card"><div class="stat-value">${draft}</div><div class="stat-label">${t('admin.stats.drafts')}</div><div class="stat-change" style="color:var(--text2)">${t('admin.stats.hidden')}</div></div>
-    <div class="stat-card"><div class="stat-value">$${avgPrice}</div><div class="stat-label">${t('admin.stats.avgPrice')}</div><div class="stat-change">${t('admin.stats.perService')}</div></div>
+    <div class="stat-card"><div class="stat-value">MXN$${avgPrice}</div><div class="stat-label">${t('admin.stats.avgPrice')}</div><div class="stat-change">${t('admin.stats.perService')}</div></div>
     <div class="stat-card"><div class="stat-value">${cartItems}</div><div class="stat-label">${t('admin.stats.cartItems')}</div><div class="stat-change" style="color:var(--accent)">${t('admin.stats.activeSession')}</div></div>
   `;
 }
@@ -399,7 +397,7 @@ function renderProductsTable() {
       <td><div style="width:56px;height:56px;overflow:hidden;background:var(--bg3)"><img src="${p.img||''}" alt="" style="width:100%;height:100%;object-fit:cover"></div></td>
       <td><strong>${p.name}</strong>${p.badge ? `<br><span class="product-badge" style="position:static;display:inline-block;margin-top:4px">${p.badge}</span>` : ''}</td>
       <td>${p.cat}</td>
-      <td><strong style="color:var(--accent)">$${p.price}</strong>${p.oldPrice?`<br><span style="font-size:0.75rem;color:var(--text2);text-decoration:line-through">$${p.oldPrice}</span>`:''}</td>
+      <td><strong style="color:var(--accent)">MXN$${p.price}</strong>${p.oldPrice?`<br><span style="font-size:0.75rem;color:var(--text2);text-decoration:line-through">MXN$${p.oldPrice}</span>`:''}</td>
       <td><span class="status-badge ${statusClass[p.status]}">${statusLabel[p.status]}</span></td>
       <td style="display:flex;gap:0.5rem;flex-wrap:wrap">
         <button class="btn btn-sm" onclick="editProduct('${p.id}')">${t('admin.table.edit')}</button>
@@ -523,13 +521,14 @@ function addActivity(text) {
 // ══════════════════════════
 function saveSettings() {
   const newPass = document.getElementById('s-pass').value;
+  const creds = getCreds();
   if (newPass) {
-    const creds = getCreds();
     creds.pass = newPass;
     localStorage.setItem(ADMIN_CREDS_KEY, JSON.stringify(creds));
     document.getElementById('s-pass').value = '';
     showToast(t('admin.toast.password'));
   } else {
+    localStorage.setItem(ADMIN_CREDS_KEY, JSON.stringify(creds));
     showToast(t('admin.toast.settings'));
   }
   addActivity(t('admin.activity.settings'));
