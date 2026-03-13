@@ -5,13 +5,14 @@ import { obtenerProyectoPorId } from "@/lib/db";
 export const runtime = "edge";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export default async function ProyectoClientePage({ params }: Props) {
-  const proyecto = await obtenerProyectoPorId(params.id);
+  const { id } = await params;
+  const proyecto = await obtenerProyectoPorId(id);
 
   if (!proyecto) {
     notFound();

@@ -3,13 +3,14 @@ import { LockKeyhole } from "lucide-react";
 export const runtime = "edge";
 
 type LoginPageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     error?: string;
-  };
+  }>;
 };
 
-export default function AdminLoginPage({ searchParams }: LoginPageProps) {
-  const hasError = searchParams?.error === "1";
+export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const hasError = resolvedSearchParams?.error === "1";
 
   return (
     <main className="mx-auto max-w-xl">
