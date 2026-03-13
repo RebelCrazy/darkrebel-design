@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: #000;
+  color: #f4f4f5;
+}
+
+body {
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.06), transparent 36%),
+    radial-gradient(circle at 80% 100%, rgba(255, 255, 255, 0.04), transparent 40%);
+}
+
+.panel {
+  @apply rounded-2xl border border-line bg-black/60 shadow-panel backdrop-blur;
+}
+
+.progress-track {
+  @apply h-2 w-full overflow-hidden rounded-full bg-zinc-900;
+}
+
+.progress-value {
+  @apply h-full rounded-full bg-zinc-100 transition-all;
+}

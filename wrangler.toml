@@ -1,11 +1,12 @@
 name = "darkrebel-design"
 compatibility_date = "2026-03-11"
 compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
 
 
 
 # 2. Vinculación de la base de datos D1
 [[d1_databases]]
-binding = "DB"                               # Nombre que usaremos en el código (process.env.DB)
+binding = "DB"                               # Nombre usado en el codigo como process.env.DB
 database_name = "dark-rebel-db"              # El nombre que le diste en el panel
 database_id = "9a4018e6-489e-4be4-a27f-4fdd0c5b00e3"    # El ID alfanumérico largo
