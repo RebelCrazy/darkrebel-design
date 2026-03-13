@@ -54,8 +54,8 @@
 <div id="login-screen" class="login-screen">
     <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;pointer-events:none;z-index:0">
       <div style="display:flex;align-items:center;">
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:22vw;color:#fff;opacity:0.09;user-select:none;line-height:1;text-transform:uppercase;letter-spacing:0.05em;">PROYECTOS</span>
-        <span style="display:inline-block;width:2vw;height:2vw;background:#ff2020;border-radius:50%;margin-left:1vw;opacity:0.18;"></span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:22vw;color:#fff;opacity:0.08;user-select:none;line-height:1;text-transform:uppercase;letter-spacing:0.05em;">PROYECTOS</span>
+        <span style="display:inline-block;width:2vw;height:2vw;background:#ff2020;border-radius:50%;margin-left:1vw;opacity:0.12;"></span>
       </div>
     </div>
   <div id="cursor"></div>
@@ -63,24 +63,21 @@
   <!-- ...existing code... -->
   <div class="login-box">
     <div style="display:flex;flex-direction:column;align-items:center;">
-      <img src="/logo.svg" alt="Dark Rebel Design" style="width:120px;height:auto;margin-bottom:1.2rem;" />
-      <div style="display:flex;align-items:center;justify-content:center;margin-bottom:0.5rem;">
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:3.2rem;color:#fff;text-transform:uppercase;letter-spacing:0.05em;">PROYECTOS</span>
-        <span style="display:inline-block;width:18px;height:18px;background:#ff2020;border-radius:50%;margin-left:8px;vertical-align:middle;"></span>
-      </div>
+      <img src="/logo.svg" alt="Dark Rebel Design" style="width:120px;height:auto;margin-bottom:1.5rem;" />
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:#fff;margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;">PROYECTOS<span style="display:inline-block;width:28px;height:28px;background:#ff2020;border-radius:50%;margin-left:12px;vertical-align:middle;opacity:0.9;"></span></div>
     </div>
     <div class="login-subtitle" style="font-family:'Syne',sans-serif;font-size:1.25rem;text-align:center;margin-bottom:2rem;color:#aaa9a6;" data-i18n="admin.login.restricted">Área restringida — Dark Rebel Design</div>
     <form class="login-form" onsubmit="doLogin();return false;" style="font-family:'DM Sans',sans-serif;font-size:1rem;">
-      <div class="form-group" style="margin-bottom:1.2rem;">
-        <label for="login-user" data-i18n="admin.login.user" style="font-family:'Syne',sans-serif;font-size:1rem;color:#aaa9a6;margin-bottom:0.3rem;">USUARIO</label>
-        <input type="text" id="login-user" class="input input-lg" placeholder="admin" autocomplete="username" data-i18n-placeholder="admin.login.userPh" style="font-family:'DM Sans',sans-serif;font-size:1rem;background:var(--bg2);color:#f0ede8;border:1px solid var(--border);padding:0.7rem 1rem;border-radius:4px;" />
+      <div class="form-group">
+        <label for="login-user" data-i18n="admin.login.user" style="font-family:'Syne',sans-serif;font-size:1rem;color:#f0ede8;">Usuario</label>
+        <input type="text" id="login-user" class="input input-lg" placeholder="admin" autocomplete="username" data-i18n-placeholder="admin.login.userPh" style="font-family:'DM Sans',sans-serif;font-size:1rem;" />
       </div>
-      <div class="form-group" style="margin-bottom:1.2rem;">
-        <label for="login-pass" data-i18n="admin.login.pass" style="font-family:'Syne',sans-serif;font-size:1rem;color:#aaa9a6;margin-bottom:0.3rem;">CONTRASEÑA</label>
-        <input type="password" id="login-pass" class="input input-lg" placeholder="••••••••" autocomplete="current-password" data-i18n-placeholder="admin.login.passPh" onkeydown="if(event.key==='Enter') doLogin()" style="font-family:'DM Sans',sans-serif;font-size:1rem;background:var(--bg2);color:#f0ede8;border:1px solid var(--border);padding:0.7rem 1rem;border-radius:4px;" />
+      <div class="form-group">
+        <label for="login-pass" data-i18n="admin.login.pass" style="font-family:'Syne',sans-serif;font-size:1rem;color:#f0ede8;">Contraseña</label>
+        <input type="password" id="login-pass" class="input input-lg" placeholder="••••••••" autocomplete="current-password" data-i18n-placeholder="admin.login.passPh" onkeydown="if(event.key==='Enter') doLogin()" style="font-family:'DM Sans',sans-serif;font-size:1rem;" />
       </div>
-      <button class="btn btn-primary btn-lg w-100" type="submit" data-i18n="admin.login.enter" style="font-family:'Syne',sans-serif;font-size:1rem;background:#ff2020;color:#fff;padding:0.9rem 0;border-radius:4px;margin-top:0.5rem;letter-spacing:0.05em;">ENTRAR AL PANEL</button>
-      <div class="login-error" id="login-error" data-i18n="admin.login.invalid" style="font-family:'DM Sans',sans-serif;font-size:1rem;margin-top:1rem;color:#ff3c3c;">❌ Credenciales inválidas. Intenta de nuevo.</div>
+      <button class="btn btn-primary btn-lg w-100" type="submit" data-i18n="admin.login.enter" style="font-family:'Syne',sans-serif;font-size:1rem;">Entrar al panel</button>
+      <div class="login-error" id="login-error" data-i18n="admin.login.invalid" style="font-family:'DM Sans',sans-serif;font-size:1rem;">❌ Credenciales inválidas. Intenta de nuevo.</div>
     </form>
 
   </div>
