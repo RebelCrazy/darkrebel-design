@@ -40,7 +40,7 @@ export async function POST(req: Request) {
   if (!session) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
-*//
+//*
   const contentType = req.headers.get("content-type") || "";
 
   let payload: Record<string, string> = {};
