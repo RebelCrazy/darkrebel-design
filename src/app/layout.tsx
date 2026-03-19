@@ -49,9 +49,12 @@ export default function RootLayout({
   }, [mounted]);
 
   return (
-    <html lang="es"
+    <html
+      lang="es"
       className={`${bebas.variable} ${syne.variable} ${dmSans.variable}`}
-      style={{ background: "var(--bg)", color: "var(--text)" }}>
+      style={{ background: "var(--bg)", color: "var(--text)" }}
+      suppressHydrationWarning={true}
+    >
       <body className="antialiased" style={{ background: "var(--bg)", color: "var(--text)" }} suppressHydrationWarning>
         {/* Cursor personalizado solo tras montaje */}
         {mounted && <><div id="cursor" /><div id="cursor-ring" /></>}

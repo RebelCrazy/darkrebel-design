@@ -2,8 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   color-scheme: dark;
+  --bg: #0a0a0b;
+  --surface: #111113;
+  --surface2: #18181c;
+  --surface3: #1e1e24;
+  --border: #2a2a32;
+  --border2: #353540;
+  --accent: #e8ff47;
+  --accent2: #b8e83c;
+  --accent-dim: rgba(232,255,71,0.08);
+  --text: #f0f0f2;
+  --text2: #9898a8;
+  --text3: #5a5a6a;
+  --red: #ff4757;
+  --orange: #ff6b35;
+  --green: #47e8a0;
+  --blue: #4fa3ff;
+  --purple: #c084fc;
+  --sidebar-w: 260px;
 }
 
 html,
