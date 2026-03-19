@@ -1,5 +1,5 @@
-import { NextRequest } from "next/server";
-import { crearProyecto, actualizarProyecto, eliminarProyecto } from "@/lib/db";
+import { NextRequest, NextResponse } from "next/server";
+import { crearProyecto, actualizarProyecto, eliminarProyecto, obtenerProyectos } from "@/lib/db";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
@@ -33,8 +33,6 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
-import { NextResponse } from "next/server";
-import { crearProyecto, obtenerProyectos } from "@/lib/db";
 export async function GET() {
   try {
     const proyectos = await obtenerProyectos();
@@ -43,22 +41,7 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
-import { isTrustedOrigin, SESSION_COOKIE_NAME, verifySessionToken } from "@/lib/auth";
-
 export const runtime = "edge";
-
-const ESTADOS = ["Planeación", "En Desarrollo", "Finalizado"] as const;
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-function isValidHttpsUrl(urlValue: string): boolean {
-  try {
-    const url = new URL(urlValue);
-    return url.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
 
 function getCookieValue(cookieHeader: string, cookieName: string): string | null {
   const parts = cookieHeader.split(";");

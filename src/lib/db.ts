@@ -42,13 +42,15 @@ export async function eliminarTarea(id: string) {
 export async function crearProyecto(data: any) {
   const db = getDB();
   const id = crypto.randomUUID();
+  // Permitir ambos esquemas: cliente_id o cliente_email, y UID opcional
   await db.prepare(`INSERT INTO proyectos (id, nombre, cliente_id, progreso, estado, link_figma, uid) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)`).bind(
-    id, data.nombre, data.cliente_id, data.progreso || 0, data.estado, data.link_figma, data.uid
+    id, data.nombre, data.cliente_id || null, data.progreso || 0, data.estado, data.link_figma || null, data.uid || crypto.randomUUID()
   ).run();
   return id;
 }
 export async function actualizarProyecto(id: string, data: any) {
   const db = getDB();
+  // Solo actualizar los campos relevantes
   await db.prepare(`UPDATE proyectos SET nombre = ?2, cliente_id = ?3, progreso = ?4, estado = ?5, link_figma = ?6 WHERE id = ?1`).bind(
     id, data.nombre, data.cliente_id, data.progreso, data.estado, data.link_figma
   ).run();
@@ -110,68 +112,16 @@ function getDB(): D1Database {
 }
 
 
-export async function obtenerProyectos(): Promise<Proyecto[]> {
+export async function obtenerProyectos() {
   const db = getDB();
   const query = `SELECT * FROM proyectos ORDER BY created_at DESC`;
-  const result = await db.prepare(query).all<Proyecto>();
+  const result = await db.prepare(query).all();
   return result.results ?? [];
 }
 
-export async function obtenerProyectoPorId(id: string): Promise<Proyecto | null> {
+export async function obtenerProyectoPorId(id: string) {
   const db = getDB();
-  const query = `SELECT * FROM proyectos WHERE id = ?1 LIMIT 1`;
-  const result = await db.prepare(query).bind(id).first<Proyecto>();
+  const query = `SELECT * FROM proyectos WHERE uid = ?1 OR id = ?1 LIMIT 1`;
+  const result = await db.prepare(query).bind(id).first();
   return result ?? null;
-}
-
-export async function actualizarProyecto(id: string, data: Partial<Proyecto>): Promise<void> {
-  const db = getDB();
-  const fields = [];
-  const values = [];
-  for (const key of Object.keys(data)) {
-    fields.push(`${key} = ?`);
-    values.push((data as any)[key]);
-  }
-  if (fields.length === 0) return;
-  const query = `UPDATE proyectos SET ${fields.join(", ")} WHERE id = ?`;
-  await db.prepare(query).bind(...values, id).run();
-}
-
-export async function eliminarProyecto(id: string): Promise<void> {
-  const db = getDB();
-  const query = `DELETE FROM proyectos WHERE id = ?`;
-  await db.prepare(query).bind(id).run();
-}
-
-
-export type NuevoProyectoInput = {
-  nombre: string;
-  cliente_email: string;
-  progreso: number;
-  estado: EstadoProyecto;
-  link_figma?: string;
-};
-
-export async function crearProyecto(input: NuevoProyectoInput): Promise<string> {
-  const db = getDB();
-  const id = crypto.randomUUID();
-
-  const query = `
-    INSERT INTO proyectos (id, nombre, cliente_email, progreso, estado, link_figma)
-    VALUES (?1, ?2, ?3, ?4, ?5, ?6)
-  `;
-
-  await db
-    .prepare(query)
-    .bind(
-      id,
-      input.nombre,
-      input.cliente_email,
-      input.progreso,
-      input.estado,
-      input.link_figma || null
-    )
-    .run();
-
-  return id;
 }
