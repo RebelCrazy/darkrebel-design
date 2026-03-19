@@ -13,7 +13,8 @@ export const metadata: Metadata = {
   description: "Portal de gestion de proyectos para clientes y administracion"
 };
 
-  children
+export default function RootLayout({
+  children,
 }: Readonly<{ children: React.ReactNode }>) {
   const [mounted, setMounted] = useState(false);
 
