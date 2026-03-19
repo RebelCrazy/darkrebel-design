@@ -1,5 +1,5 @@
-import { NextRequest } from "next/server";
-import { crearCliente, actualizarCliente, eliminarCliente } from "@/lib/db";
+import { NextRequest, NextResponse } from "next/server";
+import { crearCliente, actualizarCliente, eliminarCliente, obtenerClientesConProyectos } from "@/lib/db";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
@@ -29,9 +29,6 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
-import { NextResponse } from "next/server";
-import { obtenerClientesConProyectos } from "@/lib/db";
-
 export const runtime = "edge";
 
 export async function GET() {
