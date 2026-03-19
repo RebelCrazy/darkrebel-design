@@ -1,16 +1,25 @@
+"use client";
+import { useState } from "react";
 import { LockKeyhole } from "lucide-react";
 
-export const runtime = "edge";
+export default function AdminLoginPage() {
+  const [error, setError] = useState(false);
 
-type LoginPageProps = {
-  searchParams?: Promise<{
-    error?: string;
-  }>;
-};
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(false);
+    const form = e.currentTarget;
+    const username = (form.username as HTMLInputElement).value;
+    const password = (form.password as HTMLInputElement).value;
 
-export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
-  const resolvedSearchParams = await searchParams;
-  const hasError = resolvedSearchParams?.error === "1";
+    // Puedes cambiar esta validación por una llamada a la API si lo deseas
+    if (password === "darkrebel2026") {
+      document.cookie = "darkrebel_session=true; path=/; max-age=3600;";
+      window.location.href = "/admin";
+    } else {
+      setError(true);
+    }
+  };
 
   return (
     <main className="mx-auto max-w-xl">
@@ -24,13 +33,13 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
           Ingresa tus credenciales para acceder al panel de proyectos.
         </p>
 
-        {hasError ? (
+        {error ? (
           <p className="mt-4 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm text-red-200">
             Credenciales invalidas. Intenta nuevamente.
           </p>
         ) : null}
 
-        <form action="/api/admin/login" method="post" className="mt-6 grid gap-4">
+        <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
           <label className="grid gap-2 text-sm text-zinc-300">
             Usuario
             <input
