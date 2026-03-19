@@ -15,8 +15,8 @@ export default function AdminPage() {
 
   useEffect(() => {
     // Verifica la cookie de sesión al cargar
-    if (!document.cookie.includes("darkrebel_session")) {
-      router.push("/login");
+    if (!document.cookie.split(';').some((item) => item.trim().startsWith('darkrebel_session='))) {
+      router.push('/login' as any);
       return;
     }
     fetch("/api/proyectos")
