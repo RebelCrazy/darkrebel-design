@@ -20,50 +20,45 @@ export default async function ProyectoClientePage({ params }: Props) {
   }
 
   return (
-    <>
-      <main className="panel relative overflow-hidden p-8 md:p-12">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_35%)]" />
-        <div className="relative z-10 space-y-8">
-          <p className="text-xs uppercase tracking-[0.3em] text-zinc-400">Dark Rebel Client View</p>
-          <h1 className="text-4xl font-semibold text-white md:text-5xl">{String(proyecto.nombre ?? "")}</h1>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-xl border border-zinc-800 bg-black/60 p-4">
-              <p className="text-xs uppercase tracking-wide text-zinc-500">Estado</p>
-              <p className="mt-2 text-lg text-zinc-100">{String(proyecto.estado ?? "")}</p>
-            </div>
-            <div className="rounded-xl border border-zinc-800 bg-black/60 p-4">
-              <p className="text-xs uppercase tracking-wide text-zinc-500">Progreso</p>
-              <p className="mt-2 text-lg text-zinc-100">{Number(proyecto.progreso ?? 0)}%</p>
-            </div>
+    <main className="panel relative overflow-hidden p-8 md:p-12 bg-black min-h-screen text-white font-serif">
+      <div className="hero-noise absolute inset-0 pointer-events-none z-0" />
+      <div className="relative z-10 space-y-8">
+        <p className="text-xs uppercase tracking-[0.3em] text-zinc-400">Dark Rebel Client View</p>
+        <h1 className="display-md text-white mb-4">{String(proyecto.nombre ?? "")}</h1>
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="stat-card">
+            <p className="label">Estado</p>
+            <p className="mt-2 text-lg text-zinc-100"><span className={`status-badge status-${(proyecto.estado || '').toLowerCase().replace(/ /g, '-')}`}>{String(proyecto.estado ?? "")}</span></p>
           </div>
-
-          <div>
-            <p className="mb-2 text-xs uppercase tracking-wide text-zinc-500">Avance del proyecto</p>
-            <div className="w-full h-4 bg-[#18181b] rounded-full overflow-hidden border border-[#27272a]">
-              <div
-                className="h-full bg-white transition-all duration-500"
-                style={{ width: `${proyecto.progreso}%` }}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-300">
-            <span>{String(proyecto.cliente_email ?? "")}</span>
-            {proyecto.link_figma && typeof proyecto.link_figma === "string" && proyecto.link_figma.length > 0 ? (
-              <a
-                href={proyecto.link_figma as string}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-zinc-700 px-4 py-2 hover:border-zinc-500"
-              >
-                Ver Figma <ExternalLink className="h-4 w-4" />
-              </a>
-            ) : null}
+          <div className="stat-card">
+            <p className="label">Progreso</p>
+            <p className="mt-2 text-lg text-zinc-100">{Number(proyecto.progreso ?? 0)}%</p>
           </div>
         </div>
-      </main>
-      {/* Estilos migrados a Tailwind: bg-black, font-serif, panel, border, rounded, etc. */}
-    </>
+        <div>
+          <p className="mb-2 text-xs uppercase tracking-wide text-zinc-500">Avance del proyecto</p>
+          <div className="post-progress w-full h-4 rounded-full overflow-hidden border border-[#222220] bg-[#111111]">
+            <div
+              className="h-full bg-white transition-all duration-500"
+              style={{ width: `${proyecto.progreso}%` }}
+            />
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-300">
+          <span>{String(proyecto.cliente_email ?? "")}</span>
+          {proyecto.link_figma && typeof proyecto.link_figma === "string" && proyecto.link_figma.length > 0 ? (
+            <a
+              href={proyecto.link_figma as string}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-primary inline-flex items-center gap-2"
+            >
+              Ver Figma <ExternalLink className="h-4 w-4" />
+            </a>
+          ) : null}
+        </div>
+      </div>
+    </main>
+  );
   );
 }
