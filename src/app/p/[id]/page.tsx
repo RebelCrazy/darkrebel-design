@@ -27,7 +27,7 @@ export default async function ProyectoPublicoPage({ params }: { params: Promise<
         <div className="w-full h-4 bg-[#18181b] rounded-full overflow-hidden border border-[#27272a]">
           <div className="h-full bg-white transition-all duration-500" style={{ width: `${progresoGeneral}%` }} />
         </div>
-        <p className="mt-2 text-zinc-400 text-sm">Progreso: {progresoGeneral}%</p>
+        <p className="mt-2 text-zinc-400 text-sm">Progreso: {Number(progresoGeneral)}%</p>
       </div>
       <section className="mt-8">
         <h2 className="text-lg font-semibold mb-4">Tareas del Proyecto</h2>
