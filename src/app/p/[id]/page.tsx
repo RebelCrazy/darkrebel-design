@@ -33,12 +33,12 @@ export default async function ProyectoPublicoPage({ params }: { params: Promise<
         <h2 className="text-lg font-semibold mb-4">Tareas del Proyecto</h2>
         <ul className="space-y-3">
           {tareas.map((t) => (
-            <li key={t.id} className="rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3">
+            <li key={String(t.id)} className="rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3">
               <div className="flex justify-between items-center">
-                <span className="font-serif text-white text-base">{t.titulo}</span>
-                <span className="text-xs text-zinc-400">{t.estado}</span>
+                <span className="font-serif text-white text-base">{String(t.titulo ?? "")}</span>
+                <span className="text-xs text-zinc-400">{String(t.estado ?? "")}</span>
               </div>
-              <div className="text-xs text-zinc-400 mt-1">{t.descripcion}</div>
+              <div className="text-xs text-zinc-400 mt-1">{String(t.descripcion ?? "")}</div>
             </li>
           ))}
         </ul>
