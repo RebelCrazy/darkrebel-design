@@ -12,7 +12,7 @@ export default function HomeCoverPage() {
         <div className="flex flex-col items-center">
           <div className="animate-fadein mb-10">
             <Image
-              src="/logo.svg"
+              src="/logo.png"
               alt="Dark Rebel Logo"
               width={220}
               height={220}
