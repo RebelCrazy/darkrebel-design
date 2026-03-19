@@ -1,21 +1,30 @@
 "use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { ShieldCheck, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export default function AdminPage() {
   const [proyectos, setProyectos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
+    // Verifica la cookie de sesión al cargar
+    if (!document.cookie.includes("darkrebel_session")) {
+      router.replace("/login");
+      return;
+    }
     fetch("/api/proyectos")
       .then((res) => res.json())
       .then(setProyectos)
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [router]);
 
   const handleProgreso = async (id: string, progreso: number) => {
     try {
@@ -48,14 +57,16 @@ export default function AdminPage() {
             <ShieldCheck className="h-5 w-5" />
             <span className="text-xs uppercase tracking-[0.2em]">Admin Seguro</span>
           </div>
-          <form action="/api/admin/logout" method="post">
-            <button
-              type="submit"
-              className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs uppercase tracking-wider text-zinc-200 hover:border-zinc-500"
-            >
-              Cerrar sesion
-            </button>
-          </form>
+          <button
+            onClick={() => {
+              // Elimina la cookie y redirige a home
+              document.cookie = "darkrebel_session=; Max-Age=0; path=/;";
+              window.location.href = "/";
+            }}
+            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs uppercase tracking-wider text-zinc-200 hover:border-zinc-500"
+          >
+            Cerrar sesión
+          </button>
         </div>
         <h1 className="mt-3 text-3xl font-semibold text-white">Nuevo Proyecto</h1>
         <p className="mt-2 text-sm text-zinc-400">
