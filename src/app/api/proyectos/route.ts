@@ -46,18 +46,4 @@ export async function GET() {
   }
 }
 
-  const id = await crearProyecto({
-    nombre,
-    cliente_email: clienteEmail,
-    progreso,
-    estado: estado as (typeof ESTADOS)[number],
-    link_figma: linkFigma
-  });
 
-  const acceptsHtml = req.headers.get("accept")?.includes("text/html");
-  if (acceptsHtml) {
-    return NextResponse.redirect(new URL(`/proyecto/${id}`, req.url), 303);
-  }
-
-  return NextResponse.json({ ok: true, id }, { status: 201 });
-}
