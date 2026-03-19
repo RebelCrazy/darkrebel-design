@@ -1,6 +1,6 @@
 import { BarChart3 } from "lucide-react";
 import Link from "next/link";
-import { listarProyectosActivos, type Proyecto } from "@/lib/db";
+import { obtenerProyectos, type Proyecto } from "@/lib/db";
 
 export const runtime = "edge";
 
@@ -9,7 +9,7 @@ export default async function DashboardPage() {
   let setupError: string | null = null;
 
   try {
-    proyectos = await listarProyectosActivos();
+    proyectos = await obtenerProyectos();
   } catch (error) {
     setupError = error instanceof Error ? error.message : "Error desconocido de configuracion";
   }

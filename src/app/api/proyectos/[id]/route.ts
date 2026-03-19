@@ -16,9 +16,9 @@ function getCookieValue(cookieHeader: string, cookieName: string): string | null
   return null;
 }
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const proyecto = await obtenerProyectoPorId(id);
     if (!proyecto) {
       return NextResponse.json({ error: "Proyecto no encontrado" }, { status: 404 });
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     if (!isTrustedOrigin(req)) {
       return NextResponse.json({ error: "Origen no permitido" }, { status: 403 });
@@ -40,7 +40,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     if (!session) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
-    const { id } = params;
+    const { id } = await params;
     const data = await req.json();
     await actualizarProyecto(id, data);
     return NextResponse.json({ ok: true });
@@ -49,7 +49,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     if (!isTrustedOrigin(req)) {
       return NextResponse.json({ error: "Origen no permitido" }, { status: 403 });
@@ -60,7 +60,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     if (!session) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
-    const { id } = params;
+    const { id } = await params;
     await eliminarProyecto(id);
     return NextResponse.json({ ok: true });
   } catch (error: any) {
