@@ -19,6 +19,8 @@ export default async function ProyectoClientePage({ params }: Props) {
     notFound();
   }
 
+  const statusClass = String(proyecto?.estado || 'default').toLowerCase().replace(/ /g, '-');
+
   return (
     <main className="panel relative overflow-hidden p-8 md:p-12 bg-black min-h-screen text-white font-serif">
       <div className="hero-noise absolute inset-0 pointer-events-none z-0" />
@@ -28,7 +30,7 @@ export default async function ProyectoClientePage({ params }: Props) {
         <div className="grid gap-4 md:grid-cols-2">
           <div className="stat-card">
             <p className="label">Estado</p>
-            <p className="mt-2 text-lg text-zinc-100"><span className={`status-badge status-${(proyecto.estado || '').toLowerCase().replace(/ /g, '-')}`}>{String(proyecto.estado ?? "")}</span></p>
+            <p className="mt-2 text-lg text-zinc-100"><span className={`status-badge status-${statusClass}`}>{String(proyecto.estado ?? "")}</span></p>
           </div>
           <div className="stat-card">
             <p className="label">Progreso</p>
