@@ -63,12 +63,12 @@ export default function AdminPage() {
               document.cookie = "darkrebel_session=; Max-Age=0; path=/;";
               window.location.href = "/";
             }}
-            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs uppercase tracking-wider text-zinc-200 hover:border-zinc-500"
+            className="btn-primary text-xs uppercase tracking-wider"
           >
             Cerrar sesión
           </button>
         </div>
-        <h1 className="mt-3 text-3xl font-semibold text-white">Nuevo Proyecto</h1>
+        <h1 className="display-md mt-3">Nuevo Proyecto</h1>
         <p className="mt-2 text-sm text-zinc-400">
           Inserta proyectos en D1 con sesion autenticada y validaciones estrictas.
         </p>
@@ -135,7 +135,7 @@ export default function AdminPage() {
 
           <button
             type="submit"
-            className="mt-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-100 hover:border-zinc-400"
+            className="btn-primary mt-2"
           >
             Guardar Proyecto
           </button>
@@ -150,7 +150,7 @@ export default function AdminPage() {
           <p className="text-red-400">{error}</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full border-separate border-spacing-y-2">
+            <table className="admin-table min-w-full border-separate border-spacing-y-2">
               <thead>
                 <tr className="text-zinc-400 text-xs uppercase">
                   <th className="px-3 py-2 text-left">Nombre</th>
@@ -165,20 +165,21 @@ export default function AdminPage() {
                     <td className="px-3 py-2 text-white font-serif">{p.nombre}</td>
                     <td className="px-3 py-2 text-zinc-200">{p.cliente_email}</td>
                     <td className="px-3 py-2">
+                      <span className={`status-badge status-${(p.estado || '').toLowerCase().replace(/ /g, '-')}`}>{p.estado}</span>
                       <input
                         type="number"
                         min={0}
                         max={100}
                         value={p.progreso}
                         onChange={e => handleProgreso(p.id, Number(e.target.value))}
-                        className="w-20 rounded border border-[#27272a] bg-black text-white px-2 py-1 focus:border-white"
+                        className="w-20 rounded border border-[#27272a] bg-black text-white px-2 py-1 focus:border-white ml-2"
                       />
                       <span className="ml-2 text-zinc-400">%</span>
                     </td>
                     <td className="px-3 py-2">
                       <button
                         onClick={() => handleEliminar(p.id)}
-                        className="inline-flex items-center gap-1 rounded border border-[#27272a] px-3 py-1 text-zinc-200 hover:border-white hover:text-white"
+                        className="btn-primary inline-flex items-center gap-1"
                         title="Eliminar"
                       >
                         <Trash2 className="h-4 w-4" /> Eliminar

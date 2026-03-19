@@ -36,9 +36,9 @@ export default function CRMPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6 flex items-center gap-2"><Users /> CRM de Clientes</h1>
-      <button onClick={() => setShowModal(true)} className="mb-4 px-4 py-2 rounded bg-zinc-800 border border-zinc-600 text-white hover:bg-zinc-700">Nuevo Cliente</button>
-      <table className="w-full text-left border-separate border-spacing-y-2">
+      <h1 className="display-md mb-6 flex items-center gap-2"><Users /> CRM de Clientes</h1>
+      <button onClick={() => setShowModal(true)} className="btn-primary mb-4">Nuevo Cliente</button>
+      <table className="admin-table w-full text-left border-separate border-spacing-y-2">
         <thead>
           <tr className="text-zinc-400 text-xs uppercase">
             <th className="px-3 py-2">Nombre</th>
@@ -53,7 +53,7 @@ export default function CRMPage() {
             <tr key={c?.id || Math.random()} className="bg-black border-b border-[#27272a]">
               <td className="px-3 py-2 text-white font-serif">{c?.nombre || 'Sin nombre'}</td>
               <td className="px-3 py-2 text-zinc-200">{c?.email || 'Sin email'}</td>
-              <td className="px-3 py-2">{c?.estatus || 'Sin estatus'}</td>
+              <td className="px-3 py-2"><span className={`status-badge status-${(c?.estatus || '').toLowerCase().replace(/ /g, '-')}`}>{c?.estatus || 'Sin estatus'}</span></td>
               <td className="px-3 py-2 text-center font-bold text-zinc-100">{c?.proyectos_activos ?? 0}</td>
               <td className="px-3 py-2">Editar</td>
             </tr>
@@ -74,8 +74,8 @@ export default function CRMPage() {
               <option value="Cliente Activo">Cliente Activo</option>
             </select>
             <div className="flex gap-2 justify-end">
-              <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 rounded bg-zinc-700 text-white">Cancelar</button>
-              <button type="submit" className="px-4 py-2 rounded bg-zinc-100 text-black font-bold">Guardar</button>
+              <button type="button" onClick={() => setShowModal(false)} className="btn-primary bg-zinc-700 text-white">Cancelar</button>
+              <button type="submit" className="btn-primary">Guardar</button>
             </div>
           </form>
         </div>

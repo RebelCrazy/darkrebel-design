@@ -4,8 +4,8 @@ import { Users, Briefcase, ListChecks, FileText, BookOpen } from "lucide-react";
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen bg-black text-white font-serif">
-      <aside className="w-64 bg-[#111] border-r border-[#27272a] flex flex-col py-8 px-4">
-        <div className="mb-10 text-center">
+      <aside className="admin-sidebar w-64 flex flex-col py-8 px-4">
+        <div className="admin-logo mb-10 text-center">
           <Link href="/admin">
             <span className="text-2xl font-bold tracking-widest">Dark Rebel</span>
           </Link>
@@ -18,7 +18,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <SidebarLink href="/admin/contratos" icon={<FileText className="w-5 h-5" />}>Contratos</SidebarLink>
         </nav>
       </aside>
-      <main className="flex-1 p-8 bg-black min-h-screen">{children}</main>
+      <main className="flex-1 p-8 bg-black min-h-screen admin-table">{children}</main>
     </div>
   );
 }
