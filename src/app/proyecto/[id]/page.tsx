@@ -60,5 +60,4 @@ export default async function ProyectoClientePage({ params }: Props) {
       </div>
     </main>
   );
-  );
 }
