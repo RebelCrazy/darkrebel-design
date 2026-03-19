@@ -129,7 +129,6 @@ export default function AdminPage() {
           </button>
         </form>
       </section>
-      </section>
 
       <section className="panel p-6 mt-8">
         <h2 className="mb-4 text-xl font-semibold text-white">Proyectos</h2>
