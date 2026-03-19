@@ -49,15 +49,17 @@ export default function CRMPage() {
           </tr>
         </thead>
         <tbody>
-          {clientes.map((c) => (
-            <tr key={c.id} className="bg-black border-b border-[#27272a]">
-              <td className="px-3 py-2 text-white font-serif">{c.nombre}</td>
-              <td className="px-3 py-2 text-zinc-200">{c.email}</td>
-              <td className="px-3 py-2">{c.estatus}</td>
-              <td className="px-3 py-2 text-center font-bold text-zinc-100">{c.proyectos_activos}</td>
+          {Array.isArray(clientes) && clientes.length > 0 ? clientes.map((c) => (
+            <tr key={c?.id || Math.random()} className="bg-black border-b border-[#27272a]">
+              <td className="px-3 py-2 text-white font-serif">{c?.nombre || 'Sin nombre'}</td>
+              <td className="px-3 py-2 text-zinc-200">{c?.email || 'Sin email'}</td>
+              <td className="px-3 py-2">{c?.estatus || 'Sin estatus'}</td>
+              <td className="px-3 py-2 text-center font-bold text-zinc-100">{c?.proyectos_activos ?? 0}</td>
               <td className="px-3 py-2">Editar</td>
             </tr>
-          ))}
+          )) : (
+            <tr><td colSpan={5} className="text-center text-zinc-400 py-4">No hay clientes registrados.</td></tr>
+          )}
         </tbody>
       </table>
       {showModal && (
