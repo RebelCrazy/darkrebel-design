@@ -17,10 +17,10 @@ export default async function ProyectoPublicoPage({ params }: { params: Promise<
 
   return (
     <main className="panel p-8 md:p-12 bg-black min-h-screen text-white font-serif">
-      <h1 className="text-3xl font-bold mb-4">{proyecto.nombre}</h1>
+      <h1 className="text-3xl font-bold mb-4">{String(proyecto.nombre ?? "")}</h1>
       <div className="mb-6">
         <span className="inline-block rounded-full border border-zinc-700 px-3 py-1 text-xs text-zinc-300">
-          {proyecto.estado}
+          {String(proyecto.estado ?? "")}
         </span>
       </div>
       <div className="mb-8">
