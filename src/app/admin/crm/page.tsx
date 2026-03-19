@@ -4,40 +4,49 @@ import { Users } from "lucide-react";
 
 const ESTATUS = ["Lead", "Contactado", "Cliente Activo"];
 
+
 export default function CRMPage() {
   const [clientes, setClientes] = useState<any[]>([]);
-  useEffect(() => {
-    fetch("/api/crm")
-      .then((res) => res.json())
-      .then(setClientes);
-  }, []);
-
+  const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ nombre: "", email: "", estatus: "Lead" });
 
-  const fetchClientes = () => {
-    fetch("/api/crm")
-      .then((res) => res.json())
-      .then(setClientes);
+  const fetchClientes = async () => {
+    try {
+      const res = await fetch("/api/crm");
+      if (!res.ok) throw new Error("Error al cargar clientes");
+      const data = await res.json();
+      setClientes(Array.isArray(data) ? data : []);
+      setError(null);
+    } catch (e: any) {
+      setClientes([]);
+      setError(e.message || "Error desconocido");
+    }
   };
+
   useEffect(() => { fetchClientes(); }, []);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await fetch("/api/crm", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    setShowModal(false);
-    setForm({ nombre: "", email: "", estatus: "Lead" });
-    fetchClientes();
+    try {
+      await fetch("/api/crm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      setShowModal(false);
+      setForm({ nombre: "", email: "", estatus: "Lead" });
+      fetchClientes();
+    } catch (e: any) {
+      setError(e.message || "Error al guardar cliente");
+    }
   };
 
   return (
     <div>
       <h1 className="display-md mb-6 flex items-center gap-2"><Users /> CRM de Clientes</h1>
       <button onClick={() => setShowModal(true)} className="btn-primary mb-4">Nuevo Cliente</button>
+      {error && <div className="text-red-500 mb-4">{error}</div>}
       <table className="admin-table w-full text-left border-separate border-spacing-y-2">
         <thead>
           <tr className="text-zinc-400 text-xs uppercase">
@@ -49,15 +58,18 @@ export default function CRMPage() {
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(clientes) && clientes.length > 0 ? clientes.map((c) => (
-            <tr key={c?.id || Math.random()} className="bg-black border-b border-[#27272a]">
-              <td className="px-3 py-2 text-white font-serif">{c?.nombre || 'Sin nombre'}</td>
-              <td className="px-3 py-2 text-zinc-200">{c?.email || 'Sin email'}</td>
-              <td className="px-3 py-2"><span className={`status-badge status-${(c?.estatus || '').toLowerCase().replace(/ /g, '-')}`}>{c?.estatus || 'Sin estatus'}</span></td>
-              <td className="px-3 py-2 text-center font-bold text-zinc-100">{c?.proyectos_activos ?? 0}</td>
-              <td className="px-3 py-2">Editar</td>
-            </tr>
-          )) : (
+          {Array.isArray(clientes) && clientes.length > 0 ? clientes.map((c) => {
+            const statusClass = String(c?.estatus || 'default').toLowerCase().replace(/ /g, '-');
+            return (
+              <tr key={c?.id || Math.random()} className="bg-black border-b border-[#27272a]">
+                <td className="px-3 py-2 text-white font-serif">{c?.nombre ?? 'Sin nombre'}</td>
+                <td className="px-3 py-2 text-zinc-200">{c?.email ?? 'Sin email'}</td>
+                <td className="px-3 py-2"><span className={`status-badge status-${statusClass}`}>{c?.estatus ?? 'Sin estatus'}</span></td>
+                <td className="px-3 py-2 text-center font-bold text-zinc-100">{c?.proyectos_activos ?? 0}</td>
+                <td className="px-3 py-2">Editar</td>
+              </tr>
+            );
+          }) : (
             <tr><td colSpan={5} className="text-center text-zinc-400 py-4">No hay clientes registrados.</td></tr>
           )}
         </tbody>
