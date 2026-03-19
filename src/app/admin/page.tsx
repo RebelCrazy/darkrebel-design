@@ -1,8 +1,8 @@
+
 "use client";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ShieldCheck, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -16,7 +16,7 @@ export default function AdminPage() {
   useEffect(() => {
     // Verifica la cookie de sesión al cargar
     if (!document.cookie.includes("darkrebel_session")) {
-      router.replace("/login");
+      router.push("/login");
       return;
     }
     fetch("/api/proyectos")
