@@ -57,18 +57,6 @@ export async function eliminarProyecto(id: string): Promise<void> {
   await db.prepare(query).bind(id).run();
 }
 
-export async function obtenerProyectoPorId(id: string): Promise<Proyecto | null> {
-  const db = getDB();
-  const query = `
-    SELECT id, nombre, cliente_email, progreso, estado, link_figma
-    FROM proyectos
-    WHERE id = ?1
-    LIMIT 1
-  `;
-
-  const result = await db.prepare(query).bind(id).first<Proyecto>();
-  return result ?? null;
-}
 
 export type NuevoProyectoInput = {
   nombre: string;

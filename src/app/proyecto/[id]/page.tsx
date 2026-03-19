@@ -1,3 +1,4 @@
+"use client";
 import { notFound } from "next/navigation";
 import { ExternalLink } from "lucide-react";
 import { obtenerProyectoPorId } from "@/lib/db";
@@ -62,10 +63,7 @@ export default async function ProyectoClientePage({ params }: Props) {
           </div>
         </div>
       </main>
-      <style jsx global>{`
-        body { font-family: 'Georgia', 'Times New Roman', serif; background: #000; }
-        .panel { background: #000; border-radius: 1.2rem; border: 1px solid #27272a; }
-      `}</style>
+      {/* Estilos migrados a Tailwind: bg-black, font-serif, panel, border, rounded, etc. */}
     </>
   );
 }

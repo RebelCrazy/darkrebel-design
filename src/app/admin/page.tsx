@@ -1,3 +1,4 @@
+"use client";
 import { ShieldCheck, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
