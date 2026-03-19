@@ -36,8 +36,14 @@ export default function RootLayout({
         if (!running) return;
         rx += (mx - rx) * 0.15;
         ry += (my - ry) * 0.15;
-        cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+          if (cursor) {
+            cursor.style.left = mx + 'px';
+            cursor.style.top = my + 'px';
+          }
+          if (ring) {
+            ring.style.left = rx + 'px';
+            ring.style.top = ry + 'px';
+          }
         requestAnimationFrame(animCursor);
       }
       animCursor();

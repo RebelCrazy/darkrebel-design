@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import StatCard from "@/components/admin/StatCard";
 import ClientRow from "@/components/admin/ClientRow";

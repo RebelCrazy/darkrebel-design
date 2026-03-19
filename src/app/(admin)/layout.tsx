@@ -22,16 +22,25 @@ const panels = {
   colaboradores: { title: "Colaboradores", cta: "+ Agregar colaborador" },
 };
 
+type PanelKey = keyof typeof panels;
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [activePanel, setActivePanel] = useState<string>("overview");
+  const [activePanel, setActivePanel] = useState<PanelKey>("overview");
 
   const handleCTA = () => {
     alert(`➕ Crear nuevo elemento en: ${panels[activePanel].title}`);
   };
 
+  // setActivePanel debe recibir solo claves válidas
+  const handleSetActivePanel = (key: string) => {
+    if (key in panels) {
+      setActivePanel(key as PanelKey);
+    }
+  };
+
   return (
     <div className="flex w-full h-screen bg-[var(--bg)] text-[var(--text)] font-sans overflow-hidden">
-      <Sidebar activePanel={activePanel} setActivePanel={setActivePanel} />
+      <Sidebar activePanel={activePanel} setActivePanel={handleSetActivePanel} />
       <main className="flex-1 flex flex-col overflow-hidden">
         <Topbar title={panels[activePanel].title} cta={panels[activePanel].cta} onCTA={handleCTA} />
         <div className="flex-1 overflow-y-auto p-8">
