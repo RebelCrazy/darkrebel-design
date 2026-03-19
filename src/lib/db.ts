@@ -1,3 +1,5 @@
+
+export const runtime = 'edge';
 import type { D1Database } from "@cloudflare/workers-types";
 
 export type EstadoProyecto = "Planeación" | "En Desarrollo" | "Finalizado";
@@ -21,17 +23,38 @@ function getDB(): D1Database {
   return db;
 }
 
-export async function listarProyectosActivos(): Promise<Proyecto[]> {
-  const db = getDB();
-  const query = `
-    SELECT id, nombre, cliente_email, progreso, estado, link_figma
-    FROM proyectos
-    WHERE estado != 'Finalizado'
-    ORDER BY updated_at DESC
-  `;
 
+export async function obtenerProyectos(): Promise<Proyecto[]> {
+  const db = getDB();
+  const query = `SELECT * FROM proyectos ORDER BY created_at DESC`;
   const result = await db.prepare(query).all<Proyecto>();
   return result.results ?? [];
+}
+
+export async function obtenerProyectoPorId(id: string): Promise<Proyecto | null> {
+  const db = getDB();
+  const query = `SELECT * FROM proyectos WHERE id = ?1 LIMIT 1`;
+  const result = await db.prepare(query).bind(id).first<Proyecto>();
+  return result ?? null;
+}
+
+export async function actualizarProyecto(id: string, data: Partial<Proyecto>): Promise<void> {
+  const db = getDB();
+  const fields = [];
+  const values = [];
+  for (const key of Object.keys(data)) {
+    fields.push(`${key} = ?`);
+    values.push((data as any)[key]);
+  }
+  if (fields.length === 0) return;
+  const query = `UPDATE proyectos SET ${fields.join(", ")} WHERE id = ?`;
+  await db.prepare(query).bind(...values, id).run();
+}
+
+export async function eliminarProyecto(id: string): Promise<void> {
+  const db = getDB();
+  const query = `DELETE FROM proyectos WHERE id = ?`;
+  await db.prepare(query).bind(id).run();
 }
 
 export async function obtenerProyectoPorId(id: string): Promise<Proyecto | null> {

@@ -1,5 +1,13 @@
 import { NextResponse } from "next/server";
-import { crearProyecto } from "@/lib/db";
+import { crearProyecto, obtenerProyectos } from "@/lib/db";
+export async function GET() {
+  try {
+    const proyectos = await obtenerProyectos();
+    return NextResponse.json(proyectos);
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
 import { isTrustedOrigin, SESSION_COOKIE_NAME, verifySessionToken } from "@/lib/auth";
 
 export const runtime = "edge";

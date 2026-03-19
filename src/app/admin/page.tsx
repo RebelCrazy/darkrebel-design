@@ -1,10 +1,46 @@
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export const runtime = "edge";
 
 export default function AdminPage() {
+  const [proyectos, setProyectos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/proyectos")
+      .then((res) => res.json())
+      .then(setProyectos)
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleProgreso = async (id: string, progreso: number) => {
+    try {
+      await fetch(`/api/proyectos/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ progreso }),
+      });
+      setProyectos((prev) => prev.map((p) => p.id === id ? { ...p, progreso } : p));
+    } catch (e: any) {
+      alert("Error al actualizar: " + e.message);
+    }
+  };
+
+  const handleEliminar = async (id: string) => {
+    if (!window.confirm("¿Eliminar este proyecto?")) return;
+    try {
+      await fetch(`/api/proyectos/${id}`, { method: "DELETE" });
+      setProyectos((prev) => prev.filter((p) => p.id !== id));
+    } catch (e: any) {
+      alert("Error al eliminar: " + e.message);
+    }
+  };
+
   return (
-    <main className="space-y-6">
+    <main className="space-y-6 bg-black min-h-screen">
       <header className="panel p-6 md:p-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="inline-flex items-center gap-2 text-zinc-300">
@@ -92,6 +128,57 @@ export default function AdminPage() {
             Guardar Proyecto
           </button>
         </form>
+      </section>
+      </section>
+
+      <section className="panel p-6 mt-8">
+        <h2 className="mb-4 text-xl font-semibold text-white">Proyectos</h2>
+        {loading ? (
+          <p className="text-zinc-400">Cargando...</p>
+        ) : error ? (
+          <p className="text-red-400">{error}</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full border-separate border-spacing-y-2">
+              <thead>
+                <tr className="text-zinc-400 text-xs uppercase">
+                  <th className="px-3 py-2 text-left">Nombre</th>
+                  <th className="px-3 py-2 text-left">Email</th>
+                  <th className="px-3 py-2 text-left">Progreso</th>
+                  <th className="px-3 py-2 text-left">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {proyectos.map((p) => (
+                  <tr key={p.id} className="bg-black border-b border-[#27272a]">
+                    <td className="px-3 py-2 text-white font-serif">{p.nombre}</td>
+                    <td className="px-3 py-2 text-zinc-200">{p.cliente_email}</td>
+                    <td className="px-3 py-2">
+                      <input
+                        type="number"
+                        min={0}
+                        max={100}
+                        value={p.progreso}
+                        onChange={e => handleProgreso(p.id, Number(e.target.value))}
+                        className="w-20 rounded border border-[#27272a] bg-black text-white px-2 py-1 focus:border-white"
+                      />
+                      <span className="ml-2 text-zinc-400">%</span>
+                    </td>
+                    <td className="px-3 py-2">
+                      <button
+                        onClick={() => handleEliminar(p.id)}
+                        className="inline-flex items-center gap-1 rounded border border-[#27272a] px-3 py-1 text-zinc-200 hover:border-white hover:text-white"
+                        title="Eliminar"
+                      >
+                        <Trash2 className="h-4 w-4" /> Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
     </main>
   );
