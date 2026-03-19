@@ -13,7 +13,7 @@ export default function AdminLoginPage() {
     const password = (form.password as HTMLInputElement).value;
 
     // Puedes cambiar esta validación por una llamada a la API si lo deseas
-    if (password === "darkrebel2026") {
+    if (password === "huikbSSQExZ7uIdyWbp0ht1K") {
       document.cookie = "darkrebel_session=true; path=/; max-age=3600;";
       window.location.href = "/admin";
     } else {
