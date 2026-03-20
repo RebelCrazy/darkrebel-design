@@ -7,11 +7,12 @@ interface NavLinkProps {
   href: string
   children: React.ReactNode
   className?: string
+  style?: React.CSSProperties
 }
 
-export function NavLink({ href, children, className }: NavLinkProps) {
+export function NavLink({ href, children, className, style }: NavLinkProps) {
   return (
-    <Link href={href as Route} className={className}>
+    <Link href={href as Route} className={className} style={style}>
       {children}
     </Link>
   )
