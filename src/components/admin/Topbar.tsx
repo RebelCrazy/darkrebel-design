@@ -1,29 +1,44 @@
-import React from "react";
+'use client'
 
-interface TopbarProps {
-  title: string;
-  cta: string;
-  onCTA: () => void;
+import { usePathname } from 'next/navigation'
+import { Bell, Plus } from 'lucide-react'
+
+const titleMap: { [key: string]: string } = {
+  '/dashboard': 'Dashboard',
+  '/admin/crm': 'CRM de Clientes',
+  '/admin/tareas': 'Gestor de Tareas',
+  '/admin/contratos': 'Contratos',
+  '/admin/proyectos': 'Portal de Cliente',
+  '/admin/recursos': 'Modelos de Brief',
+  '/admin/cotizaciones': 'Cotizaciones',
+  '/admin/colaboradores': 'Colaboradores',
 }
 
-export default function Topbar({ title, cta, onCTA }: TopbarProps) {
+const ctaMap: { [key: string]: string } = {
+  '/dashboard': 'Nuevo Proyecto',
+  '/admin/crm': 'Nuevo Cliente',
+  '/admin/tareas': 'Nueva Tarea',
+  '/admin/proyectos': 'Nuevo Portal',
+  // Add other CTAs as needed
+}
+
+export default function Topbar() {
+  const pathname = usePathname()
+  const title = titleMap[pathname] || 'Admin'
+  const ctaText = ctaMap[pathname] || 'Nueva Entrada'
+
   return (
-    <header className="h-14 flex items-center px-7 gap-4 border-b border-[var(--border)] bg-[var(--surface)] flex-shrink-0">
-      <div className="font-syne font-bold text-[15px] tracking-tight flex-1">{title}</div>
-      <div className="flex gap-2 items-center">
-        <button
-          className="btn btn-ghost bg-transparent text-[var(--text2)] border border-[var(--border)] px-3 py-1.5 rounded-lg text-[12.5px] font-medium hover:bg-[var(--surface2)] hover:text-[var(--text)] hover:border-[var(--border2)] transition-all"
-          onClick={() => alert('🔔 Sin notificaciones nuevas')}
-        >
-          🔔
+    <header className="h-[56px] bg-surface border-b border-border flex items-center justify-between px-6 flex-shrink-0">
+      <h1 className="font-syne font-bold text-base text-text">{title}</h1>
+      <div className="flex items-center gap-3">
+        <button className="w-9 h-9 flex items-center justify-center rounded-lg border border-border bg-surface text-text2 hover:bg-surface2 hover:text-text transition-colors">
+          <Bell size={18} />
         </button>
-        <button
-          className="btn btn-accent bg-[var(--accent)] text-black font-semibold px-3 py-1.5 rounded-lg text-[12.5px] hover:bg-[var(--accent2)] transition-all"
-          onClick={onCTA}
-        >
-          {cta}
+        <button className="btn-accent flex items-center gap-2 px-3 py-2 rounded-lg bg-accent text-black font-dm-sans text-sm font-semibold hover:bg-accent2 transition-colors">
+          <Plus size={16} />
+          <span>{ctaText}</span>
         </button>
       </div>
     </header>
-  );
+  )
 }

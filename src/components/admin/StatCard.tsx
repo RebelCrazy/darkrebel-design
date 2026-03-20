@@ -1,18 +1,17 @@
-import React from "react";
+import React from 'react';
 
 interface StatCardProps {
   label: string;
   value: React.ReactNode;
-  delta?: React.ReactNode;
-  colorClass?: string;
+  delta: React.ReactNode;
 }
 
-export default function StatCard({ label, value, delta, colorClass = "" }: StatCardProps) {
+export default function StatCard({ label, value, delta }: StatCardProps) {
   return (
-    <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-5 transition-colors hover:border-[var(--border2)]">
-      <div className="text-xs text-[var(--text3)] font-mono uppercase mb-2">{label}</div>
-      <div className={`font-syne font-bold text-2xl ${colorClass}`}>{value}</div>
-      {delta && <div className="text-xs text-[var(--text3)] mt-1 flex items-center gap-1">{delta}</div>}
+    <div className="bg-surface border border-border rounded-xl p-5">
+      <p className="font-dm-mono text-xs text-text3 uppercase tracking-wider">{label}</p>
+      <div className="font-syne font-bold text-3xl mt-2 mb-3">{value}</div>
+      <p className="font-dm-sans text-xs text-text2">{delta}</p>
     </div>
   );
 }

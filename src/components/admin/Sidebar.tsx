@@ -1,100 +1,125 @@
-import React from "react";
+'use client'
 
-const navItems = [
-  { key: 'overview', icon: '⬛', label: 'Dashboard' },
-  { key: 'portal', icon: '🔗', label: 'Portal de Cliente', badge: 3 },
-  { key: 'crm', icon: '👥', label: 'CRM de Clientes', badge: 8 },
-  { key: 'tareas', icon: '✅', label: 'Gestor de Tareas', badge: 12 },
-];
-const plantillas = [
-  { key: 'cotizaciones', icon: '💰', label: 'Cotizaciones' },
-  { key: 'briefs', icon: '📋', label: 'Modelos de Brief' },
-  { key: 'contratos', icon: '📄', label: 'Contratos' },
-];
-const equipo = [
-  { key: 'colaboradores', icon: '🤝', label: 'Colaboradores' },
-];
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Zap, LayoutGrid, Link2, Users, CheckCircle2, FileText, ClipboardList, FileSignature, Users2 } from 'lucide-react'
 
-export default function Sidebar({ activePanel, setActivePanel }: { activePanel: string, setActivePanel: (key: string) => void }) {
+const navItems = {
+  principal: [
+    { href: '/dashboard', label: 'Dashboard', icon: LayoutGrid, badge: '3' },
+    { href: '/admin/proyectos', label: 'Portal de Cliente', icon: Link2, badge: '8' },
+    { href: '/admin/crm', label: 'CRM de Clientes', icon: Users, badge: '12' },
+    { href: '/admin/tareas', label: 'Gestor de Tareas', icon: CheckCircle2 },
+  ],
+  plantillas: [
+    { href: '/admin/cotizaciones', label: 'Cotizaciones', icon: FileText },
+    { href: '/admin/recursos', label: 'Modelos de Brief', icon: ClipboardList },
+    { href: '/admin/contratos', label: 'Contratos', icon: FileSignature },
+  ],
+  equipo: [
+    { href: '/admin/colaboradores', label: 'Colaboradores', icon: Users2 },
+  ]
+}
+
+export default function Sidebar() {
+  const pathname = usePathname()
+
   return (
-    <nav className="flex flex-col w-[var(--sidebar-w)] bg-[var(--surface)] border-r border-[var(--border)] h-full overflow-y-auto">
-      {/* Brand */}
-      <div className="px-5 pt-6 pb-4 border-b border-[var(--border)]">
-        <div className="flex items-center gap-2 mb-1">
-          <div className="w-8 h-8 bg-[var(--accent)] rounded-lg flex items-center justify-center text-lg font-bold">⚡</div>
-          <span className="font-syne font-extrabold text-base tracking-tight text-[var(--text)]">Dark<span className="text-[var(--accent)]">Rebel</span></span>
+    <aside className="w-[var(--sidebar-w)] bg-surface border-r border-border flex flex-col fixed top-0 left-0 h-full">
+      <div className="px-6 py-4 border-b border-border">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-accent text-black flex items-center justify-center rounded-lg">
+            <Zap size={20} />
+          </div>
+          <span className="font-syne font-bold text-lg text-text">DarkRebel</span>
         </div>
-        <div className="text-[11px] text-[var(--text3)] font-mono tracking-wider pl-10">v1.0 · sistema de gestión</div>
+        <p className="font-dm-mono text-xs text-text3 mt-1">v1.0 · sistema de gestión</p>
       </div>
 
-      {/* Principal */}
-      <div className="px-3 pt-5 pb-2">
-        <div className="text-[10px] font-mono text-[var(--text3)] uppercase tracking-widest px-2 mb-1">Principal</div>
-        {navItems.map(item => (
-          <div
-            key={item.key}
-            className={`flex items-center gap-2 px-2.5 py-2 rounded-lg cursor-pointer transition-all text-[13.5px] font-normal relative mb-0.5 ${activePanel === item.key ? 'bg-[var(--accent-dim)] text-[var(--accent)] font-medium' : 'text-[var(--text2)] hover:bg-[var(--surface2)] hover:text-[var(--text)]'}`}
-            onClick={() => setActivePanel(item.key)}
-          >
-            <span className="w-5 h-5 flex items-center justify-center text-[14px]">{item.icon}</span>
-            {item.label}
-            {item.badge && (
-              <span className={`ml-auto bg-[var(--surface3)] text-[var(--text3)] text-[10px] font-mono px-1.5 py-0.5 rounded-full border border-[var(--border)] ${activePanel === item.key ? 'bg-[var(--accent-dim)] text-[var(--accent)] border-[rgba(232,255,71,0.2)]' : ''}`}>{item.badge}</span>
-            )}
-            {activePanel === item.key && (
-              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-3/5 bg-[var(--accent)] rounded-r"></span>
-            )}
-          </div>
-        ))}
-      </div>
+      <nav className="flex-1 px-4 py-4 space-y-4">
+        <div>
+          <h3 className="px-2 mb-2 font-dm-mono text-xs font-medium uppercase text-text3 tracking-wider">Principal</h3>
+          {navItems.principal.map((item) => {
+            const isActive = pathname === item.href
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative
+                  ${isActive
+                    ? 'bg-accent-dim text-accent font-semibold'
+                    : 'text-text2 hover:bg-surface2 hover:text-text'
+                  }`}
+              >
+                {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-accent" />}
+                <item.icon size={18} />
+                <span className="flex-1 text-sm font-medium">{item.label}</span>
+                {item.badge && (
+                  <span className={`text-xs font-dm-mono px-1.5 py-0.5 rounded-full ${isActive ? 'bg-accent text-black' : 'bg-surface3 text-text2'}`}>
+                    {item.badge}
+                  </span>
+                )}
+              </Link>
+            )
+          })}
+        </div>
+        
+        <div>
+          <h3 className="px-2 mb-2 font-dm-mono text-xs font-medium uppercase text-text3 tracking-wider">Plantillas</h3>
+          {navItems.plantillas.map((item) => {
+            const isActive = pathname === item.href
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative
+                  ${isActive
+                    ? 'bg-accent-dim text-accent font-semibold'
+                    : 'text-text2 hover:bg-surface2 hover:text-text'
+                  }`}
+              >
+                {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-accent" />}
+                <item.icon size={18} />
+                <span className="flex-1 text-sm font-medium">{item.label}</span>
+              </Link>
+            )
+          })}
+        </div>
 
-      {/* Plantillas */}
-      <div className="px-3 pt-4 pb-2">
-        <div className="text-[10px] font-mono text-[var(--text3)] uppercase tracking-widest px-2 mb-1">Plantillas</div>
-        {plantillas.map(item => (
-          <div
-            key={item.key}
-            className={`flex items-center gap-2 px-2.5 py-2 rounded-lg cursor-pointer transition-all text-[13.5px] font-normal relative mb-0.5 ${activePanel === item.key ? 'bg-[var(--accent-dim)] text-[var(--accent)] font-medium' : 'text-[var(--text2)] hover:bg-[var(--surface2)] hover:text-[var(--text)]'}`}
-            onClick={() => setActivePanel(item.key)}
-          >
-            <span className="w-5 h-5 flex items-center justify-center text-[14px]">{item.icon}</span>
-            {item.label}
-            {activePanel === item.key && (
-              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-3/5 bg-[var(--accent)] rounded-r"></span>
-            )}
+        <div>
+          <h3 className="px-2 mb-2 font-dm-mono text-xs font-medium uppercase text-text3 tracking-wider">Equipo</h3>
+          {navItems.equipo.map((item) => {
+            const isActive = pathname === item.href
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative
+                  ${isActive
+                    ? 'bg-accent-dim text-accent font-semibold'
+                    : 'text-text2 hover:bg-surface2 hover:text-text'
+                  }`}
+              >
+                {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-accent" />}
+                <item.icon size={18} />
+                <span className="flex-1 text-sm font-medium">{item.label}</span>
+              </Link>
+            )
+          })}
+        </div>
+      </nav>
+      
+      <div className="mt-auto p-4 border-t border-border">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 bg-surface2 border border-border rounded-full flex items-center justify-center">
+            <span className="font-syne font-bold text-text2">DR</span>
           </div>
-        ))}
-      </div>
-
-      {/* Equipo */}
-      <div className="px-3 pt-4 pb-2">
-        <div className="text-[10px] font-mono text-[var(--text3)] uppercase tracking-widest px-2 mb-1">Equipo</div>
-        {equipo.map(item => (
-          <div
-            key={item.key}
-            className={`flex items-center gap-2 px-2.5 py-2 rounded-lg cursor-pointer transition-all text-[13.5px] font-normal relative mb-0.5 ${activePanel === item.key ? 'bg-[var(--accent-dim)] text-[var(--accent)] font-medium' : 'text-[var(--text2)] hover:bg-[var(--surface2)] hover:text-[var(--text)]'}`}
-            onClick={() => setActivePanel(item.key)}
-          >
-            <span className="w-5 h-5 flex items-center justify-center text-[14px]">{item.icon}</span>
-            {item.label}
-            {activePanel === item.key && (
-              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-3/5 bg-[var(--accent)] rounded-r"></span>
-            )}
+          <div>
+            <p className="text-sm font-bold text-text">Dark Rebel</p>
+            <p className="text-xs text-text3 font-dm-mono">admin@darkrebel.store</p>
           </div>
-        ))}
-      </div>
-
-      {/* Footer usuario */}
-      <div className="mt-auto px-3 py-4 border-t border-[var(--border)]">
-        <div className="flex items-center gap-2 px-2.5 py-2 rounded-lg cursor-pointer transition-colors hover:bg-[var(--surface2)]">
-          <div className="w-[30px] h-[30px] bg-gradient-to-br from-[var(--accent)] to-[var(--green)] rounded-full flex items-center justify-center text-xs font-bold text-black">DR</div>
-          <div className="flex-1 min-w-0">
-            <div className="text-[12.5px] font-medium text-[var(--text)] truncate">Dark Rebel Studio</div>
-            <div className="text-[11px] text-[var(--text3)]">Administrador</div>
-          </div>
-          <span className="text-[var(--text3)] text-[12px]">⚙</span>
         </div>
       </div>
-    </nav>
-  );
+    </aside>
+  )
 }

@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
-  color-scheme: dark;
   --bg: #0a0a0b;
   --surface: #111113;
   --surface2: #18181c;
@@ -25,17 +23,21 @@
   --sidebar-w: 260px;
 }
 
-html,
 body {
-  background: #000;
-  color: #f4f4f5;
+  background: var(--bg);
+  color: var(--text);
 }
 
-body {
-  min-height: 100vh;
-  background-image:
-    radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.06), transparent 36%),
-    radial-gradient(circle at 80% 100%, rgba(255, 255, 255, 0.04), transparent 40%);
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border2);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .panel {
