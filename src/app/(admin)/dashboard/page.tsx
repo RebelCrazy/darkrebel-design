@@ -5,6 +5,9 @@ import ClientRow from "@/components/admin/ClientRow";
 import StatusChip from "@/components/admin/StatusChip";
 import ProjectProgressBar from "@/components/admin/ProjectProgressBar";
 import UrgentTaskItem from "@/components/admin/UrgentTaskItem";
+
+// Tipo Priority para tareas urgentes
+export type Priority = 'high' | 'mid' | 'low';
 import { ArrowUp } from "lucide-react";
 
 const stats = [
@@ -22,16 +25,16 @@ const clients = [
 ];
 
 const projects = [
-    { name: "Restaurante Cenit", percentage: 80, color: "blue" },
-    { name: "Tech Startup MX", percentage: 45, color: "accent" },
-    { name: "Piel Luz Studio", percentage: 60, color: "green" },
+    { name: "Restaurante Cenit", percentage: 80, color: "blue" as const },
+    { name: "Tech Startup MX", percentage: 45, color: "accent" as const },
+    { name: "Piel Luz Studio", percentage: 60, color: "green" as const },
 ]
 
-const tasks = [
-    { title: "Diseñar wireframes para Tech Startup", meta: "Hoy · CRM-012", priority: "high" },
-    { title: "Llamada de seguimiento con Piel Luz", meta: "Mañana · CRM-009", priority: "mid" },
-    { title: "Enviar factura a Restaurante Cenit", meta: "Mañana · FIN-034", priority: "low", initialCompleted: true },
-]
+const urgentTasks: { title: string; meta: string; priority: Priority; done: boolean }[] = [
+  { title: 'Entregar mockups Home · María', meta: 'Hoy · María González', priority: 'high', done: false },
+  { title: 'Revisar contrato Tech Startup', meta: 'Mañana · Legal', priority: 'high', done: false },
+  { title: 'Enviar cotización Cenit', meta: 'Hecho · ayer', priority: 'mid', done: true },
+];
 
 // Shared card component wrapper
 const Card = ({ title, cta, children, className }: { title: string, cta?: React.ReactNode, children: React.ReactNode, className?: string }) => (
@@ -80,11 +83,11 @@ export default function DashboardPage() {
                 </div>
             </Card>
             <Card title="Tareas urgentes" cta={<button className="font-dm-mono text-xs text-accent hover:underline">Ver tablero →</button>}>
-                <div className="space-y-1">
-                    {tasks.map((t,i) => (
-                        <UrgentTaskItem key={i} {...t} />
-                    ))}
-                </div>
+              <div className="space-y-1">
+                {urgentTasks.map((t,i) => (
+                  <UrgentTaskItem key={i} title={t.title} meta={t.meta} priority={t.priority} initialCompleted={t.done} />
+                ))}
+              </div>
             </Card>
         </div>
       </div>

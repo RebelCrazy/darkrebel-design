@@ -1,6 +1,8 @@
 'use client'
 
-import Link from 'next/link'
+import { NavLink } from './NavLink';
+import React from 'react';
+
 import { usePathname } from 'next/navigation'
 import { Zap, LayoutGrid, Link2, Users, CheckCircle2, FileText, ClipboardList, FileSignature, Users2 } from 'lucide-react'
 
@@ -19,7 +21,7 @@ const navItems = {
   equipo: [
     { href: '/admin/colaboradores', label: 'Colaboradores', icon: Users2 },
   ]
-}
+} as const;
 
 export default function Sidebar() {
   const pathname = usePathname()
@@ -42,7 +44,7 @@ export default function Sidebar() {
           {navItems.principal.map((item) => {
             const isActive = pathname === item.href
             return (
-              <Link
+              <NavLink
                 key={item.label}
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative
@@ -54,12 +56,12 @@ export default function Sidebar() {
                 {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-accent" />}
                 <item.icon size={18} />
                 <span className="flex-1 text-sm font-medium">{item.label}</span>
-                {item.badge && (
+                {'badge' in item && item.badge && (
                   <span className={`text-xs font-dm-mono px-1.5 py-0.5 rounded-full ${isActive ? 'bg-accent text-black' : 'bg-surface3 text-text2'}`}>
                     {item.badge}
                   </span>
                 )}
-              </Link>
+              </NavLink>
             )
           })}
         </div>
@@ -69,7 +71,7 @@ export default function Sidebar() {
           {navItems.plantillas.map((item) => {
             const isActive = pathname === item.href
             return (
-              <Link
+              <NavLink
                 key={item.label}
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative
@@ -81,7 +83,7 @@ export default function Sidebar() {
                 {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-accent" />}
                 <item.icon size={18} />
                 <span className="flex-1 text-sm font-medium">{item.label}</span>
-              </Link>
+              </NavLink>
             )
           })}
         </div>
@@ -91,7 +93,7 @@ export default function Sidebar() {
           {navItems.equipo.map((item) => {
             const isActive = pathname === item.href
             return (
-              <Link
+              <NavLink
                 key={item.label}
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative
@@ -103,7 +105,7 @@ export default function Sidebar() {
                 {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-accent" />}
                 <item.icon size={18} />
                 <span className="flex-1 text-sm font-medium">{item.label}</span>
-              </Link>
+              </NavLink>
             )
           })}
         </div>

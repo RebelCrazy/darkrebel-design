@@ -4,7 +4,7 @@ import { Search, Plus } from "lucide-react";
 import Card from "@/components/admin/Card";
 import StatusChip from "@/components/admin/StatusChip";
 
-type ClientStatus = "Lead" | "Contactado" | "Cliente Activo" | "Prospecto" | "En proceso" | "En espera" | "Entregado";
+type ClientStatus = "Activo" | "En proceso" | "En espera" | "Entregado" | "Prospecto";
 
 const statusMap: Record<string, ClientStatus> = {
   "Lead": "Prospecto",
@@ -135,7 +135,7 @@ export default function CRMPage() {
                   <input type="email" placeholder="john@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="w-full bg-surface2 border border-border rounded-lg h-10 px-3 text-sm outline-none focus:border-accent" required />
                 </div>
                 <div>
-                  <label className="font-dm-mono text-xs text-text3 mb-1 block">Estatus</calle>
+                  <label className="font-dm-mono text-xs text-text3 mb-1 block">Estatus</label>
                   <select value={form.estatus} onChange={e => setForm(f => ({ ...f, estatus: e.target.value }))} className="w-full bg-surface2 border border-border rounded-lg h-10 px-3 text-sm outline-none focus:border-accent">
                     <option value="Lead">Lead</option>
                     <option value="Contactado">Contactado</option>
