@@ -1,3 +1,75 @@
+import os
+
+# ── FILE 1: src/app/admin/page.tsx ──────────────────────────────
+content1 = """\
+'use client'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+
+export default function AdminLogin() {
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setLoading(true); setError('')
+    const formData = new FormData(e.currentTarget)
+    const res = await fetch('/api/admin/login', { method:'POST', body:formData })
+    if (res.ok || res.redirected) {
+      router.push('/dashboard')
+    } else {
+      setError('Credenciales incorrectas')
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div style={{ minHeight:'100vh', background:'#080808', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'DM Sans,sans-serif' }}>
+      <div style={{ width:'100%', maxWidth:380 }}>
+        {/* Logo */}
+        <div style={{ textAlign:'center', marginBottom:36 }}>
+          <div style={{ display:'inline-flex', alignItems:'center', gap:10, marginBottom:8 }}>
+            <div style={{ width:40, height:40, background:'#ff2020', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:900, fontSize:22, color:'#000' }}>D</div>
+            <span style={{ fontFamily:'Syne,serif', fontWeight:800, fontSize:22, color:'#f0ede8' }}>
+              Dark<span style={{ color:'#ff2020' }}>Rebel</span>
+            </span>
+          </div>
+          <div style={{ fontSize:11, color:'#555552', fontFamily:'DM Mono,monospace', letterSpacing:'0.1em' }}>SISTEMA DE GESTIÓN</div>
+        </div>
+
+        <form onSubmit={handleLogin} style={{ background:'#111111', border:'1px solid #222220', borderRadius:14, padding:32 }}>
+          <div style={{ fontSize:18, fontFamily:'Syne,serif', fontWeight:700, color:'#f0ede8', marginBottom:4 }}>Acceder al panel</div>
+          <div style={{ fontSize:12, color:'#555552', marginBottom:24 }}>Ingresa tus credenciales de administrador</div>
+
+          <div style={{ marginBottom:16 }}>
+            <label style={{ display:'block', fontSize:10, fontFamily:'DM Mono,monospace', color:'#555552', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Usuario</label>
+            <input name="username" type="text" required placeholder="admin" style={{ width:'100%', background:'#181818', border:'1px solid #222220', borderRadius:7, padding:'10px 14px', color:'#f0ede8', fontSize:13, outline:'none', fontFamily:'DM Sans,sans-serif', boxSizing:'border-box' }} />
+          </div>
+
+          <div style={{ marginBottom:20 }}>
+            <label style={{ display:'block', fontSize:10, fontFamily:'DM Mono,monospace', color:'#555552', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Contraseña</label>
+            <input name="password" type="password" required placeholder="••••••••" style={{ width:'100%', background:'#181818', border:'1px solid #222220', borderRadius:7, padding:'10px 14px', color:'#f0ede8', fontSize:13, outline:'none', fontFamily:'DM Sans,sans-serif', boxSizing:'border-box' }} />
+          </div>
+
+          {error && <div style={{ fontSize:12, color:'#ff3c3c', marginBottom:14, padding:'8px 12px', background:'rgba(255,60,60,0.08)', borderRadius:6, border:'1px solid rgba(255,60,60,0.2)' }}>{error}</div>}
+
+          <button type="submit" disabled={loading} style={{ width:'100%', background:'#ff2020', color:'#000', fontWeight:700, border:'none', borderRadius:8, padding:'12px', fontSize:14, cursor:'pointer', fontFamily:'DM Sans,sans-serif', letterSpacing:'0.02em' }}>
+            {loading ? 'Entrando...' : 'Entrar al panel →'}
+          </button>
+        </form>
+
+        <div style={{ textAlign:'center', marginTop:20, fontSize:11, color:'#555552' }}>
+          darkrebel.store
+        </div>
+      </div>
+    </div>
+  )
+}
+"""
+
+# ── FILE 2: src/app/admin/proyectos/page.tsx ──────────────────────────────
+content2 = """\
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -99,78 +171,22 @@ export default function ProyectosPage() {
           <div style={{ background:'#181818', padding:'16px 20px', borderBottom:'1px solid #222220' }}>
             <div style={{ fontFamily:'Syne,serif', fontWeight:700, fontSize:15, color:'#f0ede8' }}>{editId?'Editar proyecto':'Nuevo proyecto'}</div>
           </div>
-          <div style={{ padding:20, display:'grid', gridTemplateColumns:'1fr 1fr', gap:16 }}>
-            <div>
-              <label style={S.label}>Nombre</label>
-              <input style={S.input} value={form.nombre} onChange={e=>setForm(f=>({...f, nombre:e.target.value}))} />
-            </div>
-            <div>
-              <label style={S.label}>Email del cliente</label>
-              <input style={S.input} value={form.cliente_email} onChange={e=>setForm(f=>({...f, cliente_email:e.target.value}))} />
-            </div>
-            <div>
-              <label style={S.label}>Progreso (%)</label>
-              <input type="number" min={0} max={100} style={S.input} value={form.progreso} onChange={e=>setForm(f=>({...f, progreso:Number(e.target.value)}))} />
-            </div>
-            <div>
-              <label style={S.label}>Estado</label>
-              <select style={S.input} value={form.estado} onChange={e=>setForm(f=>({...f, estado:e.target.value}))}>
-                {estados.map(e=>(<option key={e} value={e}>{e}</option>))}
-              </select>
-            </div>
-            <div style={{ gridColumn:'1/3' }}>
-              <label style={S.label}>Link Figma</label>
-              <input style={S.input} value={form.link_figma} onChange={e=>setForm(f=>({...f, link_figma:e.target.value}))} />
-            </div>
-          </div>
-          <div style={{ display:'flex', gap:10, justifyContent:'flex-end', padding:'0 20px 20px' }}>
-            <button onClick={()=>{ setShowForm(false); setEditId(null); setForm({ nombre:'', cliente_email:'', progreso:0, estado:'Planeación', link_figma:'' }) }} style={S.btnGhost}>Cancelar</button>
-            <button onClick={handleSave} disabled={saving} style={S.btnAccent}>{saving ? 'Guardando...' : (editId ? 'Guardar cambios' : 'Crear proyecto')}</button>
-          </div>
-        </div>
-      )}
+          <div style={{ padding:20, display:'grid', gridTemplateColumns:'1fr 1fr', gap:16 }}>"""
 
-      {/* Tabla de proyectos */}
-      <div style={{ ...S.card }}>
-        <div style={{ background:'#181818', padding:'12px 20px', borderBottom:'1px solid #222220', fontWeight:700, fontSize:14, color:'#f0ede8' }}>Lista de proyectos</div>
-        <div style={{ padding:20 }}>
-          {loading ? (
-            <div style={{ color:'#555552', textAlign:'center', fontSize:13 }}>Cargando...</div>
-          ) : filtered.length === 0 ? (
-            <div style={{ color:'#555552', textAlign:'center', fontSize:13 }}>Sin proyectos</div>
-          ) : (
-            <table style={{ width:'100%', fontSize:13, color:'#f0ede8', borderCollapse:'collapse' }}>
-              <thead>
-                <tr style={{ color:'#aaa9a6', fontWeight:700, fontSize:11, borderBottom:'1px solid #222220' }}>
-                  <th style={{ textAlign:'left', padding:'6px 4px' }}>Nombre</th>
-                  <th style={{ textAlign:'left', padding:'6px 4px' }}>Cliente</th>
-                  <th style={{ textAlign:'left', padding:'6px 4px' }}>Progreso</th>
-                  <th style={{ textAlign:'left', padding:'6px 4px' }}>Estado</th>
-                  <th style={{ textAlign:'left', padding:'6px 4px' }}>Figma</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map(p=>(
-                  <tr key={p.id} style={{ borderBottom:'1px solid #222220' }}>
-                    <td style={{ padding:'7px 4px' }}>{p.nombre}</td>
-                    <td style={{ padding:'7px 4px' }}>{p.cliente_email||'—'}</td>
-                    <td style={{ padding:'7px 4px' }}>{p.progreso}%</td>
-                    <td style={{ padding:'7px 4px' }}>
-                      <span style={{ fontSize:11, padding:'2px 7px', borderRadius:20, background:chipColor[p.estado]+'22', color:chipColor[p.estado] }}>{p.estado}</span>
-                    </td>
-                    <td style={{ padding:'7px 4px' }}>{p.link_figma ? <a href={p.link_figma} target="_blank" rel="noopener noreferrer" style={{ color:'#4fa3ff', textDecoration:'underline' }}>Figma</a> : '—'}</td>
-                    <td style={{ padding:'7px 4px', display:'flex', gap:6 }}>
-                      <button onClick={()=>handleEdit(p)} style={{ ...S.btnGhost, fontSize:11, padding:'4px 10px' }}>Editar</button>
-                      <button onClick={()=>handleDelete(p.id, p.nombre)} style={{ ...S.btnAccent, fontSize:11, padding:'4px 10px' }}>Eliminar</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
+# Write both files
+with open('src/app/admin/page.tsx', 'w', encoding='utf-8') as f:
+    f.write(content1)
+print('FILE 1 written:', 'src/app/admin/page.tsx')
+
+with open('src/app/admin/proyectos/page.tsx', 'w', encoding='utf-8') as f:
+    f.write(content2)
+print('FILE 2 written:', 'src/app/admin/proyectos/page.tsx')
+
+# Verify no duplicates and correct first line
+for path in ['src/app/admin/page.tsx', 'src/app/admin/proyectos/page.tsx']:
+    with open(path, encoding='utf-8') as f:
+        content = f.read()
+    lines = content.split('\n')
+    exports = [l for l in lines if 'export default' in l]
+    first_line = lines[0]
+    print(f"{path.split('/')[-1]}: first_line='{first_line}' | exports={len(exports)}")

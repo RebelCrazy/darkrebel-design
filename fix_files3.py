@@ -1,3 +1,7 @@
+import os
+
+# ── FILE: src/app/admin/proyectos/page.tsx ──────────────────────────────
+content = """\
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -174,3 +178,14 @@ export default function ProyectosPage() {
     </div>
   )
 }
+"""
+
+with open('src/app/admin/proyectos/page.tsx', 'w', encoding='utf-8') as f:
+    f.write(content)
+print('Archivo corregido: src/app/admin/proyectos/page.tsx')
+
+with open('src/app/admin/proyectos/page.tsx', encoding='utf-8') as f:
+    lines = f.read().split('\n')
+    exports = [l for l in lines if 'export default' in l]
+    first_line = lines[0]
+    print(f"page.tsx: first_line='{first_line}' | exports={len(exports)}")
