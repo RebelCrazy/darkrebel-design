@@ -1,83 +1,97 @@
+"use client"
+import React from "react";
+import StatCard from "@/components/admin/StatCard";
+import ClientRow from "@/components/admin/ClientRow";
+import StatusChip from "@/components/admin/StatusChip";
+import ProjectProgressBar from "@/components/admin/ProjectProgressBar";
+import UrgentTaskItem from "@/components/admin/UrgentTaskItem";
+import { ArrowUp } from "lucide-react";
 
-"use client";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { ShieldCheck, Trash2 } from "lucide-react";
+export type Priority = 'high' | 'mid' | 'low';
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
+const stats = [
+  { label: "Clientes activos", value: <span className="text-accent">8</span>, delta: <div className="flex items-center gap-1"><ArrowUp size={12} className="text-green" /> +2 este mes</div> },
+  { label: "Proyectos en curso", value: <span className="text-blue">5</span>, delta: "3 en revisión" },
+  { label: "Tareas pendientes", value: <span className="text-orange">12</span>, delta: "4 con urgencia" },
+  { label: "Ingresos del mes", value: <span className="text-green">$42,500</span>, delta: <div className="flex items-center gap-1"><ArrowUp size={12} className="text-green" /> vs $31,000</div> },
+];
 
-export default function AdminPage() {
-  const [proyectos, setProyectos] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+const clients = [
+  { avatar: "MG", avatarColor: "var(--accent)", name: "María González", project: "Landing page · E-commerce", status: <StatusChip status="Activo" /> },
+  { avatar: "RC", avatarColor: "var(--blue)", name: "Restaurante Cenit", project: "Sitio web + branding", status: <StatusChip status="En proceso" /> },
+  { avatar: "TS", avatarColor: "var(--purple)", name: "Tech Startup MX", project: "Dashboard SaaS", status: <StatusChip status="Prospecto" /> },
+  { avatar: "PL", avatarColor: "var(--orange)", name: "Piel Luz Studio", project: "Tienda Shopify", status: <StatusChip status="En espera" /> },
+];
 
-  useEffect(() => {
-    // Verifica la cookie de sesión al cargar
-    if (!document.cookie.split(';').some((item) => item.trim().startsWith('darkrebel_session='))) {
-      router.push('/login' as any);
-      return;
-    }
-    fetch("/api/proyectos")
-      .then((res) => res.json())
-      .then(setProyectos)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
-  }, [router]);
+const projects = [
+    { name: "Restaurante Cenit", percentage: 80, color: "blue" as const },
+    { name: "Tech Startup MX", percentage: 45, color: "accent" as const },
+    { name: "Piel Luz Studio", percentage: 60, color: "green" as const },
+]
 
-  const handleProgreso = async (id: string, progreso: number) => {
-    try {
-      await fetch(`/api/proyectos/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ progreso }),
-      });
-      setProyectos((prev) => prev.map((p) => p.id === id ? { ...p, progreso } : p));
-    } catch (e: any) {
-      alert("Error al actualizar: " + e.message);
-    }
-  };
+const urgentTasks: { title: string; meta: string; priority: Priority; done: boolean }[] = [
+  { title: 'Entregar mockups Home · María', meta: 'Hoy · María González', priority: 'high', done: false },
+  { title: 'Revisar contrato Tech Startup', meta: 'Mañana · Legal', priority: 'high', done: false },
+  { title: 'Enviar cotización Cenit', meta: 'Hecho · ayer', priority: 'mid', done: true },
+];
 
-  const handleEliminar = async (id: string) => {
-    if (!window.confirm("¿Eliminar este proyecto?")) return;
-    try {
-      await fetch(`/api/proyectos/${id}`, { method: "DELETE" });
-      setProyectos((prev) => prev.filter((p) => p.id !== id));
-    } catch (e: any) {
-      alert("Error al eliminar: " + e.message);
-    }
-  };
+const Card = ({ title, cta, children, className }: { title: string, cta?: React.ReactNode, children: React.ReactNode, className?: string }) => (
+    <div className={`bg-surface border border-border rounded-xl ${className}`}>
+      <div className="flex items-center justify-between px-5 py-3 border-b border-border">
+        <h2 className="font-syne font-bold text-sm text-text">{title}</h2>
+        {cta}
+      </div>
+      <div className="p-5">
+        {children}
+      </div>
+    </div>
+  );
 
+export default function DashboardPage() {
   return (
-    <main className="space-y-6 bg-black min-h-screen">
-      <header className="panel p-6 md:p-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="inline-flex items-center gap-2 text-zinc-300">
-            <ShieldCheck className="h-5 w-5" />
-            <span className="text-xs uppercase tracking-[0.2em]">Admin Seguro</span>
-          </div>
-          <button
-            onClick={() => {
-              // Elimina la cookie y redirige a home
-              document.cookie = "darkrebel_session=; Max-Age=0; path=/;";
-              window.location.href = "/";
-            }}
-            className="btn-primary text-xs uppercase tracking-wider"
-          >
-            Cerrar sesión
-          </button>
-        </div>
-        <h1 className="display-md mt-3">Nuevo Proyecto</h1>
-        <p className="mt-2 text-sm text-zinc-400">
-          Inserta proyectos en D1 con sesion autenticada y validaciones estrictas.
-        </p>
-      </header>
+    <div className="w-full font-dm-sans">
+      <div className="mb-8">
+        <h1 className="font-syne font-bold text-3xl mb-1">Bienvenido, Dark Rebel 👋</h1>
+        <p className="text-text2 text-base">Aquí está el resumen de tu negocio de diseño web.</p>
+      </div>
 
-      <section className="panel p-6">
-        <form action="/api/proyectos" method="post" className="grid gap-4">
-          <label className="grid gap-2 text-sm text-zinc-300">
-            Nombre
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {stats.map((stat, i) => (
+          <StatCard key={i} label={stat.label} value={stat.value} delta={stat.delta} />
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+           <Card title="Clientes activos" cta={<button className="font-dm-mono text-xs text-accent hover:underline">Ver todos →</button>}>
+            <div className="space-y-2">
+                {clients.map((c, i) => (
+                    <ClientRow key={i} {...c} />
+                ))}
+            </div>
+           </Card>
+        </div>
+
+        <div className="lg:col-span-1 space-y-6">
+            <Card title="Progreso de proyectos">
+                <div className="space-y-4">
+                    {projects.map((p,i) => (
+                        <ProjectProgressBar key={i} {...p} />
+                    ))}
+                </div>
+            </Card>
+            <Card title="Tareas urgentes" cta={<button className="font-dm-mono text-xs text-accent hover:underline">Ver tablero →</button>}>
+              <div className="space-y-1">
+                {urgentTasks.map((t,i) => (
+                  <UrgentTaskItem key={i} title={t.title} meta={t.meta} priority={t.priority} initialCompleted={t.done} />
+                ))}
+              </div>
+            </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
             <input
               type="text"
               name="nombre"
