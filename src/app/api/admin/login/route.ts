@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   }
 
   const token = await createSessionToken(username.trim());
-  const response = NextResponse.redirect(new URL("/admin", req.url), 303);
+  const response = NextResponse.redirect(new URL("/dashboard", req.url), 303);
   response.cookies.set(SESSION_COOKIE_NAME, token, getSessionCookieOptions());
 
   return response;
