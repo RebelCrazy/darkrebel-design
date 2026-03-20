@@ -125,112 +125,110 @@ export default function ProyectosPage() {
   return (
     <div className="w-full font-dm-sans p-6">
       {/* HEADER */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
-        <h1 className="font-syne font-bold text-[20px]">Proyectos</h1>
-        <div className="flex gap-2 items-center">
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, gap: 16 }}>
+        <h1 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 20 }}>Proyectos</h1>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <input
-            className="bg-surface2 border border-border rounded-lg h-9 px-3 text-sm outline-none focus:border-accent"
+            style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: 'var(--text)', fontFamily: 'DM Sans', fontSize: 13, outline: 'none', width: 180 }}
             placeholder="Buscar proyecto o cliente..."
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
-          <button className="btn-ghost px-3 py-2 rounded-lg text-sm">Filtrar</button>
-          <button className="btn-accent px-3 py-2 rounded-lg text-sm font-bold" onClick={() => openModal()}>+ Nuevo proyecto</button>
+          <button style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text2)', padding: '7px 14px', borderRadius: 8, fontFamily: 'DM Sans', fontSize: 13, cursor: 'pointer' }}>Filtrar</button>
+          <button style={{ background: 'var(--accent)', color: '#000', fontWeight: 700, padding: '7px 14px', borderRadius: 8, fontFamily: 'DM Sans', fontSize: 13, cursor: 'pointer' }} onClick={() => openModal()}>+ Nuevo proyecto</button>
         </div>
       </div>
 
       {/* STATS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <div className="bg-surface border border-border rounded-xl p-5">
-          <p className="font-dm-mono text-xs text-text3 uppercase tracking-wider">Total proyectos</p>
-          <div className="font-syne font-bold text-3xl mt-2 mb-3">{total}</div>
-          <p className="font-dm-sans text-xs text-text2">Registrados</p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
+        <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, padding: 20 }}>
+          <div style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Total proyectos</div>
+          <div style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 28, margin: '10px 0 8px' }}>{total}</div>
+          <div style={{ fontFamily: 'DM Sans', fontSize: 12, color: 'var(--text2)' }}>Registrados</div>
         </div>
-        <div className="bg-surface border border-border rounded-xl p-5">
-          <p className="font-dm-mono text-xs text-text3 uppercase tracking-wider">En proceso</p>
-          <div className="font-syne font-bold text-3xl mt-2 mb-3">{enProceso}</div>
-          <p className="font-dm-sans text-xs text-text2">Activos o en proceso</p>
+        <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, padding: 20 }}>
+          <div style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>En proceso</div>
+          <div style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 28, margin: '10px 0 8px' }}>{enProceso}</div>
+          <div style={{ fontFamily: 'DM Sans', fontSize: 12, color: 'var(--text2)' }}>Activos o en proceso</div>
         </div>
-        <div className="bg-surface border border-border rounded-xl p-5">
-          <p className="font-dm-mono text-xs text-text3 uppercase tracking-wider">Entregados</p>
-          <div className="font-syne font-bold text-3xl mt-2 mb-3">{entregadosEsteMes}</div>
-          <p className="font-dm-sans text-xs text-text2">Este mes</p>
+        <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, padding: 20 }}>
+          <div style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Entregados</div>
+          <div style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 28, margin: '10px 0 8px' }}>{entregadosEsteMes}</div>
+          <div style={{ fontFamily: 'DM Sans', fontSize: 12, color: 'var(--text2)' }}>Este mes</div>
         </div>
-        <div className="bg-surface border border-border rounded-xl p-5">
-          <p className="font-dm-mono text-xs text-text3 uppercase tracking-wider">Ingresos totales</p>
-          <div className="font-syne font-bold text-3xl mt-2 mb-3" style={{ color: 'var(--accent)' }}>
-            ${ingresosTotales.toLocaleString('es-MX')}
-          </div>
-          <p className="font-dm-sans text-xs text-text2">MXN</p>
+        <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, padding: 20 }}>
+          <div style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ingresos totales</div>
+          <div style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 28, margin: '10px 0 8px', color: 'var(--accent)' }}>${ingresosTotales.toLocaleString('es-MX')}</div>
+          <div style={{ fontFamily: 'DM Sans', fontSize: 12, color: 'var(--text2)' }}>MXN</div>
         </div>
       </div>
 
       {/* TABLA DE PROYECTOS */}
-      <div className="bg-surface border border-border rounded-xl p-0 overflow-x-auto">
-        <table className="w-full text-left">
+      <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden' }}>
+        <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
           <thead>
-            <tr className="border-b border-border">
-              <th className="p-3 font-dm-mono text-xs text-text3 uppercase">Cliente</th>
-              <th className="p-3 font-dm-mono text-xs text-text3 uppercase">Proyecto</th>
-              <th className="p-3 font-dm-mono text-xs text-text3 uppercase">Tipo</th>
-              <th className="p-3 font-dm-mono text-xs text-text3 uppercase">Estado</th>
-              <th className="p-3 font-dm-mono text-xs text-text3 uppercase">Progreso</th>
-              <th className="p-3 font-dm-mono text-xs text-text3 uppercase">Monto</th>
-              <th className="p-3 font-dm-mono text-xs text-text3 uppercase">Entrega</th>
-              <th className="p-3 font-dm-mono text-xs text-text3 uppercase">Acciones</th>
+            <tr style={{ background: 'var(--surface2)' }}>
+              <th style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '10px 16px', borderBottom: '1px solid var(--border)', fontWeight: 400 }}>Cliente</th>
+              <th style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '10px 16px', borderBottom: '1px solid var(--border)', fontWeight: 400 }}>Proyecto</th>
+              <th style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '10px 16px', borderBottom: '1px solid var(--border)', fontWeight: 400 }}>Tipo</th>
+              <th style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '10px 16px', borderBottom: '1px solid var(--border)', fontWeight: 400 }}>Estado</th>
+              <th style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '10px 16px', borderBottom: '1px solid var(--border)', fontWeight: 400 }}>Progreso</th>
+              <th style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '10px 16px', borderBottom: '1px solid var(--border)', fontWeight: 400 }}>Monto</th>
+              <th style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '10px 16px', borderBottom: '1px solid var(--border)', fontWeight: 400 }}>Entrega</th>
+              <th style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '10px 16px', borderBottom: '1px solid var(--border)', fontWeight: 400 }}>Acciones</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               [...Array(3)].map((_,i) => (
                 <tr key={i}>
-                  <td colSpan={8} className="py-8 text-center">
-                    <div className="animate-pulse h-4 bg-surface2 rounded mb-2 w-1/2 mx-auto"></div>
-                    <div className="animate-pulse h-4 bg-surface2 rounded w-1/3 mx-auto"></div>
+                  <td colSpan={8} style={{ padding: '32px 0', textAlign: 'center' }}>
+                    <div style={{ height: 16, background: 'var(--surface2)', borderRadius: 8, margin: '0 auto 8px', width: '50%' }}></div>
+                    <div style={{ height: 16, background: 'var(--surface2)', borderRadius: 8, width: '33%', margin: '0 auto' }}></div>
                   </td>
                 </tr>
               ))
             ) : filtered.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center py-12">
-                  <div className="text-5xl mb-2">📁</div>
-                  <div className="font-syne font-bold text-lg mb-1">Sin proyectos aún</div>
-                  <div className="text-text2 mb-4">Crea tu primer proyecto para comenzar</div>
-                  <button className="btn-accent px-4 py-2 rounded-lg text-sm font-bold" onClick={() => openModal()}>+ Nuevo proyecto</button>
+                <td colSpan={8} style={{ textAlign: 'center', padding: '48px 0' }}>
+                  <div style={{ fontSize: 48, marginBottom: 8 }}>📁</div>
+                  <div style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 18, marginBottom: 4 }}>Sin proyectos aún</div>
+                  <div style={{ color: 'var(--text2)', marginBottom: 16 }}>Crea tu primer proyecto para comenzar</div>
+                  <button style={{ background: 'var(--accent)', color: '#000', fontWeight: 700, padding: '10px 22px', borderRadius: 8, fontFamily: 'DM Sans', fontSize: 14, cursor: 'pointer' }} onClick={() => openModal()}>+ Nuevo proyecto</button>
                 </td>
               </tr>
             ) : (
-              filtered.map((p) => (
-                <tr key={p.id} className="border-b border-border hover:bg-surface2 transition-colors">
-                  <td className="p-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center font-syne font-bold text-xs" style={{ backgroundColor: 'var(--surface2)', color: 'var(--accent)' }}>{getInitials(p.cliente)}</div>
+              filtered.map((p, idx) => (
+                <tr key={p.id} style={{ borderBottom: idx === filtered.length - 1 ? 'none' : '1px solid var(--border)', fontSize: 13, background: 'transparent', transition: 'background 0.15s' }} onMouseOver={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.01)')} onMouseOut={e => (e.currentTarget.style.background = 'transparent')}>
+                  <td style={{ padding: '12px 16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--surface2)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Syne', fontWeight: 700, fontSize: 13 }}>{getInitials(p.cliente)}</div>
                       <div>
-                        <div className="font-dm-sans font-bold text-sm text-text">{p.cliente}</div>
-                        <div className="font-dm-sans text-xs text-text3">{p.email}</div>
+                        <div style={{ fontFamily: 'DM Sans', fontWeight: 500, fontSize: 13, color: 'var(--text)' }}>{p.cliente}</div>
+                        <div style={{ fontFamily: 'DM Sans', fontSize: 12, color: 'var(--text2)' }}>{p.email}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="p-3 font-dm-sans text-sm text-text">{p.nombre}</td>
-                  <td className="p-3 font-dm-sans text-xs text-text2">{p.tipo}</td>
-                  <td className="p-3">
-                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full font-dm-mono text-xs font-medium" style={{ background: statusConfig[p.estado].color + '22', color: statusConfig[p.estado].color, borderRadius: 20 }}>
-                      <span className="w-2 h-2 rounded-full" style={{ background: statusConfig[p.estado].color }}></span>
+                  <td style={{ padding: '12px 16px', fontFamily: 'DM Sans', fontSize: 13, color: 'var(--text)', fontWeight: 500 }}>{p.nombre}</td>
+                  <td style={{ padding: '12px 16px', fontFamily: 'DM Sans', fontSize: 13, color: 'var(--text2)' }}>{p.tipo}</td>
+                  <td style={{ padding: '12px 16px' }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '3px 9px', borderRadius: 20, fontFamily: 'DM Mono', fontSize: 11, background: statusConfig[p.estado].color + '22', color: statusConfig[p.estado].color }}>
+                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: statusConfig[p.estado].color, display: 'inline-block' }}></span>
                       {statusConfig[p.estado].label}
                     </span>
                   </td>
-                  <td className="p-3">
-                    <div className="font-dm-mono text-xs text-text2 mb-1">{p.progreso}%</div>
-                    <div className="w-full bg-surface2 rounded-full h-1.5">
-                      <div className="h-1.5 rounded-full" style={{ width: `${p.progreso}%`, backgroundColor: getProgressColor(p.progreso) }}></div>
+                  <td style={{ padding: '12px 16px' }}>
+                    <div style={{ fontFamily: 'DM Mono', fontSize: 12, color: 'var(--accent)', marginBottom: 4 }}>{p.progreso}%</div>
+                    <div style={{ height: 4, background: 'var(--surface3)', borderRadius: 99, width: '100%' }}>
+                      <div style={{ height: 4, borderRadius: 99, width: `${p.progreso}%`, background: getProgressColor(p.progreso) }}></div>
                     </div>
                   </td>
-                  <td className="p-3 font-dm-mono text-sm" style={{ color: 'var(--accent)' }}>${p.monto?.toLocaleString('es-MX')}</td>
-                  <td className="p-3 font-dm-mono text-xs text-text2">{p.fechaEntrega || '-'}</td>
-                  <td className="p-3 flex gap-2">
-                    <button className="btn-ghost px-2 py-1 rounded-lg text-xs" onClick={() => window.location.href = `/proyecto/${p.id}`}>👁 Ver</button>
-                    <button className="btn-ghost px-2 py-1 rounded-lg text-xs" onClick={() => openModal(p)}>✏ Editar</button>
-                    <button className="btn-ghost px-2 py-1 rounded-lg text-xs text-red-500" onClick={() => handleDelete(p.id)}>🗑</button>
+                  <td style={{ padding: '12px 16px', fontFamily: 'DM Mono', fontSize: 13, color: 'var(--accent)' }}>${p.monto?.toLocaleString('es-MX')}</td>
+                  <td style={{ padding: '12px 16px', fontFamily: 'DM Mono', fontSize: 12, color: 'var(--text2)' }}>{p.fechaEntrega || '-'}</td>
+                  <td style={{ padding: '12px 16px', display: 'flex', gap: 8 }}>
+                    <button style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text2)', padding: '7px 14px', borderRadius: 8, fontFamily: 'DM Sans', fontSize: 13, cursor: 'pointer' }} onClick={() => window.location.href = `/proyecto/${p.id}`}>👁 Ver</button>
+                    <button style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text2)', padding: '7px 14px', borderRadius: 8, fontFamily: 'DM Sans', fontSize: 13, cursor: 'pointer' }} onClick={() => openModal(p)}>✏ Editar</button>
+                    <button style={{ background: 'transparent', border: '1px solid var(--red)', color: 'var(--red)', borderRadius: 6, padding: '7px 14px', fontFamily: 'DM Sans', fontSize: 13, cursor: 'pointer' }} onClick={() => handleDelete(p.id)}>🗑</button>
                   </td>
                 </tr>
               ))
@@ -241,28 +239,29 @@ export default function ProyectosPage() {
 
       {/* MODAL NUEVO/EDITAR */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 backdrop-blur-sm">
-          <div className="bg-surface border border-border rounded-xl w-full max-w-lg">
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(2px)' }}>
+          <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, width: '100%', maxWidth: 520, overflow: 'hidden' }}>
             <form onSubmit={handleSave}>
-              <div className="p-6 border-b border-border">
-                <h2 className="font-syne font-bold text-lg">{editProject ? 'Editar proyecto' : 'Nuevo proyecto'}</h2>
+              <div style={{ background: 'var(--surface2)', padding: '20px 24px', borderBottom: '1px solid var(--border)' }}>
+                <h2 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 16 }}>{editProject ? 'Editar proyecto' : 'Nuevo proyecto'}</h2>
+                <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>{editProject ? 'Edita los datos del proyecto.' : 'Completa los datos para crear un nuevo proyecto.'}</div>
               </div>
-              <div className="p-6 space-y-4">
-                <div>
-                  <label className="font-dm-mono text-xs text-text3 mb-1 block">Nombre del proyecto</label>
-                  <input type="text" required className="w-full bg-surface2 border border-border rounded-lg h-10 px-3 text-sm outline-none focus:border-accent" value={form.nombre || ''} onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))} />
+              <div style={{ padding: 24, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+                <div style={{ gridColumn: '1 / 3' }}>
+                  <label style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 6, display: 'block' }}>Nombre del proyecto</label>
+                  <input type="text" required style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: 'var(--text)', fontFamily: 'DM Sans', fontSize: 13, outline: 'none', width: '100%' }} value={form.nombre || ''} onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))} />
                 </div>
                 <div>
-                  <label className="font-dm-mono text-xs text-text3 mb-1 block">Cliente</label>
-                  <input type="text" required className="w-full bg-surface2 border border-border rounded-lg h-10 px-3 text-sm outline-none focus:border-accent" value={form.cliente || ''} onChange={e => setForm(f => ({ ...f, cliente: e.target.value }))} />
+                  <label style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 6, display: 'block' }}>Cliente</label>
+                  <input type="text" required style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: 'var(--text)', fontFamily: 'DM Sans', fontSize: 13, outline: 'none', width: '100%' }} value={form.cliente || ''} onChange={e => setForm(f => ({ ...f, cliente: e.target.value }))} />
                 </div>
                 <div>
-                  <label className="font-dm-mono text-xs text-text3 mb-1 block">Email del cliente</label>
-                  <input type="email" className="w-full bg-surface2 border border-border rounded-lg h-10 px-3 text-sm outline-none focus:border-accent" value={form.email || ''} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+                  <label style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 6, display: 'block' }}>Email del cliente</label>
+                  <input type="email" style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: 'var(--text)', fontFamily: 'DM Sans', fontSize: 13, outline: 'none', width: '100%' }} value={form.email || ''} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
                 </div>
                 <div>
-                  <label className="font-dm-mono text-xs text-text3 mb-1 block">Tipo de proyecto</label>
-                  <select className="w-full bg-surface2 border border-border rounded-lg h-10 px-3 text-sm outline-none focus:border-accent" value={form.tipo || ''} onChange={e => setForm(f => ({ ...f, tipo: e.target.value }))} required>
+                  <label style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 6, display: 'block' }}>Tipo de proyecto</label>
+                  <select style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: 'var(--text)', fontFamily: 'DM Sans', fontSize: 13, outline: 'none', width: '100%' }} value={form.tipo || ''} onChange={e => setForm(f => ({ ...f, tipo: e.target.value }))} required>
                     <option value="">Selecciona tipo</option>
                     <option value="Landing page">Landing page</option>
                     <option value="E-commerce">E-commerce</option>
@@ -273,8 +272,8 @@ export default function ProyectosPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="font-dm-mono text-xs text-text3 mb-1 block">Estado</label>
-                  <select className="w-full bg-surface2 border border-border rounded-lg h-10 px-3 text-sm outline-none focus:border-accent" value={form.estado || ''} onChange={e => setForm(f => ({ ...f, estado: e.target.value as ProjectStatus }))} required>
+                  <label style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 6, display: 'block' }}>Estado</label>
+                  <select style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: 'var(--text)', fontFamily: 'DM Sans', fontSize: 13, outline: 'none', width: '100%' }} value={form.estado || ''} onChange={e => setForm(f => ({ ...f, estado: e.target.value as ProjectStatus }))} required>
                     <option value="">Selecciona estado</option>
                     <option value="activo">Activo</option>
                     <option value="en_proceso">En proceso</option>
@@ -283,25 +282,25 @@ export default function ProyectosPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="font-dm-mono text-xs text-text3 mb-1 block">Monto (MXN)</label>
-                  <input type="number" min={0} className="w-full bg-surface2 border border-border rounded-lg h-10 px-3 text-sm outline-none focus:border-accent" value={form.monto || ''} onChange={e => setForm(f => ({ ...f, monto: Number(e.target.value) }))} />
+                  <label style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 6, display: 'block' }}>Monto (MXN)</label>
+                  <input type="number" min={0} style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: 'var(--text)', fontFamily: 'DM Sans', fontSize: 13, outline: 'none', width: '100%' }} value={form.monto || ''} onChange={e => setForm(f => ({ ...f, monto: Number(e.target.value) }))} />
                 </div>
                 <div>
-                  <label className="font-dm-mono text-xs text-text3 mb-1 block">Progreso (%)</label>
-                  <input type="number" min={0} max={100} className="w-full bg-surface2 border border-border rounded-lg h-10 px-3 text-sm outline-none focus:border-accent" value={form.progreso || 0} onChange={e => setForm(f => ({ ...f, progreso: Number(e.target.value) }))} />
+                  <label style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 6, display: 'block' }}>Progreso (%)</label>
+                  <input type="number" min={0} max={100} style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: 'var(--text)', fontFamily: 'DM Sans', fontSize: 13, outline: 'none', width: '100%' }} value={form.progreso || 0} onChange={e => setForm(f => ({ ...f, progreso: Number(e.target.value) }))} />
                 </div>
                 <div>
-                  <label className="font-dm-mono text-xs text-text3 mb-1 block">Fecha de entrega</label>
-                  <input type="date" className="w-full bg-surface2 border border-border rounded-lg h-10 px-3 text-sm outline-none focus:border-accent" value={form.fechaEntrega || ''} onChange={e => setForm(f => ({ ...f, fechaEntrega: e.target.value }))} />
+                  <label style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 6, display: 'block' }}>Fecha de entrega</label>
+                  <input type="date" style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: 'var(--text)', fontFamily: 'DM Sans', fontSize: 13, outline: 'none', width: '100%' }} value={form.fechaEntrega || ''} onChange={e => setForm(f => ({ ...f, fechaEntrega: e.target.value }))} />
                 </div>
                 <div>
-                  <label className="font-dm-mono text-xs text-text3 mb-1 block">Responsable</label>
-                  <input type="text" className="w-full bg-surface2 border border-border rounded-lg h-10 px-3 text-sm outline-none focus:border-accent" value={form.responsable || ''} onChange={e => setForm(f => ({ ...f, responsable: e.target.value }))} />
+                  <label style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 6, display: 'block' }}>Responsable</label>
+                  <input type="text" style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: 'var(--text)', fontFamily: 'DM Sans', fontSize: 13, outline: 'none', width: '100%' }} value={form.responsable || ''} onChange={e => setForm(f => ({ ...f, responsable: e.target.value }))} />
                 </div>
               </div>
-              <div className="flex gap-3 justify-end p-4 bg-surface2 border-t border-border rounded-b-xl">
-                <button type="button" onClick={() => setShowModal(false)} className="btn-ghost px-4 py-2 rounded-lg text-sm">Cancelar</button>
-                <button type="submit" className="btn-accent px-4 py-2 rounded-lg text-sm" disabled={saving}>{saving ? 'Guardando...' : 'Guardar proyecto'}</button>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', background: 'var(--surface2)', borderTop: '1px solid var(--border)', borderRadius: '0 0 12px 12px', padding: '16px 24px' }}>
+                <button type="button" onClick={() => setShowModal(false)} style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text2)', padding: '7px 14px', borderRadius: 8, fontFamily: 'DM Sans', fontSize: 13, cursor: 'pointer' }}>Cancelar</button>
+                <button type="submit" style={{ background: 'var(--accent)', color: '#000', fontWeight: 700, padding: '7px 14px', borderRadius: 8, fontFamily: 'DM Sans', fontSize: 13, cursor: 'pointer' }} disabled={saving}>{saving ? 'Guardando...' : 'Guardar proyecto'}</button>
               </div>
             </form>
           </div>

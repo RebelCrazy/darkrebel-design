@@ -27,98 +27,56 @@ export default function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="w-[var(--sidebar-w)] bg-surface border-r border-border flex flex-col fixed top-0 left-0 h-full">
-      <div className="px-6 py-4 border-b border-border">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-accent text-black flex items-center justify-center rounded-lg">
-            <Zap size={20} />
+    <aside style={{ width: 260, minHeight: '100vh', background: 'var(--surface)', borderRight: '1px solid var(--border)' }} className="flex flex-col">
+      {/* Brand */}
+      <div style={{ padding: '24px 20px 16px', borderBottom: '1px solid var(--border)' }}>
+        <div className="flex items-center gap-3">
+          <div style={{ width: 32, height: 32, background: 'var(--accent)', borderRadius: 8 }} className="flex items-center justify-center">
+            <span style={{ fontSize: 20, fontWeight: 700 }}>⚡</span>
           </div>
-          <span className="font-syne font-bold text-lg text-text">DarkRebel</span>
+          <span style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 16, color: 'var(--text)' }}>
+            Dark<span style={{ color: 'var(--accent)' }}>Rebel</span>
+          </span>
         </div>
-        <p className="font-dm-mono text-xs text-text3 mt-1">v1.0 · sistema de gestión</p>
+        <div style={{ fontFamily: 'DM Mono', fontSize: 11, color: 'var(--text3)', marginTop: 4, letterSpacing: 0.02 }}>sistema de gestión</div>
       </div>
 
-      <nav className="flex-1 px-4 py-4 space-y-4">
-        <div>
-          <h3 className="px-2 mb-2 font-dm-mono text-xs font-medium uppercase text-text3 tracking-wider">Principal</h3>
-          {navItems.principal.map((item) => {
-            const isActive = pathname === item.href
-            return (
-              <NavLink
-                key={item.label}
-                href={item.href}
-                className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative
-                  ${isActive
-                    ? 'bg-accent-dim text-accent font-semibold'
-                    : 'text-text2 hover:bg-surface2 hover:text-text'
-                  }`}
-              >
-                {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-accent" />}
-                <item.icon size={18} />
-                <span className="flex-1 text-sm font-medium">{item.label}</span>
-                {'badge' in item && item.badge && (
-                  <span className={`text-xs font-dm-mono px-1.5 py-0.5 rounded-full ${isActive ? 'bg-accent text-black' : 'bg-surface3 text-text2'}`}>
-                    {item.badge}
-                  </span>
-                )}
-              </NavLink>
-            )
-          })}
-        </div>
-        
-        <div>
-          <h3 className="px-2 mb-2 font-dm-mono text-xs font-medium uppercase text-text3 tracking-wider">Plantillas</h3>
-          {navItems.plantillas.map((item) => {
-            const isActive = pathname === item.href
-            return (
-              <NavLink
-                key={item.label}
-                href={item.href}
-                className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative
-                  ${isActive
-                    ? 'bg-accent-dim text-accent font-semibold'
-                    : 'text-text2 hover:bg-surface2 hover:text-text'
-                  }`}
-              >
-                {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-accent" />}
-                <item.icon size={18} />
-                <span className="flex-1 text-sm font-medium">{item.label}</span>
-              </NavLink>
-            )
-          })}
-        </div>
-
-        <div>
-          <h3 className="px-2 mb-2 font-dm-mono text-xs font-medium uppercase text-text3 tracking-wider">Equipo</h3>
-          {navItems.equipo.map((item) => {
-            const isActive = pathname === item.href
-            return (
-              <NavLink
-                key={item.label}
-                href={item.href}
-                className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative
-                  ${isActive
-                    ? 'bg-accent-dim text-accent font-semibold'
-                    : 'text-text2 hover:bg-surface2 hover:text-text'
-                  }`}
-              >
-                {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-accent" />}
-                <item.icon size={18} />
-                <span className="flex-1 text-sm font-medium">{item.label}</span>
-              </NavLink>
-            )
-          })}
-        </div>
+      {/* Nav */}
+      <nav className="flex-1 flex flex-col" style={{ padding: '0 0', marginTop: 8 }}>
+        {/* Secciones */}
+        {Object.entries(navItems).map(([section, items]) => (
+          <div key={section} style={{ margin: '20px 0 6px' }}>
+            <div style={{ fontFamily: 'DM Mono', fontSize: 10, color: 'var(--text3)', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '0 8px', marginBottom: 6 }}>{section.charAt(0).toUpperCase() + section.slice(1)}</div>
+            {items.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <NavLink
+                  key={item.label}
+                  href={item.href}
+                  className={`flex items-center gap-2 px-[10px] py-[9px] rounded-[8px] transition-all relative ${isActive ? 'bg-[var(--accent-dim)] text-[var(--accent)] font-medium' : 'text-[var(--text2)] hover:bg-[var(--surface2)] hover:text-[var(--text)]'}`}
+                  style={{ fontSize: 13.5, fontFamily: 'DM Sans', borderLeft: isActive ? '3px solid var(--accent)' : '3px solid transparent', marginBottom: 2, cursor: 'pointer' }}
+                >
+                  <item.icon size={18} />
+                  <span className="flex-1" style={{ fontWeight: 500 }}>{item.label}</span>
+                  {'badge' in item && item.badge && (
+                    <span style={{ background: 'var(--surface3)', color: 'var(--text3)', fontFamily: 'DM Mono', fontSize: 10, padding: '2px 6px', borderRadius: 20, border: '1px solid var(--border)', marginLeft: 'auto' }}>{item.badge}</span>
+                  )}
+                </NavLink>
+              );
+            })}
+          </div>
+        ))}
       </nav>
-      
-      <div className="mt-auto p-4 border-t border-border">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-surface2 border border-border rounded-full flex items-center justify-center">
-            <span className="font-syne font-bold text-text2">DR</span>
+
+      {/* Footer */}
+      <div style={{ marginTop: 'auto', padding: '16px 12px', borderTop: '1px solid var(--border)' }}>
+        <div className="flex items-center gap-2" style={{ padding: '8px 10px', borderRadius: 8 }}>
+          <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg, var(--accent), var(--green))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ fontWeight: 700, color: '#000', fontSize: 15 }}>DR</span>
           </div>
           <div>
-            <p className="text-sm font-bold text-text">Dark Rebel</p>
-            <p className="text-xs text-text3 font-dm-mono">admin@darkrebel.store</p>
+            <div style={{ fontSize: 12.5, fontWeight: 500 }}>Dark Rebel</div>
+            <div style={{ fontSize: 11, color: 'var(--text3)' }}>admin</div>
           </div>
         </div>
       </div>

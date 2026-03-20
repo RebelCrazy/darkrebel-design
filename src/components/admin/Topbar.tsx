@@ -28,13 +28,13 @@ export default function Topbar() {
   const ctaText = ctaMap[pathname] || 'Nueva Entrada'
 
   return (
-    <header className="h-[56px] bg-surface border-b border-border flex items-center justify-between px-6 flex-shrink-0">
-      <h1 className="font-syne font-bold text-base text-text">{title}</h1>
-      <div className="flex items-center gap-3">
-        <button className="w-9 h-9 flex items-center justify-center rounded-lg border border-border bg-surface text-text2 hover:bg-surface2 hover:text-text transition-colors">
+    <header style={{ height: 56, background: 'var(--surface)', borderBottom: '1px solid var(--border)', padding: '0 28px', display: 'flex', alignItems: 'center' }}>
+      <h1 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 15, flex: 1 }}>{title}</h1>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <button style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text2)', padding: '7px 14px', borderRadius: 8, display: 'flex', alignItems: 'center', marginRight: 8, cursor: 'pointer' }}>
           <Bell size={18} />
         </button>
-        <button className="btn-accent flex items-center gap-2 px-3 py-2 rounded-lg bg-accent text-black font-dm-sans text-sm font-semibold hover:bg-accent2 transition-colors">
+        <button style={{ background: 'var(--accent)', color: '#000', fontWeight: 600, padding: '7px 14px', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'DM Sans', fontSize: 14, border: 'none', cursor: 'pointer' }}>
           <Plus size={16} />
           <span>{ctaText}</span>
         </button>

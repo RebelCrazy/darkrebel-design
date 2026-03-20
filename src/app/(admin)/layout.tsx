@@ -7,13 +7,11 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex w-full h-screen bg-bg text-text font-dm-sans overflow-hidden">
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: 'var(--bg)' }}>
       <Sidebar />
-      <main className="flex-1 flex flex-col overflow-hidden ml-[var(--sidebar-w)]">
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <Topbar />
-        <div className="flex-1 overflow-y-auto p-6 lg:p-8">
-          {children}
-        </div>
+        <div style={{ flex: 1, overflowY: 'auto', padding: 32 }}>{children}</div>
       </main>
     </div>
   );
