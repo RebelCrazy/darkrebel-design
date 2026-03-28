@@ -3,40 +3,9 @@ compatibility_date = "2026-03-11"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
 
-
-
-# 2. Vinculación de la base de datos D1
+# ✅ ÚNICA BASE DE DATOS D1
+# Todas tus tablas deben existir en esta base de datos
 [[d1_databases]]
-binding = "DB"                               # Nombre usado en el codigo como process.env.DB
-database_name = "dark-rebel-db"              # El nombre que le diste en el panel
-database_id = "9a4018e6-489e-4be4-a27f-4fdd0c5b00e3"    # El ID alfanumérico largo
-
-[[d1_databases]]
-binding = "DB_0001"                               # Nombre usado en el codigo como process.env.DB
-database_name = "0001_create_proyectos"              # El nombre que le diste en el panel
-database_id = "e943b14d-075f-46fd-86c3-506051eb4ca9"    # El ID alfanumérico largo
-
-[[d1_databases]]
-binding = "DB_0002"                               # Nombre usado en el codigo como process.env.DB
-database_name = "0002_expand_darkrebel_schema"              # El nombre que le diste en el panel
-database_id = "77fd67db-68a1-4aee-a919-64ba976003e8"    # El ID alfanumérico largo
-
-[[d1_databases]]
-binding = "DB_0003"                               # Nombre usado en el codigo como process.env.DB
-database_name = "0003_seed_darkrebel_data"              # El nombre que le diste en el panel
-database_id = "11bec2b0-5ef1-4a5f-93b3-66f7d48719bb"    # El ID alfanumérico largo
-
-[[d1_databases]]
-binding = "DB_0004"                               # Nombre usado en el codigo como process.env.DB
-database_name = "0004_tareas_visible_cliente"              # El nombre que le diste en el panel
-database_id = "899087e4-4bf0-4b38-93f1-c9fb973a98c1"    # El ID alfanumérico largo
-
-[[d1_databases]]
-binding = "DB_0005"                               # Nombre usado en el codigo como process.env.DB
-database_name = "0005_plantillas_nombre"              # El nombre que le diste en el panel
-database_id = "02bceaff-8710-42aa-a273-0c3203c657ca"    # El ID alfanumérico largo
-
-[[d1_databases]]
-binding = "DB_0006"                               # Nombre usado en el codigo como process.env.DB
-database_name = "0006_web_freelance"              # El nombre que le diste en el panel
-database_id = "634a9a89-2e93-4a65-b259-617bef496fcb"    # El ID alfanumérico largo
+binding = "DB"
+database_name = "dark-rebel-db"
+database_id = "9a4018e6-489e-4be4-a27f-4fdd0c5b00e3"

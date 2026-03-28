@@ -1,0 +1,1 @@
+bash: diagnose-db.sh: No such file or directory
