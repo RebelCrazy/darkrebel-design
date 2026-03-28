@@ -3,8 +3,6 @@ compatibility_date = "2026-03-11"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
 
-# ✅ ÚNICA BASE DE DATOS D1
-# Todas tus tablas deben existir en esta base de datos
 [[d1_databases]]
 binding = "DB"
 database_name = "dark-rebel-db"
