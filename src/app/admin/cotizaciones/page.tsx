@@ -1,8 +1,12 @@
+import PlantillasPanel from "@/components/admin/PlantillasPanel";
+
 export default function CotizacionesPage() {
   return (
-    <div>
-      <div style={{ fontFamily:'Syne', fontWeight:800, fontSize:24, letterSpacing:'-0.03em', marginBottom:8 }}>Cotizaciones</div>
-      <div style={{ color:'var(--text2)', fontSize:14 }}>Plantilla de cotizaciones — próximamente</div>
-    </div>
-  )
+    <PlantillasPanel
+      heading="Cotizaciones"
+      subheading="Modelos de cotización y alcance. Mismo flujo que una subpágina de base de datos en Notion."
+      tipoFilter="cotizacion"
+      lockTipo
+    />
+  );
 }

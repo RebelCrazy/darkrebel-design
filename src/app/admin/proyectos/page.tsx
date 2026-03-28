@@ -6,6 +6,11 @@ interface Project {
   id: string; uid?: string; nombre: string
   cliente_email?: string; progreso: number
   estado: string; link_figma?: string
+  url_produccion?: string | null
+  url_staging?: string | null
+  stack?: string | null
+  hosting?: string | null
+  notas_internas?: string | null
 }
 
 const estados = ['Planeación','En Desarrollo','Revisión','Finalizado']
@@ -30,7 +35,10 @@ export default function ProyectosPage() {
   const [showForm, setShowForm] = useState(false)
   const [saving, setSaving] = useState(false)
   const [editId, setEditId] = useState<string|null>(null)
-  const [form, setForm] = useState({ nombre:'', cliente_email:'', progreso:0, estado:'Planeación', link_figma:'' })
+  const [form, setForm] = useState({
+    nombre:'', cliente_email:'', progreso:0, estado:'Planeación', link_figma:'',
+    url_produccion:'', url_staging:'', stack:'', hosting:'', notas_internas:'',
+  })
 
   const load = () => {
     setLoading(true)
@@ -49,7 +57,8 @@ export default function ProyectosPage() {
       await fetch('/api/proyectos', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(form) })
     }
     setSaving(false); setShowForm(false); setEditId(null)
-    setForm({ nombre:'', cliente_email:'', progreso:0, estado:'Planeación', link_figma:'' })
+    setForm({ nombre:'', cliente_email:'', progreso:0, estado:'Planeación', link_figma:'',
+      url_produccion:'', url_staging:'', stack:'', hosting:'', notas_internas:'' })
     load()
   }
 
@@ -60,8 +69,17 @@ export default function ProyectosPage() {
   }
 
   const handleEdit = (p:Project) => {
-    setForm({ nombre:p.nombre, cliente_email:p.cliente_email||'', progreso:p.progreso, estado:p.estado, link_figma:p.link_figma||'' })
+    setForm({
+      nombre:p.nombre, cliente_email:p.cliente_email||'', progreso:p.progreso, estado:p.estado, link_figma:p.link_figma||'',
+      url_produccion: p.url_produccion || '', url_staging: p.url_staging || '', stack: p.stack || '',
+      hosting: p.hosting || '', notas_internas: p.notas_internas || '',
+    })
     setEditId(p.id); setShowForm(true)
+  }
+
+  const portalHref = (uid?: string) => {
+    if (typeof window === 'undefined' || !uid) return ''
+    return `${window.location.origin}/p/${uid}`
   }
 
   return (
@@ -71,7 +89,8 @@ export default function ProyectosPage() {
         <div style={{ fontFamily:'Syne,serif', fontWeight:800, fontSize:22, color:'#f0ede8', flex:1 }}>Proyectos</div>
         <input placeholder="Buscar..." value={search} onChange={e=>setSearch(e.target.value)}
           style={{ ...S.input, width:200 }} />
-        <button onClick={()=>{ setShowForm(!showForm); setEditId(null); setForm({ nombre:'', cliente_email:'', progreso:0, estado:'Planeación', link_figma:'' }) }}
+        <button onClick={()=>{ setShowForm(!showForm); setEditId(null); setForm({ nombre:'', cliente_email:'', progreso:0, estado:'Planeación', link_figma:'',
+          url_produccion:'', url_staging:'', stack:'', hosting:'', notas_internas:'' }) }}
           style={S.btnAccent}>
           {showForm ? '✕ Cancelar' : '+ Nuevo proyecto'}
         </button>
@@ -122,9 +141,30 @@ export default function ProyectosPage() {
               <label style={S.label}>Link Figma</label>
               <input style={S.input} value={form.link_figma} onChange={e=>setForm(f=>({...f, link_figma:e.target.value}))} />
             </div>
+            <div>
+              <label style={S.label}>URL producción</label>
+              <input style={S.input} placeholder="https://..." value={form.url_produccion} onChange={e=>setForm(f=>({...f, url_produccion:e.target.value}))} />
+            </div>
+            <div>
+              <label style={S.label}>URL staging / preview</label>
+              <input style={S.input} placeholder="https://..." value={form.url_staging} onChange={e=>setForm(f=>({...f, url_staging:e.target.value}))} />
+            </div>
+            <div>
+              <label style={S.label}>Stack</label>
+              <input style={S.input} placeholder="Next.js, WordPress…" value={form.stack} onChange={e=>setForm(f=>({...f, stack:e.target.value}))} />
+            </div>
+            <div>
+              <label style={S.label}>Hosting / dominio</label>
+              <input style={S.input} placeholder="Cloudflare Pages, cPanel…" value={form.hosting} onChange={e=>setForm(f=>({...f, hosting:e.target.value}))} />
+            </div>
+            <div style={{ gridColumn:'1/3' }}>
+              <label style={S.label}>Notas internas</label>
+              <textarea style={{ ...S.input, minHeight:72 }} value={form.notas_internas} onChange={e=>setForm(f=>({...f, notas_internas:e.target.value}))} />
+            </div>
           </div>
           <div style={{ display:'flex', gap:10, justifyContent:'flex-end', padding:'0 20px 20px' }}>
-            <button onClick={()=>{ setShowForm(false); setEditId(null); setForm({ nombre:'', cliente_email:'', progreso:0, estado:'Planeación', link_figma:'' }) }} style={S.btnGhost}>Cancelar</button>
+            <button onClick={()=>{ setShowForm(false); setEditId(null); setForm({ nombre:'', cliente_email:'', progreso:0, estado:'Planeación', link_figma:'',
+              url_produccion:'', url_staging:'', stack:'', hosting:'', notas_internas:'' }) }} style={S.btnGhost}>Cancelar</button>
             <button onClick={handleSave} disabled={saving} style={S.btnAccent}>{saving ? 'Guardando...' : (editId ? 'Guardar cambios' : 'Crear proyecto')}</button>
           </div>
         </div>
@@ -144,9 +184,11 @@ export default function ProyectosPage() {
                 <tr style={{ color:'#aaa9a6', fontWeight:700, fontSize:11, borderBottom:'1px solid #222220' }}>
                   <th style={{ textAlign:'left', padding:'6px 4px' }}>Nombre</th>
                   <th style={{ textAlign:'left', padding:'6px 4px' }}>Cliente</th>
+                  <th style={{ textAlign:'left', padding:'6px 4px' }}>Sitio</th>
                   <th style={{ textAlign:'left', padding:'6px 4px' }}>Progreso</th>
                   <th style={{ textAlign:'left', padding:'6px 4px' }}>Estado</th>
                   <th style={{ textAlign:'left', padding:'6px 4px' }}>Figma</th>
+                  <th style={{ textAlign:'left', padding:'6px 4px' }}>Portal</th>
                   <th></th>
                 </tr>
               </thead>
@@ -155,11 +197,22 @@ export default function ProyectosPage() {
                   <tr key={p.id} style={{ borderBottom:'1px solid #222220' }}>
                     <td style={{ padding:'7px 4px' }}>{p.nombre}</td>
                     <td style={{ padding:'7px 4px' }}>{p.cliente_email||'—'}</td>
+                    <td style={{ padding:'7px 4px', fontSize:11 }}>
+                      {p.url_produccion ? <a href={p.url_produccion} target="_blank" rel="noopener noreferrer" style={{ color:'#47e8a0' }}>prod</a> : null}
+                      {p.url_produccion && p.url_staging ? ' · ' : null}
+                      {p.url_staging ? <a href={p.url_staging} target="_blank" rel="noopener noreferrer" style={{ color:'#4fa3ff' }}>staging</a> : null}
+                      {!p.url_produccion && !p.url_staging ? '—' : null}
+                    </td>
                     <td style={{ padding:'7px 4px' }}>{p.progreso}%</td>
                     <td style={{ padding:'7px 4px' }}>
                       <span style={{ fontSize:11, padding:'2px 7px', borderRadius:20, background:chipColor[p.estado]+'22', color:chipColor[p.estado] }}>{p.estado}</span>
                     </td>
                     <td style={{ padding:'7px 4px' }}>{p.link_figma ? <a href={p.link_figma} target="_blank" rel="noopener noreferrer" style={{ color:'#4fa3ff', textDecoration:'underline' }}>Figma</a> : '—'}</td>
+                    <td style={{ padding:'7px 4px', fontSize:11 }}>
+                      {p.uid ? (
+                        <button type="button" onClick={()=>navigator.clipboard?.writeText(portalHref(p.uid))} style={{ background:'transparent', border:'1px solid #333330', borderRadius:4, color:'#ff2020', padding:'2px 6px', cursor:'pointer', fontSize:10 }}>Copiar link</button>
+                      ) : '—'}
+                    </td>
                     <td style={{ padding:'7px 4px', display:'flex', gap:6 }}>
                       <button onClick={()=>handleEdit(p)} style={{ ...S.btnGhost, fontSize:11, padding:'4px 10px' }}>Editar</button>
                       <button onClick={()=>handleDelete(p.id, p.nombre)} style={{ ...S.btnAccent, fontSize:11, padding:'4px 10px' }}>Eliminar</button>

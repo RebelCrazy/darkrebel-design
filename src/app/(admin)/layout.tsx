@@ -3,12 +3,14 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 const nav = [
+  { href: '/dashboard/kit', label: 'Kit' },
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/admin/proyectos', label: 'Proyectos' },
   { href: '/admin/crm', label: 'CRM' },
   { href: '/admin/tareas', label: 'Tareas' },
   { href: '/admin/contratos', label: 'Contratos' },
   { href: '/admin/cotizaciones', label: 'Cotizaciones' },
+  { href: '/admin/propuestas', label: 'Propuestas' },
   { href: '/admin/recursos', label: 'Brief' },
   { href: '/admin/colaboradores', label: 'Colaboradores' },
 ]

@@ -22,11 +22,18 @@ const INIT_TASKS: Task[] = [
 export default function Dashboard() {
   const [projects, setProjects] = useState<Project[]>([])
   const [tasks, setTasks] = useState<Task[]>(INIT_TASKS)
+  const [propuestasBorrador, setPropuestasBorrador] = useState(0)
 
   useEffect(() => {
     fetch('/api/proyectos')
       .then(r => r.json())
       .then(d => setProjects(Array.isArray(d) ? d : []))
+      .catch(() => {})
+    fetch('/api/propuestas')
+      .then(r => r.json())
+      .then((d) => {
+        if (Array.isArray(d)) setPropuestasBorrador(d.filter((x: { estado?: string }) => x.estado === 'Borrador').length)
+      })
       .catch(() => {})
   }, [])
 
@@ -36,16 +43,22 @@ export default function Dashboard() {
     { label:'PROYECTOS', value:projects.length, color:'#f0ede8' },
     { label:'EN CURSO', value:projects.filter(p => p.estado !== 'Finalizado').length, color:'#ff2020' },
     { label:'FINALIZADOS', value:projects.filter(p => p.estado === 'Finalizado').length, color:'#47e8a0' },
-    { label:'PENDIENTES', value:tasks.filter(t => !t.done).length, color:'#ff6b35' },
+    { label:'PROP. BORRADOR', value:propuestasBorrador, color:'#4fa3ff' },
+    { label:'CHECKLIST', value:tasks.filter(t => !t.done).length, color:'#ff6b35' },
   ]
 
   return (
     <div>
+      <div style={{ marginBottom:20 }}>
+        <Link href={"/dashboard/kit" as never} style={{ display:'inline-block', marginBottom:14, padding:'8px 14px', borderRadius:8, background:'rgba(255,32,32,0.1)', border:'1px solid #333330', color:'#ff2020', fontSize:12, fontWeight:600, textDecoration:'none' }}>
+          Abrir Kit freelance (hub tipo Notion) →
+        </Link>
+      </div>
       <div style={{ marginBottom:24 }}>
         <div style={{ fontWeight:800, fontSize:24, color:'#f0ede8', marginBottom:4 }}>Bienvenido, Dark Rebel</div>
         <div style={{ fontSize:13, color:'#555552' }}>Panel de gestion de proyectos y clientes</div>
       </div>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10, marginBottom:20 }}>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(140px, 1fr))', gap:10, marginBottom:20 }}>
         {statCards.map(s => (
           <div key={s.label} style={{ ...card, padding:14 }}>
             <div style={{ fontSize:9, color:'#555552', letterSpacing:'0.12em', marginBottom:6 }}>{s.label}</div>

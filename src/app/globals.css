@@ -160,3 +160,8 @@ body {
 .progress-value {
   @apply h-full rounded-full bg-zinc-100 transition-all;
 }
+
+a.kit-card:hover {
+  border-color: #ff2020;
+  background: #181818;
+}

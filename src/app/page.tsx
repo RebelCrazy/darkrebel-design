@@ -21,7 +21,7 @@ export default function HomeCoverPage() {
             />
           </div>
           <Link
-            href="/admin"
+            href="/admin/login"
             className="mt-2 px-8 py-3 rounded-full bg-white/10 border border-zinc-800 text-lg font-serif text-white tracking-widest shadow-lg hover:bg-white/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white"
           >
             Acceso a Proyectos

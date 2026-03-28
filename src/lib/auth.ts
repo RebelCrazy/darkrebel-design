@@ -129,16 +129,21 @@ export function getSessionCookieOptions() {
 }
 
 export function isTrustedOrigin(req: Request): boolean {
-  const origin = req.headers.get("origin");
-  if (!origin) {
-    return false;
-  }
-
   try {
     const requestUrl = new URL(req.url);
-    const originUrl = new URL(origin);
-    return requestUrl.protocol === originUrl.protocol && requestUrl.host === originUrl.host;
+    const origin = req.headers.get("origin");
+    if (origin) {
+      const originUrl = new URL(origin);
+      return requestUrl.protocol === originUrl.protocol && requestUrl.host === originUrl.host;
+    }
+    // Formulario HTML (method="post") suele omitir Origin; Referer queda en mismo host.
+    const referer = req.headers.get("referer");
+    if (referer) {
+      const refererUrl = new URL(referer);
+      return requestUrl.host === refererUrl.host;
+    }
   } catch {
     return false;
   }
+  return false;
 }

@@ -3,17 +3,38 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 const nav = [
+  { href: '/dashboard/kit', label: 'Kit' },
   { href: '/admin/proyectos', label: 'Proyectos' },
   { href: '/admin/crm', label: 'CRM' },
   { href: '/admin/tareas', label: 'Tareas' },
   { href: '/admin/contratos', label: 'Contratos' },
   { href: '/admin/cotizaciones', label: 'Cotizaciones' },
+  { href: '/admin/propuestas', label: 'Propuestas' },
   { href: '/admin/recursos', label: 'Brief' },
   { href: '/admin/colaboradores', label: 'Colaboradores' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const isLogin = pathname === "/admin/login"
+
+  if (isLogin) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "#080808",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 24,
+        }}
+      >
+        {children}
+      </div>
+    )
+  }
+
   return (
     <div style={{ display:'flex', height:'100vh', overflow:'hidden', background:'#080808' }}>
       <nav style={{ width:240, flexShrink:0, background:'#111111', borderRight:'1px solid #222220', display:'flex', flexDirection:'column' }}>
