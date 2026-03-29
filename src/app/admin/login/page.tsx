@@ -1,3 +1,4 @@
+"use client";
 import { LockKeyhole } from "lucide-react";
 
 export const runtime = "edge";
