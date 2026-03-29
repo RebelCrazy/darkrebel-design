@@ -109,7 +109,20 @@ export default function CrmPage() {
       }
       setShowForm(false);
       setEditId(null);
-      setForm({ nombre: "", email: "", estatus: "Lead" });
+      setForm({
+        nombre: "",
+        email: "",
+        estatus: "Lead",
+        telefono: "",
+        web: "",
+        instagram: "",
+        linkedin: "",
+        ubicacion: "",
+        area_negocio: "",
+        id_fiscal: "",
+        tipo_fiscal: "",
+        notas: ""
+      });
       load();
     } finally {
       setSaving(false);
