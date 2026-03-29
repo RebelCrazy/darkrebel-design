@@ -7,7 +7,7 @@ import {
   verifyAdminCredentials
 } from "@/lib/auth";
 
-export const runtime = "edge";
+// export const runtime = "edge"; // Eliminado para usar runtime Node.js
 
 export async function POST(req: Request) {
   if (!isTrustedOrigin(req)) {
