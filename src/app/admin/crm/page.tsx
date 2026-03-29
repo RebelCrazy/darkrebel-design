@@ -1,12 +1,21 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { Phone, Mail, Globe, Instagram, Linkedin, MapPin, Building2, BadgeDollarSign, FileText, StickyNote } from "lucide-react";
 
-interface Cliente {
   id: string;
   nombre: string;
   email: string;
   estatus: string;
+  telefono?: string;
+  web?: string;
+  instagram?: string;
+  linkedin?: string;
+  ubicacion?: string;
+  area_negocio?: string;
+  id_fiscal?: string;
+  tipo_fiscal?: string;
+  notas?: string;
   proyectos_activos?: number;
 }
 
@@ -44,7 +53,20 @@ export default function CrmPage() {
   const [saving, setSaving] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
-  const [form, setForm] = useState({ nombre: "", email: "", estatus: "Lead" });
+  const [form, setForm] = useState({
+    nombre: "",
+    email: "",
+    estatus: "Lead",
+    telefono: "",
+    web: "",
+    instagram: "",
+    linkedin: "",
+    ubicacion: "",
+    area_negocio: "",
+    id_fiscal: "",
+    tipo_fiscal: "",
+    notas: ""
+  });
   const [search, setSearch] = useState("");
   const [vista, setVista] = useState<"tabla" | "embudo">("tabla");
 
@@ -155,20 +177,67 @@ export default function CrmPage() {
           </div>
           <div style={{ padding: 20, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <div>
-              <label style={S.label}>Nombre</label>
-              <input style={S.input} value={form.nombre} onChange={(e) => setForm((f) => ({ ...f, nombre: e.target.value }))} />
+              <label style={S.label}><Mail size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Nombre</label>
+              <input style={S.input} value={form.nombre} onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))} required />
             </div>
             <div>
-              <label style={S.label}>Email</label>
-              <input type="email" style={S.input} value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
+              <label style={S.label}><Mail size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Email</label>
+              <input type="email" style={S.input} value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
+            </div>
+            <div>
+              <label style={S.label}><Phone size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Teléfono</label>
+              <input style={S.input} value={form.telefono} onChange={e => setForm(f => ({ ...f, telefono: e.target.value }))} placeholder="Opcional" />
+            </div>
+            <div>
+              <label style={S.label}><Globe size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Web</label>
+              <input style={S.input} value={form.web} onChange={e => setForm(f => ({ ...f, web: e.target.value }))} placeholder="Opcional" />
+            </div>
+            <div>
+              <label style={S.label}><Instagram size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Instagram</label>
+              <input style={S.input} value={form.instagram} onChange={e => setForm(f => ({ ...f, instagram: e.target.value }))} placeholder="Opcional" />
+            </div>
+            <div>
+              <label style={S.label}><Linkedin size={14} style={{marginRight:4,verticalAlign:'middle'}}/>LinkedIn</label>
+              <input style={S.input} value={form.linkedin} onChange={e => setForm(f => ({ ...f, linkedin: e.target.value }))} placeholder="Opcional" />
+            </div>
+            <div>
+              <label style={S.label}><MapPin size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Ubicación</label>
+              <input style={S.input} value={form.ubicacion} onChange={e => setForm(f => ({ ...f, ubicacion: e.target.value }))} placeholder="País, ciudad... (opcional)" />
+            </div>
+            <div>
+              <label style={S.label}><Building2 size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Área de negocio</label>
+              <select style={S.input} value={form.area_negocio} onChange={e => setForm(f => ({ ...f, area_negocio: e.target.value }))}>
+                <option value="">Selecciona (opcional)</option>
+                <option value="Estética">Estética</option>
+                <option value="Salud">Salud</option>
+                <option value="Educación">Educación</option>
+                <option value="Tecnología">Tecnología</option>
+                <option value="Comercio">Comercio</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <div>
+              <label style={S.label}><BadgeDollarSign size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Nº ID Fiscal</label>
+              <input style={S.input} value={form.id_fiscal} onChange={e => setForm(f => ({ ...f, id_fiscal: e.target.value }))} placeholder="Opcional" />
+            </div>
+            <div>
+              <label style={S.label}><FileText size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Tipo Fiscal</label>
+              <select style={S.input} value={form.tipo_fiscal} onChange={e => setForm(f => ({ ...f, tipo_fiscal: e.target.value }))}>
+                <option value="">Selecciona (opcional)</option>
+                <option value="Autónomo">Autónomo</option>
+                <option value="Empresa">Empresa</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <div style={{ gridColumn: "1 / -1" }}>
+              <label style={S.label}><StickyNote size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Notas</label>
+              <textarea style={{ ...S.input, minHeight: 48 }} value={form.notas} onChange={e => setForm(f => ({ ...f, notas: e.target.value }))} placeholder="Notas, comentarios, etc. (opcional)" />
             </div>
             <div style={{ gridColumn: "1 / -1" }}>
               <label style={S.label}>Estatus</label>
-              <select style={S.input} value={form.estatus} onChange={(e) => setForm((f) => ({ ...f, estatus: e.target.value }))}>
-                {ESTATUS.map((e) => (
-                  <option key={e} value={e}>
-                    {e}
-                  </option>
+              <select style={S.input} value={form.estatus} onChange={e => setForm(f => ({ ...f, estatus: e.target.value }))}>
+                {ESTATUS.map(e => (
+                  <option key={e} value={e}>{e}</option>
                 ))}
               </select>
             </div>

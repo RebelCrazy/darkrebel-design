@@ -1,5 +1,16 @@
 import type { Metadata } from "next";
+
 import "./globals.css";
+
+import Head from "next/head";
+
+export const metadata: Metadata = {
+  title: "Dark Rebel | Portal de Proyectos",
+  description: "Portal de gestion de proyectos para clientes y administracion",
+  icons: {
+    icon: "/favicon.svg"
+  }
+};
 import { Syne, DM_Mono, DM_Sans } from "next/font/google";
 import React from "react";
 
@@ -21,10 +32,7 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
 });
 
-export const metadata: Metadata = {
-  title: "Dark Rebel | Portal de Proyectos",
-  description: "Portal de gestion de proyectos para clientes y administracion"
-};
+
 
 export default function RootLayout({
   children,

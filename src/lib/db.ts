@@ -3,18 +3,42 @@ import type { D1Database } from "@cloudflare/workers-types";
 export const runtime = "edge";
 
 // CRUD Clientes
-export async function crearCliente(data: { nombre: string; email: string; estatus?: string }) {
+export async function crearCliente(data: any) {
   const db = getDB();
   const id = crypto.randomUUID();
-  await db.prepare(`INSERT INTO clientes (id, nombre, email, estatus) VALUES (?1, ?2, ?3, ?4)`).bind(
-    id, data.nombre, data.email, data.estatus || 'Lead'
+  await db.prepare(`INSERT INTO clientes (id, nombre, email, estatus, telefono, web, instagram, linkedin, ubicacion, area_negocio, id_fiscal, tipo_fiscal, notas) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)`).bind(
+    id,
+    data.nombre,
+    data.email,
+    data.estatus || 'Lead',
+    data.telefono || null,
+    data.web || null,
+    data.instagram || null,
+    data.linkedin || null,
+    data.ubicacion || null,
+    data.area_negocio || null,
+    data.id_fiscal || null,
+    data.tipo_fiscal || null,
+    data.notas || null
   ).run();
   return id;
 }
 export async function actualizarCliente(id: string, data: any) {
   const db = getDB();
-  await db.prepare(`UPDATE clientes SET nombre = ?2, email = ?3, estatus = ?4 WHERE id = ?1`).bind(
-    id, data.nombre, data.email, data.estatus
+  await db.prepare(`UPDATE clientes SET nombre = ?2, email = ?3, estatus = ?4, telefono = ?5, web = ?6, instagram = ?7, linkedin = ?8, ubicacion = ?9, area_negocio = ?10, id_fiscal = ?11, tipo_fiscal = ?12, notas = ?13 WHERE id = ?1`).bind(
+    id,
+    data.nombre,
+    data.email,
+    data.estatus,
+    data.telefono || null,
+    data.web || null,
+    data.instagram || null,
+    data.linkedin || null,
+    data.ubicacion || null,
+    data.area_negocio || null,
+    data.id_fiscal || null,
+    data.tipo_fiscal || null,
+    data.notas || null
   ).run();
 }
 export async function eliminarCliente(id: string) {
@@ -351,4 +375,52 @@ export async function obtenerProyectoPorId(id: string) {
   `;
   const result = await db.prepare(query).bind(id).first();
   return result ?? null;
+}
+
+// ZOHO TOKENS
+export async function guardarZohoTokens(data: {
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+  token_type?: string;
+  scope?: string;
+}) {
+  const db = getDB();
+  await db.prepare(`INSERT INTO zoho_tokens (access_token, refresh_token, expires_in, token_type, scope) VALUES (?1, ?2, ?3, ?4, ?5)`).bind(
+    data.access_token,
+    data.refresh_token,
+    data.expires_in,
+    data.token_type || null,
+    data.scope || null
+  ).run();
+}
+
+export async function obtenerZohoTokenActual() {
+  const db = getDB();
+  // Obtiene el token más reciente
+  const row = await db.prepare(`SELECT * FROM zoho_tokens ORDER BY created_at DESC LIMIT 1`).first();
+  return row ?? null;
+}
+
+export async function refrescarZohoToken(refresh_token: string) {
+  const client_id = '1000.OONQK4REOQ6C4UKGCH6912DLS1MYWI';
+  const client_secret = '4336496defead834211ee2bc9340851811bbc8a070';
+  const redirect_uri = 'https://proyectos.darkrebel.store/api/zoho/callback';
+  const params = new URLSearchParams({
+    refresh_token,
+    client_id,
+    client_secret,
+    redirect_uri,
+    grant_type: 'refresh_token',
+  });
+  const tokenRes = await fetch('https://accounts.zoho.com/oauth/v2/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params.toString(),
+  });
+  const data = await tokenRes.json();
+  if (data.access_token) {
+    await guardarZohoTokens(data);
+  }
+  return data;
 }

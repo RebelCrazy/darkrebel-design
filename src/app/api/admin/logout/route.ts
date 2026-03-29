@@ -3,7 +3,8 @@ import { getSessionCookieOptions, SESSION_COOKIE_NAME } from "@/lib/auth";
 
 export const runtime = "edge";
 
-export async function POST(req: Request) {
+
+async function handleLogout(req: Request) {
   const response = NextResponse.redirect(new URL("/admin/login", req.url), 303);
   response.cookies.set(SESSION_COOKIE_NAME, "", {
     ...getSessionCookieOptions(),
@@ -11,3 +12,6 @@ export async function POST(req: Request) {
   });
   return response;
 }
+
+export const POST = handleLogout;
+export const GET = handleLogout;

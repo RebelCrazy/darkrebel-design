@@ -38,11 +38,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div style={{ display:'flex', height:'100vh', overflow:'hidden', background:'#080808' }}>
       <nav style={{ width:240, flexShrink:0, background:'#111111', borderRight:'1px solid #222220', display:'flex', flexDirection:'column' }}>
-        <div style={{ padding:'20px 16px', borderBottom:'1px solid #222220' }}>
-          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-            <div style={{ width:28, height:28, background:'#ff2020', borderRadius:5, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:900, fontSize:15, color:'#000' }}>D</div>
-            <span style={{ fontWeight:800, fontSize:15, color:'#f0ede8' }}>Dark<span style={{ color:'#ff2020' }}>Rebel</span></span>
-          </div>
+        <div style={{ padding:'20px 16px', borderBottom:'1px solid #222220', display:'flex', flexDirection:'column', alignItems:'center' }}>
+          <img src="/logo.svg" alt="Dark Rebel Design" style={{ width: 120, height: 'auto', marginBottom: 8, filter: 'brightness(0) saturate(100%) invert(100%)' }} />
         </div>
         <div style={{ padding:'10px 8px', flex:1 }}>
           <Link href="/dashboard" style={{ display:'block', padding:'7px 10px', borderRadius:5, marginBottom:8, textDecoration:'none', fontSize:11, color:'#555552', border:'1px solid #222220' }}>Dashboard</Link>

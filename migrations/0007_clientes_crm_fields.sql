@@ -1,0 +1,10 @@
+-- Migración: agregar campos CRM a clientes
+ALTER TABLE clientes ADD COLUMN telefono TEXT;
+ALTER TABLE clientes ADD COLUMN web TEXT;
+ALTER TABLE clientes ADD COLUMN instagram TEXT;
+ALTER TABLE clientes ADD COLUMN linkedin TEXT;
+ALTER TABLE clientes ADD COLUMN ubicacion TEXT;
+ALTER TABLE clientes ADD COLUMN area_negocio TEXT;
+ALTER TABLE clientes ADD COLUMN id_fiscal TEXT;
+ALTER TABLE clientes ADD COLUMN tipo_fiscal TEXT;
+ALTER TABLE clientes ADD COLUMN notas TEXT;
