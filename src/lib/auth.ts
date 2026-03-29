@@ -124,7 +124,8 @@ export function getSessionCookieOptions() {
     secure: true,
     sameSite: "lax" as const,
     path: "/",
-    maxAge: SESSION_TTL_SECONDS
+    maxAge: SESSION_TTL_SECONDS,
+    domain: ".darkrebel.store"
   };
 }
 
