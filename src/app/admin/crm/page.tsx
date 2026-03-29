@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Phone, Mail, Globe, Instagram, Linkedin, MapPin, Building2, BadgeDollarSign, FileText, StickyNote } from "lucide-react";
 
+
+interface Cliente {
   id: string;
   nombre: string;
   email: string;
