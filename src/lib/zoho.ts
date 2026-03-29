@@ -23,10 +23,13 @@ export async function uploadFileToZoho(file: any, access_token: string) {
 }
 
 // Listar carpetas y archivos en una carpeta (útil para obtener folder_id)
-export async function listZohoFolders(access_token: string, parent_id?: string) {
-  const url = parent_id
-    ? `https://www.zohoapis.com/workdrive/api/v1/folders/${parent_id}/records`
-    : 'https://www.zohoapis.com/workdrive/api/v1/root';
+export async function listZohoFolders(access_token: string, parent_id?: string | null) {
+  let url: string;
+  if (typeof parent_id === 'string' && parent_id.length > 0) {
+    url = `https://www.zohoapis.com/workdrive/api/v1/folders/${parent_id}/records`;
+  } else {
+    url = 'https://www.zohoapis.com/workdrive/api/v1/root';
+  }
   const res = await fetch(url, {
     headers: { Authorization: `Zoho-oauthtoken ${access_token}` },
   });
