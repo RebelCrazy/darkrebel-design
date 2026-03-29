@@ -315,7 +315,20 @@ export default function CrmPage() {
                           <button
                             type="button"
                             onClick={() => {
-                              setForm({ nombre: c.nombre, email: c.email, estatus: c.estatus });
+                              setForm({
+                                nombre: c.nombre,
+                                email: c.email,
+                                estatus: c.estatus,
+                                telefono: c.telefono || "",
+                                web: c.web || "",
+                                instagram: c.instagram || "",
+                                linkedin: c.linkedin || "",
+                                ubicacion: c.ubicacion || "",
+                                area_negocio: c.area_negocio || "",
+                                id_fiscal: c.id_fiscal || "",
+                                tipo_fiscal: c.tipo_fiscal || "",
+                                notas: c.notas || ""
+                              });
                               setEditId(c.id);
                               setShowForm(true);
                             }}
