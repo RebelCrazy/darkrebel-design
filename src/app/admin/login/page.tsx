@@ -8,9 +8,42 @@ type LoginPageProps = {
   }>;
 };
 
-export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
-  const resolvedSearchParams = await searchParams;
-  const hasError = resolvedSearchParams?.error === "1";
+import React, { useState } from "react";
+
+export default function AdminLoginPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        body: new URLSearchParams({ username, password }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        credentials: "include"
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.redirect) {
+          window.location.href = data.redirect;
+        } else {
+          setError("Error desconocido. Intenta de nuevo.");
+        }
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || "Credenciales inválidas. Intenta de nuevo.");
+      }
+    } catch (err) {
+      setError("Error de red. Intenta de nuevo.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <main style={{ minHeight: '100vh', minWidth: '100vw', background: '#000', position: 'fixed', inset: 0, zIndex: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -23,12 +56,12 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
           <div style={{ fontFamily: 'Syne, sans-serif', fontSize: '1.15rem', textAlign: 'center', marginBottom: 28, color: '#aaa9a6' }}>
             DARK REBEL DESIGN — Área Restringida
           </div>
-          {hasError ? (
+          {error && (
             <div style={{ marginBottom: 18, border: '1px solid #ff3c3c', background: 'rgba(255,60,60,0.08)', color: '#ff3c3c', borderRadius: 8, padding: '10px 16px', fontSize: 15, width: '100%', textAlign: 'center', fontFamily: 'DM Sans, sans-serif' }}>
-              ❌ Credenciales inválidas. Intenta de nuevo.
+              ❌ {error}
             </div>
-          ) : null}
-          <form action="/api/admin/login" method="post" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, fontFamily: 'DM Sans, sans-serif', fontSize: '1.08rem' }}>
+          )}
+          <form onSubmit={handleSubmit} style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, fontFamily: 'DM Sans, sans-serif', fontSize: '1.08rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <label htmlFor="login-user" style={{ fontFamily: 'Syne, sans-serif', fontSize: '1.08rem', color: '#f0ede8', marginBottom: 2 }}>Usuario</label>
               <input
@@ -38,6 +71,8 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
                 autoComplete="username"
                 required
                 placeholder="admin"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
                 style={{
                   borderRadius: 8,
                   border: '1.5px solid #222220',
@@ -62,6 +97,8 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
                 autoComplete="current-password"
                 required
                 placeholder="••••••••"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
                 style={{
                   borderRadius: 8,
                   border: '1.5px solid #222220',
@@ -79,6 +116,7 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
             </div>
             <button
               type="submit"
+              disabled={loading}
               style={{
                 borderRadius: 8,
                 background: '#ff2020',
@@ -91,13 +129,14 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
                 border: 'none',
                 boxShadow: '0 2px 8px #ff202022',
                 transition: 'background 0.2s',
-                cursor: 'pointer',
+                cursor: loading ? 'not-allowed' : 'pointer',
                 width: '100%',
                 marginTop: 10,
                 textTransform: 'none',
+                opacity: loading ? 0.7 : 1,
               }}
             >
-              Entrar al panel
+              {loading ? 'Entrando...' : 'Entrar al panel'}
             </button>
           </form>
         </div>
