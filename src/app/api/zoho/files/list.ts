@@ -9,10 +9,12 @@ export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const parent_id = url.searchParams.get('parent_id');
   
-  // Validar: debe ser string no-vacío o null
-  const parentFolder: string | null = typeof parent_id === 'string' && parent_id.trim() 
-    ? parent_id.trim() 
-    : null;
+  // Convertir a string | null de forma explícita
+  let parentFolder: string | null = null;
+  
+  if (typeof parent_id === 'string' && parent_id.trim().length > 0) {
+    parentFolder = parent_id.trim();
+  }
 
   const token = await obtenerZohoTokenActual();
   if (!token?.access_token) {
@@ -23,11 +25,13 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const data = await listZohoFolders(token.access_token, parentFolder);
+    // Force explicit type with 'as string | null'
+    const data = await listZohoFolders(token.access_token, parentFolder as string | null);
     return NextResponse.json({ success: true, data });
   } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : String(e);
     return NextResponse.json(
-      { error: 'List failed', details: String(e) }, 
+      { error: 'List failed', details: errorMessage }, 
       { status: 500 }
     );
   }
