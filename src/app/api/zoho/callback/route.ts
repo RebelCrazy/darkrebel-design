@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { DB } from '@/lib/db';
 import { guardarZohoTokens } from '@/lib/db';
 
+export const runtime = 'edge';
+
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const code = url.searchParams.get('code');
