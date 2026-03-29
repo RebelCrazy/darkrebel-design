@@ -122,7 +122,7 @@ export function getSessionCookieOptions() {
   return {
     httpOnly: true,
     secure: true,
-    sameSite: "strict" as const,
+    sameSite: "lax" as const,
     path: "/",
     maxAge: SESSION_TTL_SECONDS
   };
