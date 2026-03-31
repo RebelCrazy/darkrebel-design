@@ -1,7 +1,6 @@
 "use client";
 
 import { ChangeEvent, useState } from "react";
-import { puter } from "@heyputer/puter.js";
 
 type ListedItem = {
   id: string;
@@ -29,19 +28,20 @@ export default function PuterFilesPanel() {
   const refreshListing = async () => {
     setBusy(true);
     setError("");
-
     try {
-      await puter.fs.mkdir(demoDir, { createMissingParents: true, overwrite: true });
-      const list = await puter.fs.readdir(demoDir);
-      const normalized = list.map((item) => ({
-        id: item.uid || item.id || item.path,
+      const res = await fetch("/api/files/list");
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || "Error al listar archivos");
+      // Suponiendo que data.files es un array de archivos con {name, size, ...}
+      const normalized = (data.files || []).map((item: any, idx: number) => ({
+        id: item.id || item.name || idx,
         name: item.name,
-        path: item.path,
-        isDirectory: item.isDirectory,
-        size: item.size,
+        path: item.path || item.name,
+        isDirectory: item.isDirectory || false,
+        size: item.size ?? null,
       }));
       setItems(normalized);
-      setStatus(`Carpeta sincronizada: ${demoDir}`);
+      setStatus("Archivos listados desde R2");
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
@@ -52,16 +52,16 @@ export default function PuterFilesPanel() {
   const createDemoNote = async () => {
     setBusy(true);
     setError("");
-
     try {
       const now = new Date().toLocaleString("es-MX");
-      await puter.fs.write(
-        `${demoDir}/nota-darkrebel.txt`,
-        `Dark Rebel demo\nGenerado: ${now}\n\n- Brief revisado\n- Propuesta en curso\n- Siguiente paso: feedback del cliente\n`,
-        { createMissingParents: true, overwrite: true }
-      );
+      const file = new File([
+        `Dark Rebel demo\nGenerado: ${now}\n\n- Brief revisado\n- Propuesta en curso\n- Siguiente paso: feedback del cliente\n`
+      ], "nota-darkrebel.txt", { type: "text/plain" });
+      const formData = new FormData();
+      formData.append("file", file);
+      await fetch("/api/files/upload", { method: "POST", body: formData });
       await refreshListing();
-      setStatus("Se creo o actualizo la nota de demostracion en Puter FS.");
+      setStatus("Se creó o actualizó la nota de demostración en R2.");
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
       setBusy(false);
@@ -76,12 +76,11 @@ export default function PuterFilesPanel() {
     setError("");
 
     try {
-      await puter.fs.write(`${demoDir}/${file.name}`, file, {
-        createMissingParents: true,
-        overwrite: true,
-      });
+      const formData = new FormData();
+      formData.append("file", file);
+      await fetch("/api/files/upload", { method: "POST", body: formData });
       await refreshListing();
-      setStatus(`Archivo cargado en Puter FS: ${file.name}`);
+      setStatus(`Archivo cargado en R2: ${file.name}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
       setBusy(false);
@@ -199,7 +198,7 @@ export default function PuterFilesPanel() {
                 key={item.id}
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "1.6fr 1fr auto",
+                  gridTemplateColumns: "1.2fr 1fr 1fr auto",
                   gap: 10,
                   padding: "10px 12px",
                   borderRadius: 10,
@@ -214,6 +213,25 @@ export default function PuterFilesPanel() {
                 </div>
                 <div style={{ fontSize: 11, color: "#aaa9a6" }}>{item.isDirectory ? "carpeta" : "archivo"}</div>
                 <div style={{ fontSize: 11, color: "#ff6b35" }}>{formatSize(item.size)}</div>
+                <button
+                  style={{
+                    background: "#222220",
+                    color: "#d4ff00",
+                    border: "none",
+                    borderRadius: 8,
+                    padding: "6px 12px",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    window.open(`/api/files/download?name=${encodeURIComponent(item.name)}`);
+                  }}
+                  disabled={item.isDirectory}
+                  title="Descargar archivo"
+                >
+                  Descargar
+                </button>
               </div>
             ))}
           </div>
