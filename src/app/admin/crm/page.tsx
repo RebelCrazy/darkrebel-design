@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Phone, Mail, Globe, Instagram, Linkedin, MapPin, Building2, BadgeDollarSign, FileText, StickyNote } from "lucide-react";
 
-
 interface Cliente {
   id: string;
   nombre: string;
@@ -22,6 +21,20 @@ interface Cliente {
 }
 
 const ESTATUS = ["Lead", "Contactado", "Cliente Activo", "Inactivo"];
+const EMPTY_FORM = {
+  nombre: "",
+  email: "",
+  estatus: "Lead",
+  telefono: "",
+  web: "",
+  instagram: "",
+  linkedin: "",
+  ubicacion: "",
+  area_negocio: "",
+  id_fiscal: "",
+  tipo_fiscal: "",
+  notas: ""
+};
 
 const S = {
   card: { background: "#111111", border: "1px solid #222220", borderRadius: 12, overflow: "hidden" as const },
@@ -53,31 +66,26 @@ export default function CrmPage() {
   const [rows, setRows] = useState<Cliente[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
-  const [form, setForm] = useState({
-    nombre: "",
-    email: "",
-    estatus: "Lead",
-    telefono: "",
-    web: "",
-    instagram: "",
-    linkedin: "",
-    ubicacion: "",
-    area_negocio: "",
-    id_fiscal: "",
-    tipo_fiscal: "",
-    notas: ""
-  });
+  const [form, setForm] = useState(EMPTY_FORM);
   const [search, setSearch] = useState("");
   const [vista, setVista] = useState<"tabla" | "embudo">("tabla");
 
   const load = useCallback(() => {
     setLoading(true);
+    setError("");
     fetch("/api/crm")
-      .then((r) => r.json())
-      .then((d) => setRows(Array.isArray(d) ? d : []))
-      .catch(() => setRows([]))
+      .then(async (r) => {
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(data.error || "No se pudieron cargar los clientes");
+        setRows(Array.isArray(data) ? data : []);
+      })
+      .catch((err) => {
+        setRows([]);
+        setError(err instanceof Error ? err.message : "No se pudieron cargar los clientes");
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -93,50 +101,42 @@ export default function CrmPage() {
       return;
     }
     setSaving(true);
+    setError("");
     try {
-      if (editId) {
-        await fetch("/api/crm", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: editId, ...form }),
-        });
-      } else {
-        await fetch("/api/crm", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        });
-      }
+      const res = await fetch("/api/crm", {
+        method: editId ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editId ? { id: editId, ...form } : form),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "No se pudo guardar el cliente");
+
       setShowForm(false);
       setEditId(null);
-      setForm({
-        nombre: "",
-        email: "",
-        estatus: "Lead",
-        telefono: "",
-        web: "",
-        instagram: "",
-        linkedin: "",
-        ubicacion: "",
-        area_negocio: "",
-        id_fiscal: "",
-        tipo_fiscal: "",
-        notas: ""
-      });
+      setForm(EMPTY_FORM);
       load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo guardar el cliente");
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async (id: string, nombre: string) => {
-    if (!confirm(`¿Eliminar cliente «${nombre}»?`)) return;
-    await fetch("/api/crm", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-    load();
+    if (!confirm(`Eliminar cliente \"${nombre}\"?`)) return;
+    setError("");
+    try {
+      const res = await fetch("/api/crm", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "No se pudo eliminar el cliente");
+      load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo eliminar el cliente");
+    }
   };
 
   return (
@@ -172,20 +172,7 @@ export default function CrmPage() {
           type="button"
           onClick={() => {
             setEditId(null);
-            setForm({
-              nombre: "",
-              email: "",
-              estatus: "Lead",
-              telefono: "",
-              web: "",
-              instagram: "",
-              linkedin: "",
-              ubicacion: "",
-              area_negocio: "",
-              id_fiscal: "",
-              tipo_fiscal: "",
-              notas: ""
-            });
+            setForm(EMPTY_FORM);
             setShowForm(true);
           }}
           style={S.btnAccent}
@@ -195,8 +182,14 @@ export default function CrmPage() {
       </div>
 
       <p style={{ fontSize: 13, color: "#555552", marginBottom: 20, maxWidth: 560 }}>
-        Base de contactos enlazada a proyectos. Al crear un proyecto con email, se crea o reutiliza el cliente automáticamente.
+        Base de contactos enlazada a proyectos. Al crear un proyecto con email, se crea o reutiliza el cliente automaticamente.
       </p>
+
+      {error ? (
+        <div style={{ marginBottom: 16, border: "1px solid #ff3c3c", background: "rgba(255,60,60,0.08)", color: "#ff8d8d", borderRadius: 8, padding: "10px 14px", fontSize: 13 }}>
+          {error}
+        </div>
+      ) : null}
 
       {showForm && (
         <div style={{ ...S.card, marginBottom: 20 }}>
@@ -213,7 +206,7 @@ export default function CrmPage() {
               <input type="email" style={S.input} value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
             </div>
             <div>
-              <label style={S.label}><Phone size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Teléfono</label>
+              <label style={S.label}><Phone size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Telefono</label>
               <input style={S.input} value={form.telefono} onChange={e => setForm(f => ({ ...f, telefono: e.target.value }))} placeholder="Opcional" />
             </div>
             <div>
@@ -229,30 +222,30 @@ export default function CrmPage() {
               <input style={S.input} value={form.linkedin} onChange={e => setForm(f => ({ ...f, linkedin: e.target.value }))} placeholder="Opcional" />
             </div>
             <div>
-              <label style={S.label}><MapPin size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Ubicación</label>
-              <input style={S.input} value={form.ubicacion} onChange={e => setForm(f => ({ ...f, ubicacion: e.target.value }))} placeholder="País, ciudad... (opcional)" />
+              <label style={S.label}><MapPin size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Ubicacion</label>
+              <input style={S.input} value={form.ubicacion} onChange={e => setForm(f => ({ ...f, ubicacion: e.target.value }))} placeholder="Pais, ciudad... (opcional)" />
             </div>
             <div>
-              <label style={S.label}><Building2 size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Área de negocio</label>
+              <label style={S.label}><Building2 size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Area de negocio</label>
               <select style={S.input} value={form.area_negocio} onChange={e => setForm(f => ({ ...f, area_negocio: e.target.value }))}>
                 <option value="">Selecciona (opcional)</option>
-                <option value="Estética">Estética</option>
+                <option value="Estetica">Estetica</option>
                 <option value="Salud">Salud</option>
-                <option value="Educación">Educación</option>
-                <option value="Tecnología">Tecnología</option>
+                <option value="Educacion">Educacion</option>
+                <option value="Tecnologia">Tecnologia</option>
                 <option value="Comercio">Comercio</option>
                 <option value="Otro">Otro</option>
               </select>
             </div>
             <div>
-              <label style={S.label}><BadgeDollarSign size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Nº ID Fiscal</label>
+              <label style={S.label}><BadgeDollarSign size={14} style={{marginRight:4,verticalAlign:'middle'}}/>No. ID Fiscal</label>
               <input style={S.input} value={form.id_fiscal} onChange={e => setForm(f => ({ ...f, id_fiscal: e.target.value }))} placeholder="Opcional" />
             </div>
             <div>
               <label style={S.label}><FileText size={14} style={{marginRight:4,verticalAlign:'middle'}}/>Tipo Fiscal</label>
               <select style={S.input} value={form.tipo_fiscal} onChange={e => setForm(f => ({ ...f, tipo_fiscal: e.target.value }))}>
                 <option value="">Selecciona (opcional)</option>
-                <option value="Autónomo">Autónomo</option>
+                <option value="Autonomo">Autonomo</option>
                 <option value="Empresa">Empresa</option>
                 <option value="Otro">Otro</option>
               </select>

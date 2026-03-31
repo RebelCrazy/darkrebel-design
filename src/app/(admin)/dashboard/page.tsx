@@ -5,6 +5,7 @@ import Link from 'next/link'
 type Priority = 'high' | 'mid' | 'low'
 interface Task { title: string; meta: string; priority: Priority; done: boolean }
 interface Project { id: string; uid?: string; nombre: string; cliente_email?: string; progreso: number; estado: string }
+interface Proposal { total?: number; estado?: string; moneda?: string }
 
 const priorityColor: Record<Priority, string> = { high:'#ff3c3c', mid:'#ff6b35', low:'#555552' }
 const statusColor: Record<string, string> = {
@@ -23,6 +24,8 @@ export default function Dashboard() {
   const [projects, setProjects] = useState<Project[]>([])
   const [tasks, setTasks] = useState<Task[]>(INIT_TASKS)
   const [propuestasBorrador, setPropuestasBorrador] = useState(0)
+  const [ingresosAceptados, setIngresosAceptados] = useState(0)
+  const [propuestasAceptadas, setPropuestasAceptadas] = useState(0)
 
   useEffect(() => {
     fetch('/api/proyectos')
@@ -32,7 +35,16 @@ export default function Dashboard() {
     fetch('/api/propuestas')
       .then(r => r.json())
       .then((d) => {
-        if (Array.isArray(d)) setPropuestasBorrador(d.filter((x: { estado?: string }) => x.estado === 'Borrador').length)
+        if (!Array.isArray(d)) return
+
+        const rows = d as Proposal[]
+        const accepted = rows.filter((x) => (x.estado || '').toLowerCase() === 'aceptada')
+
+        setPropuestasBorrador(rows.filter((x) => x.estado === 'Borrador').length)
+        setPropuestasAceptadas(accepted.length)
+        setIngresosAceptados(
+          accepted.reduce((sum, row) => sum + (Number(row.total) || 0), 0)
+        )
       })
       .catch(() => {})
   }, [])
@@ -43,6 +55,8 @@ export default function Dashboard() {
     { label:'PROYECTOS', value:projects.length, color:'#f0ede8' },
     { label:'EN CURSO', value:projects.filter(p => p.estado !== 'Finalizado').length, color:'#ff2020' },
     { label:'FINALIZADOS', value:projects.filter(p => p.estado === 'Finalizado').length, color:'#47e8a0' },
+    { label:'INGRESOS', value:`$${ingresosAceptados.toLocaleString()}`, color:'#47e8a0' },
+    { label:'ACEPTADAS', value:propuestasAceptadas, color:'#f0ede8' },
     { label:'PROP. BORRADOR', value:propuestasBorrador, color:'#4fa3ff' },
     { label:'CHECKLIST', value:tasks.filter(t => !t.done).length, color:'#ff6b35' },
   ]
@@ -53,6 +67,11 @@ export default function Dashboard() {
         <Link href={"/dashboard/kit" as never} style={{ display:'inline-block', marginBottom:14, padding:'8px 14px', borderRadius:8, background:'rgba(255,32,32,0.1)', border:'1px solid #333330', color:'#ff2020', fontSize:12, fontWeight:600, textDecoration:'none' }}>
           Abrir Kit freelance (hub tipo Notion) →
         </Link>
+        <div>
+          <Link href={"/dashboard/puter" as never} style={{ display:'inline-block', padding:'8px 14px', borderRadius:8, background:'#f0ede8', border:'1px solid #333330', color:'#080808', fontSize:12, fontWeight:700, textDecoration:'none' }}>
+            Abrir Puter Lab
+          </Link>
+        </div>
       </div>
       <div style={{ marginBottom:24 }}>
         <div style={{ fontWeight:800, fontSize:24, color:'#f0ede8', marginBottom:4 }}>Bienvenido, Dark Rebel</div>

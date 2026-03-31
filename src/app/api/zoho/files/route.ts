@@ -15,12 +15,17 @@ export async function POST(req: NextRequest) {
 
   // Obtener token Zoho
   const token = await obtenerZohoTokenActual();
-  if (!token?.access_token) {
+  const accessToken =
+    typeof token?.access_token === 'string' && token.access_token.trim().length > 0
+      ? token.access_token
+      : null;
+
+  if (!accessToken) {
     return NextResponse.json({ error: 'No Zoho access token available' }, { status: 500 });
   }
 
   try {
-    const result = await uploadFileToZoho(file, token.access_token);
+    const result = await uploadFileToZoho(file, accessToken);
     return NextResponse.json({ success: true, result });
   } catch (e) {
     return NextResponse.json({ error: 'Upload failed', details: e }, { status: 500 });

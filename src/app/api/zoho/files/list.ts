@@ -17,7 +17,12 @@ export async function GET(req: NextRequest) {
   }
 
   const token = await obtenerZohoTokenActual();
-  if (!token?.access_token) {
+  const accessToken =
+    typeof token?.access_token === 'string' && token.access_token.trim().length > 0
+      ? token.access_token
+      : null;
+
+  if (!accessToken) {
     return NextResponse.json(
       { error: 'No Zoho access token available' }, 
       { status: 500 }
@@ -25,8 +30,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Force explicit type with 'as string | null'
-    const data = await listZohoFolders(token.access_token, parentFolder as string | null);
+    const data = await listZohoFolders(accessToken, parentFolder);
     return NextResponse.json({ success: true, data });
   } catch (e) {
     const errorMessage = e instanceof Error ? e.message : String(e);

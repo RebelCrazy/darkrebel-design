@@ -2,44 +2,67 @@ import type { D1Database } from "@cloudflare/workers-types";
 
 export const runtime = "edge";
 
+async function getTableColumns(db: D1Database, tableName: string): Promise<Set<string>> {
+  const result = await db.prepare(`PRAGMA table_info(${tableName})`).all<{ name: string }>();
+  return new Set((result.results ?? []).map((row) => row.name));
+}
+
+function hasColumn(columns: Set<string>, name: string): boolean {
+  return columns.has(name);
+}
+
 // CRUD Clientes
 export async function crearCliente(data: any) {
   const db = getDB();
   const id = crypto.randomUUID();
-  await db.prepare(`INSERT INTO clientes (id, nombre, email, estatus, telefono, web, instagram, linkedin, ubicacion, area_negocio, id_fiscal, tipo_fiscal, notas) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)`).bind(
+  const columns = await getTableColumns(db, "clientes");
+  const values: Record<string, unknown> = {
     id,
-    data.nombre,
-    data.email,
-    data.estatus || 'Lead',
-    data.telefono || null,
-    data.web || null,
-    data.instagram || null,
-    data.linkedin || null,
-    data.ubicacion || null,
-    data.area_negocio || null,
-    data.id_fiscal || null,
-    data.tipo_fiscal || null,
-    data.notas || null
-  ).run();
+    nombre: data.nombre,
+    email: data.email,
+    estatus: data.estatus || "Lead",
+    telefono: data.telefono || null,
+    web: data.web || null,
+    instagram: data.instagram || null,
+    linkedin: data.linkedin || null,
+    ubicacion: data.ubicacion || null,
+    area_negocio: data.area_negocio || null,
+    id_fiscal: data.id_fiscal || null,
+    tipo_fiscal: data.tipo_fiscal || null,
+    notas: data.notas || null,
+  };
+  const availableColumns = Object.keys(values).filter((column) => hasColumn(columns, column));
+  const placeholders = availableColumns.map((_, index) => `?${index + 1}`);
+  await db
+    .prepare(`INSERT INTO clientes (${availableColumns.join(", ")}) VALUES (${placeholders.join(", ")})`)
+    .bind(...availableColumns.map((column) => values[column]))
+    .run();
   return id;
 }
 export async function actualizarCliente(id: string, data: any) {
   const db = getDB();
-  await db.prepare(`UPDATE clientes SET nombre = ?2, email = ?3, estatus = ?4, telefono = ?5, web = ?6, instagram = ?7, linkedin = ?8, ubicacion = ?9, area_negocio = ?10, id_fiscal = ?11, tipo_fiscal = ?12, notas = ?13 WHERE id = ?1`).bind(
-    id,
-    data.nombre,
-    data.email,
-    data.estatus,
-    data.telefono || null,
-    data.web || null,
-    data.instagram || null,
-    data.linkedin || null,
-    data.ubicacion || null,
-    data.area_negocio || null,
-    data.id_fiscal || null,
-    data.tipo_fiscal || null,
-    data.notas || null
-  ).run();
+  const columns = await getTableColumns(db, "clientes");
+  const updates = [
+    ["nombre", data.nombre],
+    ["email", data.email],
+    ["estatus", data.estatus],
+    ["telefono", data.telefono || null],
+    ["web", data.web || null],
+    ["instagram", data.instagram || null],
+    ["linkedin", data.linkedin || null],
+    ["ubicacion", data.ubicacion || null],
+    ["area_negocio", data.area_negocio || null],
+    ["id_fiscal", data.id_fiscal || null],
+    ["tipo_fiscal", data.tipo_fiscal || null],
+    ["notas", data.notas || null],
+  ].filter(([column]) => hasColumn(columns, column)) as Array<[string, unknown]>;
+
+  await db
+    .prepare(
+      `UPDATE clientes SET ${updates.map(([column], index) => `${column} = ?${index + 2}`).join(", ")} WHERE id = ?1`
+    )
+    .bind(id, ...updates.map(([, value]) => value))
+    .run();
 }
 export async function eliminarCliente(id: string) {
   const db = getDB();
@@ -130,31 +153,36 @@ async function resolverClienteIdPorEmail(db: D1Database, email: string | undefin
 export async function crearProyecto(data: any) {
   const db = getDB();
   const id = crypto.randomUUID();
-  const clienteId =
-    data.cliente_id || (await resolverClienteIdPorEmail(db, data.cliente_email));
+  const columns = await getTableColumns(db, "proyectos");
+  const clienteId = hasColumn(columns, "cliente_id")
+    ? data.cliente_id || (await resolverClienteIdPorEmail(db, data.cliente_email))
+    : null;
+  const values: Record<string, unknown> = {
+    id,
+    nombre: data.nombre,
+    cliente_id: clienteId,
+    cliente_email: data.cliente_email || null,
+    progreso: data.progreso || 0,
+    estado: data.estado,
+    link_figma: data.link_figma || null,
+    uid: data.uid || crypto.randomUUID(),
+    url_produccion: data.url_produccion || null,
+    url_staging: data.url_staging || null,
+    stack: data.stack || null,
+    hosting: data.hosting || null,
+    notas_internas: data.notas_internas || null,
+  };
+  const availableColumns = Object.keys(values).filter((column) => hasColumn(columns, column));
+  const placeholders = availableColumns.map((_, index) => `?${index + 1}`);
   await db
-    .prepare(
-      `INSERT INTO proyectos (id, nombre, cliente_id, progreso, estado, link_figma, uid, url_produccion, url_staging, stack, hosting, notas_internas) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)`
-    )
-    .bind(
-      id,
-      data.nombre,
-      clienteId,
-      data.progreso || 0,
-      data.estado,
-      data.link_figma || null,
-      data.uid || crypto.randomUUID(),
-      data.url_produccion || null,
-      data.url_staging || null,
-      data.stack || null,
-      data.hosting || null,
-      data.notas_internas || null
-    )
+    .prepare(`INSERT INTO proyectos (${availableColumns.join(", ")}) VALUES (${placeholders.join(", ")})`)
+    .bind(...availableColumns.map((column) => values[column]))
     .run();
   return id;
 }
 export async function actualizarProyecto(id: string, data: any) {
   const db = getDB();
+  const columns = await getTableColumns(db, "proyectos");
   const current = await db.prepare(`SELECT * FROM proyectos WHERE id = ?`).bind(id).first<Record<string, unknown>>();
   if (!current) return;
 
@@ -170,18 +198,37 @@ export async function actualizarProyecto(id: string, data: any) {
   const notas_internas =
     data.notas_internas !== undefined ? data.notas_internas : (current.notas_internas as string | null);
 
-  let clienteId = (current.cliente_id as string | null) ?? null;
-  if (data.cliente_id !== undefined) {
-    clienteId = data.cliente_id as string | null;
-  } else if (Object.prototype.hasOwnProperty.call(data, "cliente_email")) {
-    clienteId = await resolverClienteIdPorEmail(db, data.cliente_email);
+  let clienteId = hasColumn(columns, "cliente_id") ? ((current.cliente_id as string | null) ?? null) : null;
+  if (hasColumn(columns, "cliente_id")) {
+    if (data.cliente_id !== undefined) {
+      clienteId = data.cliente_id as string | null;
+    } else if (Object.prototype.hasOwnProperty.call(data, "cliente_email")) {
+      clienteId = await resolverClienteIdPorEmail(db, data.cliente_email);
+    }
   }
+
+  const updates = [
+    ["nombre", nombre],
+    ["cliente_id", clienteId],
+    [
+      "cliente_email",
+      data.cliente_email !== undefined ? data.cliente_email : (current.cliente_email as string | null),
+    ],
+    ["progreso", progreso],
+    ["estado", estado],
+    ["link_figma", link_figma],
+    ["url_produccion", url_produccion],
+    ["url_staging", url_staging],
+    ["stack", stack],
+    ["hosting", hosting],
+    ["notas_internas", notas_internas],
+  ].filter(([column]) => hasColumn(columns, column)) as Array<[string, unknown]>;
 
   await db
     .prepare(
-      `UPDATE proyectos SET nombre = ?2, cliente_id = ?3, progreso = ?4, estado = ?5, link_figma = ?6, url_produccion = ?7, url_staging = ?8, stack = ?9, hosting = ?10, notas_internas = ?11 WHERE id = ?1`
+      `UPDATE proyectos SET ${updates.map(([column], index) => `${column} = ?${index + 2}`).join(", ")} WHERE id = ?1`
     )
-    .bind(id, nombre, clienteId, progreso, estado, link_figma, url_produccion, url_staging, stack, hosting, notas_internas)
+    .bind(id, ...updates.map(([, value]) => value))
     .run();
 }
 export async function eliminarProyecto(id: string) {
@@ -191,10 +238,14 @@ export async function eliminarProyecto(id: string) {
 // CRM: Clientes con conteo de proyectos activos
 export async function obtenerClientesConProyectos() {
   const db = getDB();
+  const projectColumns = await getTableColumns(db, "proyectos");
+  const projectJoin = hasColumn(projectColumns, "cliente_id")
+    ? "p.cliente_id = c.id"
+    : "p.cliente_email = c.email";
   const query = `
     SELECT c.*, COUNT(p.id) as proyectos_activos
     FROM clientes c
-    LEFT JOIN proyectos p ON p.cliente_id = c.id AND p.estado != 'Finalizado'
+    LEFT JOIN proyectos p ON ${projectJoin} AND p.estado != 'Finalizado'
     GROUP BY c.id
     ORDER BY c.created_at DESC
   `;
@@ -354,25 +405,47 @@ function getDB(): D1Database {
 
 export async function obtenerProyectos() {
   const db = getDB();
-  const query = `
-    SELECT p.*, c.email AS cliente_email
-    FROM proyectos p
-    LEFT JOIN clientes c ON p.cliente_id = c.id
-    ORDER BY p.created_at DESC
-  `;
+  const columns = await getTableColumns(db, "proyectos");
+  const hasClienteId = hasColumn(columns, "cliente_id");
+  const hasClienteEmail = hasColumn(columns, "cliente_email");
+  const clienteEmailSelect = hasClienteEmail ? "COALESCE(c.email, p.cliente_email)" : "c.email";
+  const query = hasClienteId
+    ? `
+      SELECT p.*, ${clienteEmailSelect} AS cliente_email
+      FROM proyectos p
+      LEFT JOIN clientes c ON p.cliente_id = c.id
+      ORDER BY p.created_at DESC
+    `
+    : `
+      SELECT p.*
+      FROM proyectos p
+      ORDER BY p.created_at DESC
+    `;
   const result = await db.prepare(query).all();
   return result.results ?? [];
 }
 
 export async function obtenerProyectoPorId(id: string) {
   const db = getDB();
-  const query = `
-    SELECT p.*, c.email AS cliente_email
-    FROM proyectos p
-    LEFT JOIN clientes c ON p.cliente_id = c.id
-    WHERE p.uid = ?1 OR p.id = ?1
-    LIMIT 1
-  `;
+  const columns = await getTableColumns(db, "proyectos");
+  const hasClienteId = hasColumn(columns, "cliente_id");
+  const hasClienteEmail = hasColumn(columns, "cliente_email");
+  const whereClause = hasColumn(columns, "uid") ? "p.uid = ?1 OR p.id = ?1" : "p.id = ?1";
+  const clienteEmailSelect = hasClienteEmail ? "COALESCE(c.email, p.cliente_email)" : "c.email";
+  const query = hasClienteId
+    ? `
+      SELECT p.*, ${clienteEmailSelect} AS cliente_email
+      FROM proyectos p
+      LEFT JOIN clientes c ON p.cliente_id = c.id
+      WHERE ${whereClause}
+      LIMIT 1
+    `
+    : `
+      SELECT p.*
+      FROM proyectos p
+      WHERE ${whereClause}
+      LIMIT 1
+    `;
   const result = await db.prepare(query).bind(id).first();
   return result ?? null;
 }

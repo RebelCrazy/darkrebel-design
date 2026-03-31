@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import PuterStatus from "@/components/PuterStatus";
 
 export const runtime = "edge";
 
@@ -26,6 +27,7 @@ export default function HomeCoverPage() {
           >
             Acceso a Proyectos
           </Link>
+          <PuterStatus />
         </div>
       </main>
       <footer className="w-full py-4 flex flex-col items-center text-xs text-zinc-500 font-serif opacity-70">
