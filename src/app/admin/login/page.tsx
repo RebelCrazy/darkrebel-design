@@ -22,10 +22,14 @@ export default function AdminLoginPage() {
     setError("");
     setLoading(true);
     try {
+      // ✅ Crear FormData FUERA del fetch
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("password", password);
+
       const res = await fetch("/api/admin/login", {
         method: "POST",
-        body: new URLSearchParams({ username, password }),
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData,
         credentials: "include"
       });
       if (res.ok) {
