@@ -119,13 +119,10 @@ export async function verifyAdminCredentials(username: string, password: string)
 }
 
 export function getSessionCookieOptions() {
-  const nodeEnv = process.env.NODE_ENV;
-  const isProduction = nodeEnv === "production";
-
   return {
     httpOnly: true,
-    secure: isProduction,
-    sameSite: "lax" as const,
+    secure: true,
+    sameSite: "none" as const,
     path: "/",
     maxAge: SESSION_TTL_SECONDS
   };
