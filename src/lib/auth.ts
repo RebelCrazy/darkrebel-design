@@ -8,63 +8,47 @@ type SessionPayload = {
   exp: number;
 };
 
-function constantTimeEqual(a: string, b: string): boolean {
-  const maxLength = Math.max(a.length, b.length);
-  let diff = a.length ^ b.length;
-
-  for (let i = 0; i < maxLength; i += 1) {
-    const codeA = i < a.length ? a.charCodeAt(i) : 0;
-    const codeB = i < b.length ? b.charCodeAt(i) : 0;
-    diff |= codeA ^ codeB;
-  }
-
-  return diff === 0;
-}
-
 function getEnv(name: string): string {
   const value = process.env[name];
 
   if (!value) {
-    throw new Error(`Falta variable de entorno requerida: ${name}`);
+    console.warn(`Variable de entorno no encontrada: ${name}`);
+    return "";
   }
 
   return value;
 }
 
-function bytesToBase64Url(bytes: Uint8Array): string {
-  let binary = "";
-  for (const byte of bytes) {
-    binary += String.fromCharCode(byte);
+// SHA-256 simple
+async function sha256(input: string): Promise<string> {
+  try {
+    const data = new TextEncoder().encode(input);
+    const digest = await crypto.subtle.digest("SHA-256", data);
+    return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  } catch (e) {
+    console.error("Error en SHA-256:", e);
+    throw e;
   }
-
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
-function base64UrlToBytes(value: string): Uint8Array {
-  const base64 = value.replace(/-/g, "+").replace(/_/g, "/");
-  const padded = base64 + "=".repeat((4 - (base64.length % 4)) % 4);
-  const binary = atob(padded);
+// HMAC-SHA256
+async function hmacSha256(message: string, secret: string): Promise<string> {
+  try {
+    const key = await crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(secret),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"]
+    );
 
-  return Uint8Array.from(binary, (char) => char.charCodeAt(0));
-}
-
-async function sha256Hex(input: string): Promise<string> {
-  const data = new TextEncoder().encode(input);
-  const digest = await crypto.subtle.digest("SHA-256", data);
-  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
-}
-
-async function sign(message: string, secret: string): Promise<string> {
-  const key = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"]
-  );
-
-  const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(message));
-  return bytesToBase64Url(new Uint8Array(signature));
+    const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(message));
+    const digest = new Uint8Array(signature);
+    return [...digest].map((b) => b.toString(16).padStart(2, "0")).join("");
+  } catch (e) {
+    console.error("Error en HMAC:", e);
+    throw e;
+  }
 }
 
 export async function createSessionToken(username: string): Promise<string> {
@@ -75,47 +59,63 @@ export async function createSessionToken(username: string): Promise<string> {
     exp: now + SESSION_TTL_SECONDS
   };
 
-  const payloadEncoded = bytesToBase64Url(new TextEncoder().encode(JSON.stringify(payload)));
   const secret = getEnv("ADMIN_SESSION_SECRET");
-  const signature = await sign(payloadEncoded, secret);
+  const message = JSON.stringify(payload);
+  const signature = await hmacSha256(message, secret);
 
-  return `${payloadEncoded}.${signature}`;
+  return Buffer.from(JSON.stringify({ payload, signature })).toString("base64");
 }
 
 export async function verifySessionToken(token: string): Promise<SessionPayload | null> {
-  const [payloadPart, signaturePart] = token.split(".");
-
-  if (!payloadPart || !signaturePart) {
-    return null;
-  }
-
-  const expected = await sign(payloadPart, getEnv("ADMIN_SESSION_SECRET"));
-  if (!constantTimeEqual(signaturePart, expected)) {
-    return null;
-  }
-
   try {
-    const payloadJson = new TextDecoder().decode(base64UrlToBytes(payloadPart));
-    const payload = JSON.parse(payloadJson) as SessionPayload;
-
-    if (!payload?.sub || !payload?.exp || payload.exp < Math.floor(Date.now() / 1000)) {
+    const secret = getEnv("ADMIN_SESSION_SECRET");
+    if (!secret) {
+      console.warn("No SESSION_SECRET configurado");
       return null;
     }
 
-    return payload;
-  } catch {
+    const decoded = JSON.parse(Buffer.from(token, "base64").toString("utf-8"));
+    const { payload, signature } = decoded;
+
+    if (!payload?.sub || !payload?.exp) {
+      return null;
+    }
+
+    const expected = await hmacSha256(JSON.stringify(payload), secret);
+    if (signature !== expected) {
+      console.warn("Firma de sesión inválida");
+      return null;
+    }
+
+    if (payload.exp < Math.floor(Date.now() / 1000)) {
+      return null;
+    }
+
+    return payload as SessionPayload;
+  } catch (e) {
+    console.error("Error verificando sesión:", e);
     return null;
   }
 }
 
 export async function verifyAdminCredentials(username: string, password: string): Promise<boolean> {
-  const expectedUser = getEnv("ADMIN_USERNAME");
-  const expectedHash = getEnv("ADMIN_PASSWORD_HASH").toLowerCase();
+  try {
+    const expectedUser = getEnv("ADMIN_USERNAME");
+    const expectedHash = getEnv("ADMIN_PASSWORD_HASH")?.toLowerCase();
 
-  const providedUser = username.trim();
-  const providedHash = await sha256Hex(password);
+    if (!expectedUser || !expectedHash) {
+      console.error("Variables de admin no configuradas");
+      return false;
+    }
 
-  return constantTimeEqual(providedUser, expectedUser) && constantTimeEqual(providedHash, expectedHash);
+    const providedUser = username.trim();
+    const providedHash = await sha256(password);
+
+    return providedUser === expectedUser && providedHash === expectedHash;
+  } catch (e) {
+    console.error("Error verificando credenciales:", e);
+    return false;
+  }
 }
 
 export function getSessionCookieOptions() {
