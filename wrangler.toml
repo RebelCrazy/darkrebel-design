@@ -12,6 +12,3 @@ database_id = "9a4018e6-489e-4be4-a27f-4fdd0c5b00e3"
 binding = "MY_BUCKET"
 bucket_name = "darkrebel-files"
 preview_bucket_name = "darkrebel-files-preview"
-
-[env.production]
-vars = { ADMIN_USERNAME = "darkrebel-admin", ADMIN_PASSWORD_HASH = "9a961c9ab9a9f790177617e009debfe57580c8c1eea61cdce27d618482bfa709", ADMIN_SESSION_SECRET = "PtZMvuWj93WRC0DBs/ut/WFMLGs0jXFq4GR5clMEzfg=" }
