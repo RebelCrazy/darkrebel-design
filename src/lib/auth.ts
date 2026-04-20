@@ -103,6 +103,15 @@ export async function verifyAdminCredentials(username: string, password: string)
     const expectedUser = getEnv("ADMIN_USERNAME");
     const expectedHash = getEnv("ADMIN_PASSWORD_HASH")?.toLowerCase();
 
+    console.log("DEBUG AUTH:", {
+      usernameProvided: username,
+      expectedUser,
+      hashedProvidedPassword: await sha256(password),
+      expectedHash,
+      userMatch: username.trim() === expectedUser,
+      hashMatch: (await sha256(password)).toLowerCase() === expectedHash
+    });
+
     if (!expectedUser || !expectedHash) {
       console.error("Variables de admin no configuradas");
       return false;
@@ -111,7 +120,9 @@ export async function verifyAdminCredentials(username: string, password: string)
     const providedUser = username.trim();
     const providedHash = await sha256(password);
 
-    return providedUser === expectedUser && providedHash === expectedHash;
+    const isValid = providedUser === expectedUser && providedHash === expectedHash;
+    console.log("Autenticación resultado:", isValid);
+    return isValid;
   } catch (e) {
     console.error("Error verificando credenciales:", e);
     return false;
@@ -122,7 +133,7 @@ export function getSessionCookieOptions() {
   return {
     httpOnly: true,
     secure: true,
-    sameSite: "none" as const,
+    sameSite: "lax" as const,
     path: "/",
     maxAge: SESSION_TTL_SECONDS
   };

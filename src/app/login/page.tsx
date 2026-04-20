@@ -4,20 +4,39 @@ import { LockKeyhole } from "lucide-react";
 
 export default function AdminLoginPage() {
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(false);
-    const form = e.currentTarget;
-    const username = (form.username as HTMLInputElement).value;
-    const password = (form.password as HTMLInputElement).value;
+    setLoading(true);
+    
+    try {
+      const form = e.currentTarget;
+      const username = (form.username as HTMLInputElement).value;
+      const password = (form.password as HTMLInputElement).value;
 
-    // Puedes cambiar esta validación por una llamada a la API si lo deseas
-    if (password === "huikbSSQExZ7uIdyWbp0ht1K") {
-      document.cookie = "darkrebel_session=true; path=/; max-age=3600;";
-      window.location.href = "/admin";
-    } else {
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("password", password);
+
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        window.location.href = data.redirect || "/dashboard";
+      } else {
+        setError(true);
+      }
+    } catch (err) {
+      console.error("Error en login:", err);
       setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,9 +83,10 @@ export default function AdminLoginPage() {
 
           <button
             type="submit"
-            className="mt-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-100 hover:border-zinc-400"
+            disabled={loading}
+            className="mt-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-100 hover:border-zinc-400 disabled:opacity-50"
           >
-            Iniciar sesión
+            {loading ? "Ingresando..." : "Iniciar sesión"}
           </button>
         </form>
       </section>
