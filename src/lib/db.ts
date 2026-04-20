@@ -404,25 +404,40 @@ function getDB(): D1Database {
 
 
 export async function obtenerProyectos() {
-  const db = getDB();
-  const columns = await getTableColumns(db, "proyectos");
-  const hasClienteId = hasColumn(columns, "cliente_id");
-  const hasClienteEmail = hasColumn(columns, "cliente_email");
-  const clienteEmailSelect = hasClienteEmail ? "COALESCE(c.email, p.cliente_email)" : "c.email";
-  const query = hasClienteId
-    ? `
-      SELECT p.*, ${clienteEmailSelect} AS cliente_email
-      FROM proyectos p
-      LEFT JOIN clientes c ON p.cliente_id = c.id
-      ORDER BY p.created_at DESC
-    `
-    : `
-      SELECT p.*
-      FROM proyectos p
-      ORDER BY p.created_at DESC
-    `;
-  const result = await db.prepare(query).all();
-  return result.results ?? [];
+  try {
+    const db = getDB();
+    // Simple query sin joins para evitar errores
+    const result = await db.prepare(`
+      SELECT * FROM proyectos
+      ORDER BY updated_at DESC LIMIT 100
+    `).all();
+    
+    if (!result.results) return [];
+    
+    // Enriquecer con datos del cliente si es posible
+    const proyectos = result.results as any[];
+    for (const proyecto of proyectos) {
+      if (proyecto.cliente_id) {
+        try {
+          const clienteResult = await db.prepare(`
+            SELECT email, nombre FROM clientes WHERE id = ?
+          `).bind(proyecto.cliente_id).first();
+          
+          if (clienteResult) {
+            proyecto.cliente_email = clienteResult.email;
+            proyecto.cliente_nombre = clienteResult.nombre;
+          }
+        } catch (e) {
+          console.error("Error obteniendo cliente:", e);
+        }
+      }
+    }
+    
+    return proyectos;
+  } catch (error) {
+    console.error("Error en obtenerProyectos:", error);
+    return [];
+  }
 }
 
 export async function obtenerProyectoPorId(id: string) {
