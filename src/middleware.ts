@@ -32,15 +32,6 @@ export async function middleware(req: NextRequest) {
     return withSecurityHeaders(NextResponse.redirect(toLogin));
   }
 
-  if (pathname === "/") {
-    const token = req.cookies.get(SESSION_COOKIE_NAME)?.value;
-    const session = token ? await verifySessionToken(token) : null;
-    const redirectUrl = req.nextUrl.clone();
-    redirectUrl.pathname = session ? "/dashboard" : "/admin/login";
-    redirectUrl.search = "";
-    return withSecurityHeaders(NextResponse.redirect(redirectUrl));
-  }
-
   if (!needsSessionGate(pathname)) {
     return withSecurityHeaders(NextResponse.next());
   }
