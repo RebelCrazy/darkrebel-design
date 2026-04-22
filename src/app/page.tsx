@@ -256,11 +256,11 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 gap-1 bg-[var(--border)]">
-              {[
+              {([
                 { num: '1', title: t('step1.title'), desc: t('step1.desc'), btn: lang === 'es' ? 'Comienza aquí' : 'Start here', link: '/contacto' },
                 { num: '2', title: t('step2.title'), desc: t('step2.desc'), btn: lang === 'es' ? 'Conoce más' : 'Learn more', link: '/nosotros' },
                 { num: '3', title: t('step3.title'), desc: t('step3.desc'), btn: lang === 'es' ? 'Ver servicios' : 'View services', link: '/servicios' }
-              ].map((step, i) => (
+              ] as { num: string; title: string; desc: string; btn: string; link: string }[]).map((step, i) => (
                 <div key={i} className="grid grid-cols-1 lg:grid-cols-[120px_1fr_auto] gap-12 py-20 px-10 bg-[var(--bg)] group hover:bg-[var(--surface2)] transition-all duration-500">
                   <div className="display-md text-9xl text-[var(--border)] group-hover:text-[var(--accent)] transition-colors">{step.num}</div>
                   <div className="max-w-xl">
@@ -268,7 +268,7 @@ export default function Home() {
                     <p className="text-[var(--text3)] text-lg leading-relaxed">{step.desc}</p>
                   </div>
                   <div className="flex items-center">
-                    <Link href={step.link} className="btn btn-sm group-hover:bg-[var(--accent)] group-hover:text-black transition-all">
+                    <Link href={step.link as any} className="btn btn-sm group-hover:bg-[var(--accent)] group-hover:text-black transition-all">
                       {step.btn}
                     </Link>
                   </div>
