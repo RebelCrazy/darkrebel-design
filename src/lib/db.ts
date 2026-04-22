@@ -104,9 +104,27 @@ export async function eliminarColaborador(id: string) {
 export async function crearTarea(data: any) {
   const db = getDB();
   const id = crypto.randomUUID();
-  await db.prepare(`INSERT INTO tareas (id, proyecto_id, colaborador_id, titulo, descripcion, estado, fecha_entrega, visible_cliente) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)`).bind(
-    id, data.proyecto_id, data.colaborador_id || null, data.titulo, data.descripcion, data.estado || 'Pendiente', data.fecha_entrega, data.visible_cliente !== false ? 1 : 0
-  ).run();
+  const columns = await getTableColumns(db, "tareas");
+  
+  const values: Record<string, unknown> = {
+    id,
+    proyecto_id: data.proyecto_id,
+    colaborador_id: data.colaborador_id || null,
+    titulo: data.titulo,
+    descripcion: data.descripcion || null,
+    estado: data.estado || 'Pendiente',
+    fecha_entrega: data.fecha_entrega || null,
+    visible_cliente: data.visible_cliente !== false ? 1 : 0
+  };
+
+  const availableColumns = Object.keys(values).filter((column) => hasColumn(columns, column));
+  const placeholders = availableColumns.map((_, index) => `?${index + 1}`);
+  
+  await db
+    .prepare(`INSERT INTO tareas (${availableColumns.join(", ")}) VALUES (${placeholders.join(", ")})`)
+    .bind(...availableColumns.map((column) => values[column]))
+    .run();
+    
   return id;
 }
 export async function actualizarTarea(id: string, data: any) {
@@ -256,11 +274,16 @@ export async function obtenerClientesConProyectos() {
 // Tareas con info de proyecto y cliente
 export async function obtenerTareasConProyectoYCliente() {
   const db = getDB();
+  const projectColumns = await getTableColumns(db, "proyectos");
+  const projectJoin = hasColumn(projectColumns, "cliente_id")
+    ? "p.cliente_id = c.id"
+    : "p.cliente_email = c.email";
+
   const query = `
     SELECT t.*, p.nombre as proyecto_nombre, p.uid as proyecto_uid, c.nombre as cliente_nombre, col.nombre as colaborador_nombre
     FROM tareas t
     LEFT JOIN proyectos p ON t.proyecto_id = p.id
-    LEFT JOIN clientes c ON p.cliente_id = c.id
+    LEFT JOIN clientes c ON ${projectJoin}
     LEFT JOIN colaboradores col ON t.colaborador_id = col.id
     ORDER BY t.fecha_entrega ASC
   `;
@@ -316,11 +339,16 @@ export async function eliminarPlantilla(id: string) {
 // Propuestas / presupuestos
 export async function obtenerPropuestas() {
   const db = getDB();
+  const projectColumns = await getTableColumns(db, "proyectos");
+  const projectJoin = hasColumn(projectColumns, "cliente_id")
+    ? "p.cliente_id = c.id"
+    : "p.cliente_email = c.email";
+
   const query = `
     SELECT pr.*, p.nombre AS proyecto_nombre, c.email AS cliente_email
     FROM propuestas pr
     LEFT JOIN proyectos p ON pr.proyecto_id = p.id
-    LEFT JOIN clientes c ON p.cliente_id = c.id
+    LEFT JOIN clientes c ON ${projectJoin}
     ORDER BY pr.created_at DESC
   `;
   const result = await db.prepare(query).all();
@@ -407,9 +435,12 @@ export async function obtenerProyectos() {
   try {
     const db = getDB();
     // Simple query sin joins para evitar errores
+    const columns = await getTableColumns(db, "proyectos");
+    const orderBy = hasColumn(columns, "updated_at") ? "updated_at" : "created_at";
+    
     const result = await db.prepare(`
       SELECT * FROM proyectos
-      ORDER BY updated_at DESC LIMIT 100
+      ORDER BY ${orderBy} DESC LIMIT 100
     `).all();
     
     if (!result.results) return [];
