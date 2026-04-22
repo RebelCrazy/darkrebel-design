@@ -46,7 +46,7 @@ export function Navbar() {
           {['Inicio', 'Nosotros', 'Servicios', 'Blog', 'Contacto'].map((item) => (
             <Link 
               key={item} 
-              href={item === 'Inicio' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`} 
+              href={(item === 'Inicio' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`) as any} 
               className="label text-[10px] hover:text-[var(--accent)] transition-colors relative group"
             >
               {t(`nav.${item.toLowerCase().replace(' ', '-')}`)}
@@ -88,7 +88,7 @@ export function Navbar() {
           {['Inicio', 'Nosotros', 'Servicios', 'Blog', 'Contacto'].map((item) => (
             <Link 
               key={item} 
-              href={item === 'Inicio' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`} 
+              href={(item === 'Inicio' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`) as any} 
               className="display-md text-4xl text-[var(--text)] hover:text-[var(--accent)] transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
