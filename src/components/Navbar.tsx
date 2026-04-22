@@ -65,12 +65,12 @@ export function Navbar() {
              </button>
           </div>
           
-          <Link href="/cart" className="relative group">
+          <Link href={"/cart" as any} className="relative group">
             <ShoppingCart size={18} className="group-hover:text-[var(--accent)] transition-colors" />
             <span className="absolute -top-2 -right-2 w-4 h-4 bg-[var(--accent)] text-black text-[9px] font-bold flex items-center justify-center rounded-full">0</span>
           </Link>
 
-          <Link href="https://proyectos.darkrebel.store" target="_blank" className="btn btn-sm hidden md:flex items-center gap-2 text-[10px]">
+          <Link href={"https://proyectos.darkrebel.store" as any} target="_blank" className="btn btn-sm hidden md:flex items-center gap-2 text-[10px]">
             Portal Clientes <ExternalLink size={12} />
           </Link>
 
