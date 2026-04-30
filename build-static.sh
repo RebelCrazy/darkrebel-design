@@ -5,23 +5,15 @@ set -e
 mkdir -p .vercel/output/static
 mkdir -p .vercel/output/static/admin
 
-# Copiar archivos HTML desde la raíz y desde public/
-cp -r ./*.html .vercel/output/static/ 2>/dev/null || true
-cp -r ./public/*.html .vercel/output/static/ 2>/dev/null || true
+# 1. Copiar todo el contenido de landing-page
+cp -r ./landing-page/* .vercel/output/static/ 2>/dev/null || true
 
-# Copiar SVGs
-cp ./*.svg .vercel/output/static/ 2>/dev/null || true
-cp ./public/*.svg .vercel/output/static/ 2>/dev/null || true
+# 2. Copiar imágenes y assets compartidos desde public
+cp -r ./public/* .vercel/output/static/ 2>/dev/null || true
 
-# Copiar admin.html como admin/index.html
-if [ -f "admin.html" ]; then
-  cp admin.html .vercel/output/static/admin/index.html
+# 3. Mover admin.html a su propia carpeta (si existe en static)
+if [ -f ".vercel/output/static/admin.html" ]; then
+  mv .vercel/output/static/admin.html .vercel/output/static/admin/index.html
 fi
-
-# Copiar carpetas de assets (css, js, fonts)
-for d in css js fonts; do
-  [ -d "$d" ] && cp -r "$d" .vercel/output/static/
-  [ -d "public/$d" ] && cp -r "public/$d" .vercel/output/static/
-done
 
 echo "✅ Build estático completado."
