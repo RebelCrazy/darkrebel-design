@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('ks_theme')||'dark'}catch(e){}</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicio — DARK REBEL DESIGN</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <style>
+    /* ── SERVICE PAGE ── */
+    .service-hero {
+      padding: calc(var(--topbar-h) + 8rem) clamp(1.5rem,5vw,4rem) 0;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .service-breadcrumb {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-head); font-size: 0.75rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text2); margin-bottom: 2.5rem;
+    }
+    .service-breadcrumb a { color: var(--text2); transition: color 0.2s; }
+    .service-breadcrumb a:hover { color: var(--accent); }
+    .service-breadcrumb span { color: var(--muted); }
+
+    .service-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 5rem;
+      align-items: start;
+      padding-bottom: clamp(6rem,10vw,12rem);
+    }
+    @media (max-width: 900px) {
+      .service-layout { grid-template-columns: 1fr; gap: 3rem; }
+    }
+
+    /* LEFT */
+    .service-cover {
+      width: 100%; aspect-ratio: 16/7;
+      object-fit: cover;
+      display: block;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .service-cat {
+      font-family: var(--font-head); font-size: 0.7rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .service-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 5.5rem);
+      line-height: 0.92; margin-bottom: 2rem;
+    }
+    .service-full-desc {
+      font-size: 1.125rem; line-height: 1.75;
+      color: var(--text2); max-width: 640px;
+      margin-bottom: 3rem;
+    }
+    .service-section-title {
+      font-family: var(--font-head); font-size: 0.7rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .service-deliverables {
+      list-style: none; display: flex; flex-direction: column; gap: 0.75rem;
+      margin-bottom: 3rem;
+    }
+    .service-deliverables li {
+      display: flex; align-items: flex-start; gap: 0.875rem;
+      font-size: 1rem; line-height: 1.5; color: var(--text);
+    }
+    .service-deliverables li::before {
+      content: '';
+      width: 6px; height: 6px; min-width: 6px;
+      background: var(--accent);
+      margin-top: 0.45em;
+    }
+    .service-timeline-row {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .service-timeline-icon {
+      font-family: var(--font-display); font-size: 2rem;
+      color: var(--accent); line-height: 1;
+    }
+    .service-timeline-label {
+      font-family: var(--font-head); font-size: 0.7rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.25rem;
+    }
+    .service-timeline-val {
+      font-family: var(--font-head); font-size: 0.95rem; font-weight: 600;
+    }
+
+    /* RIGHT — sticky card */
+    .service-card {
+      position: sticky; top: calc(var(--topbar-h) + 6rem);
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      padding: 2.5rem;
+    }
+    .service-card-price {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 4vw, 4.5rem);
+      line-height: 1; color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .service-card-old {
+      font-size: 1rem; color: var(--muted);
+      text-decoration: line-through;
+      margin-bottom: 1.5rem; display: block;
+    }
+    .service-card-badge {
+      display: inline-block;
+      font-family: var(--font-head); font-size: 0.6rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--bg); background: var(--accent);
+      padding: 0.25rem 0.625rem;
+      margin-bottom: 2rem;
+    }
+    .service-card-divider { height: 1px; background: var(--border); margin: 1.75rem 0; }
+    .service-card-meta {
+      display: flex; flex-direction: column; gap: 0.875rem;
+      margin-bottom: 2rem;
+    }
+    .service-card-meta-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.85rem;
+    }
+    .service-card-meta-row span:first-child { color: var(--text2); }
+    .service-card-meta-row span:last-child { font-weight: 600; }
+    .btn-add-service {
+      width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background: var(--accent); color: #fff;
+      font-family: var(--font-head); font-size: 0.8rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 1.125rem 2rem; border: none; cursor: pointer;
+      transition: opacity 0.2s; margin-bottom: 0.875rem;
+    }
+    .btn-add-service:hover { opacity: 0.85; }
+    .btn-contact-service {
+      width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background: transparent; color: var(--text);
+      font-family: var(--font-head); font-size: 0.8rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 1.125rem 2rem;
+      border: 1px solid var(--border); cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+    .btn-contact-service:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* RELATED */
+    .related-section { border-top: 1px solid var(--border); padding: clamp(4rem,8vw,8rem) 0; }
+    .related-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 2px; background: var(--border); margin-top: 3rem;
+    }
+    @media (max-width: 768px) { .related-grid { grid-template-columns: 1fr; } }
+    .related-card {
+      background: var(--bg);
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 0.75rem;
+      transition: background 0.2s;
+    }
+    .related-card:hover { background: var(--bg2); }
+    .related-card-cat {
+      font-family: var(--font-head); font-size: 0.65rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent);
+    }
+    .related-card-name {
+      font-family: var(--font-head); font-size: 1.05rem; font-weight: 700;
+      line-height: 1.3;
+    }
+    .related-card-price {
+      font-family: var(--font-display); font-size: 2rem; line-height: 1;
+    }
+    .related-card-link {
+      margin-top: auto;
+      font-family: var(--font-head); font-size: 0.7rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text2); display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .related-card-link:hover { color: var(--accent); }
+    .related-card-link svg { stroke: currentColor; }
+  </style>
+</head>
+<body data-page="shop">
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="toast"></div>
+
+<div class="topbar">
+  <span class="topbar-email" data-i18n="topbar.cta">Contáctanos: info@darkrebel.store</span>
+  <div class="topbar-socials">
+    <a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a>
+  </div>
+</div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo"><img src="logo.svg" alt="Dark Rebel Design" /></a>
+  <div class="nav-links">
+    <a href="index.html" data-i18n="nav.home">Inicio</a>
+    <a href="about.html" data-i18n="nav.about">Nosotros</a>
+    <a href="shop.html" data-i18n="nav.services">Servicios</a>
+    <a href="blog.html" data-i18n="nav.blog">Blog</a>
+    <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+  </div>
+  <div class="nav-right">
+    <a href="cart.html" class="nav-cart-btn"><span data-i18n="nav.cart">Carrito</span> <span class="cart-count" style="display:none">0</span></a>
+    <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">EN</button>
+    <button class="theme-btn" id="theme-toggle" aria-label="Toggle theme"><i data-lucide="sun"></i><i data-lucide="moon"></i></button>
+    <button class="nav-hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<nav class="mobile-nav">
+  <a href="index.html" data-i18n="nav.home">Inicio</a>
+  <a href="about.html" data-i18n="nav.about">Nosotros</a>
+  <a href="shop.html" data-i18n="nav.services">Servicios</a>
+  <a href="blog.html" data-i18n="nav.blog">Blog</a>
+  <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+  <a href="cart.html" data-i18n="nav.cart">Carrito</a>
+</nav>
+
+<!-- CONTENT injected by JS -->
+<div id="service-root"></div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-main">
+      <div>
+        <div class="footer-brand-name"><img src="logo.svg" alt="Dark Rebel Design" /></div>
+        <p class="footer-brand-desc" data-i18n="footer.desc.short">Estudio de diseño digital premium.</p>
+      </div>
+      <div><div class="footer-col-title" data-i18n="footer.pages">Páginas</div><div class="footer-links"><a href="index.html" data-i18n="footer.home">Inicio</a><a href="about.html" data-i18n="footer.about">Sobre nosotros</a><a href="shop.html" data-i18n="footer.services">Servicios</a><a href="contact.html" data-i18n="nav.contact">Contacto</a></div></div>
+      <div><div class="footer-col-title" data-i18n="footer.services">Servicios</div><div class="footer-links"><a href="shop.html" data-i18n="footer.brand-identity">Identidad de Marca</a><a href="shop.html" data-i18n="footer.web-design">Diseño Web</a><a href="shop.html" data-i18n="footer.uiux">UI/UX</a></div></div>
+      <div><div class="footer-col-title" data-i18n="footer.follow">Síguenos</div><div class="footer-links"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div></div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer.rights.short">© 2026 DARK REBEL DESIGN</span>
+      <div class="footer-socials">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        <a href="#" aria-label="Behance"><svg viewBox="0 0 24 24"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.202.715 1.91 1.909 1.91.742 0 1.302-.38 1.495-1.02l2.352.139zm-7.855-4h4.414c-.08-1.197-.62-1.888-2.067-1.888-1.32 0-2.11.688-2.347 1.888zM9.197 11.56c1.023-.324 1.734-1.019 1.734-2.21C10.931 7.196 9.26 6 6.944 6H0v12h7.208c2.428 0 4.255-1.176 4.255-3.496 0-1.374-.683-2.517-2.266-2.944zM2.498 8.123h4.095c.855 0 1.46.412 1.46 1.274 0 .856-.605 1.274-1.595 1.274H2.498V8.123zm4.52 7.565H2.498v-2.995h4.52c1.066 0 1.712.504 1.712 1.531 0 1.024-.646 1.464-1.712 1.464z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="scroll-top-btn" aria-label="Scroll to top">↑</button>
+
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/main.js"></script>
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
+  const root = document.getElementById('service-root');
+
+  // Reset localStorage so seed data with new fields is always fresh
+  // (only if stored version lacks fullDesc)
+  try {
+    const stored = JSON.parse(localStorage.getItem('ks_products') || '[]');
+    if (stored.length && !stored[0].fullDesc) localStorage.removeItem('ks_products');
+  } catch(e) {}
+
+  const all = getProducts();
+  const p = all.find(x => x.id === id);
+
+  if (!p) {
+    root.innerHTML = `<div style="padding:12rem clamp(1.5rem,5vw,4rem); text-align:center">
+      <div style="font-family:var(--font-display);font-size:5rem;color:var(--muted)">404</div>
+      <p style="color:var(--text2);margin:1rem 0 2rem">Servicio no encontrado.</p>
+      <a href="shop.html" class="btn-add-service" style="display:inline-flex;text-decoration:none;padding:1rem 2.5rem">← Ver todos los servicios</a>
+    </div>`;
+    return;
+  }
+
+  // Related: other active products (max 3)
+  const related = all.filter(x => x.id !== id && x.status === 'active').slice(0, 3);
+
+  document.title = `${p.name} — DARK REBEL DESIGN`;
+
+  root.innerHTML = `
+    <div class="service-hero">
+      <div class="service-breadcrumb">
+        <a href="shop.html">Servicios</a>
+        <span>/</span>
+        <span>${p.cat}</span>
+        <span>/</span>
+        <span style="color:var(--text)">${p.name}</span>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="service-layout">
+
+        <!-- LEFT -->
+        <div>
+          <img class="service-cover" src="${p.img}" alt="${p.name}">
+          <div class="service-cat">${p.cat}</div>
+          <h1 class="service-title">${p.name}</h1>
+          <p class="service-full-desc">${p.fullDesc}</p>
+
+          <div class="service-section-title">Qué incluye</div>
+          <ul class="service-deliverables">
+            ${p.deliverables.map(d => `<li>${d}</li>`).join('')}
+          </ul>
+
+          <div class="service-section-title">Plazo de entrega</div>
+          <div class="service-timeline-row">
+            <div class="service-timeline-icon">⏱</div>
+            <div>
+              <div class="service-timeline-label">Tiempo estimado</div>
+              <div class="service-timeline-val">${p.timeline}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT card -->
+        <div>
+          <div class="service-card">
+            ${p.badge ? `<div class="service-card-badge">${p.badge}</div>` : ''}
+            <div class="service-card-price">$${p.price}</div>
+            ${p.oldPrice ? `<span class="service-card-old">Antes $${p.oldPrice}</span>` : '<div style="margin-bottom:1.5rem"></div>'}
+
+            <div class="service-card-divider"></div>
+            <div class="service-card-meta">
+              <div class="service-card-meta-row">
+                <span>Categoría</span><span>${p.cat}</span>
+              </div>
+              <div class="service-card-meta-row">
+                <span>Entregables</span><span>${p.deliverables.length} ítems</span>
+              </div>
+              <div class="service-card-meta-row">
+                <span>Plazo</span><span>${p.timeline}</span>
+              </div>
+              <div class="service-card-meta-row">
+                <span>Revisiones</span><span>Ilimitadas</span>
+              </div>
+            </div>
+            <div class="service-card-divider"></div>
+
+            <button class="btn-add-service" onclick='addToCart(${JSON.stringify({id: p.id, name: p.name, price: p.price, img: p.img})})'>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              Agregar al carrito
+            </button>
+            <a href="contact.html" class="btn-contact-service">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Hablar con el equipo
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RELATED -->
+    ${related.length ? `
+    <section class="related-section">
+      <div class="container">
+        <div class="label" style="margin-bottom:0.5rem">También te puede interesar</div>
+        <div class="section-divider"></div>
+        <div class="related-grid">
+          ${related.map(r => `
+            <a href="service.html?id=${r.id}" class="related-card" style="text-decoration:none;color:inherit">
+              <div class="related-card-cat">${r.cat}</div>
+              <div class="related-card-name">${r.name}</div>
+              <div class="related-card-price">$${r.price}</div>
+              <div class="related-card-link">Ver detalles <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+    ` : ''}
+  `;
+})();
+</script>
+</body>
+</html>

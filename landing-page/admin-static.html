@@ -1,0 +1,576 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — DARK REBEL DESIGN</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <style>
+    /* Extra admin styles */
+    .img-preview {
+      width: 80px; height: 80px; object-fit: cover;
+      border: 1px solid var(--border);
+      margin-top: 0.5rem;
+    }
+    .color-dot {
+      display:inline-block; width:10px; height:10px;
+      border-radius:50%; margin-right:6px;
+    }
+    .admin-activity { margin-top: 2rem; }
+    .activity-item {
+      display: flex; gap: 1rem; padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border); align-items: flex-start;
+    }
+    .activity-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0; margin-top: 6px;
+    }
+    .activity-text { font-size: 0.875rem; }
+    .activity-time { font-size: 0.75rem; color: var(--text2); margin-top: 0.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .admin-logo-img {
+      width: 148px;
+      height: auto;
+      display: block;
+      margin-bottom: 0.5rem;
+      filter: brightness(0) saturate(100%) invert(100%);
+    }
+    .login-brand {
+      width: 140px;
+      height: auto;
+      display: block;
+      margin: 0 auto 1rem auto;
+      filter: brightness(0) saturate(100%) invert(100%);
+    }
+    @media(max-width:600px){ .form-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body data-page="admin">
+
+<!-- ══════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════ -->
+<div id="login-screen" class="login-screen">
+    <!-- ...existing code... -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <!-- ...existing code... -->
+  <div class="login-box">
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <img src="/logo.svg" alt="Dark Rebel Design" style="width:120px;height:auto;margin-bottom:1.5rem;" />
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:#fff;margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;">ADMIN<span style="color:var(--accent);">.</span></div>
+    </div>
+    <div class="login-subtitle" style="font-family:'Syne',sans-serif;font-size:1.25rem;text-align:center;margin-bottom:2rem;color:#aaa9a6;" data-i18n="admin.login.restricted">Área restringida — Dark Rebel Design</div>
+    <form class="login-form" onsubmit="doLogin();return false;" style="font-family:'DM Sans',sans-serif;font-size:1rem;">
+      <div class="form-group">
+        <label for="login-user" data-i18n="admin.login.user" style="font-family:'Syne',sans-serif;font-size:1rem;color:#f0ede8;">Usuario</label>
+        <input type="text" id="login-user" class="input input-lg" placeholder="admin" autocomplete="username" data-i18n-placeholder="admin.login.userPh" style="font-family:'DM Sans',sans-serif;font-size:1rem;" />
+      </div>
+      <div class="form-group">
+        <label for="login-pass" data-i18n="admin.login.pass" style="font-family:'Syne',sans-serif;font-size:1rem;color:#f0ede8;">Contraseña</label>
+        <input type="password" id="login-pass" class="input input-lg" placeholder="••••••••" autocomplete="current-password" data-i18n-placeholder="admin.login.passPh" onkeydown="if(event.key==='Enter') doLogin()" style="font-family:'DM Sans',sans-serif;font-size:1rem;" />
+      </div>
+      <button class="btn btn-primary btn-lg w-100" type="submit" data-i18n="admin.login.enter" style="font-family:'Syne',sans-serif;font-size:1rem;">Entrar al panel</button>
+      <div class="login-error" id="login-error" data-i18n="admin.login.invalid" style="font-family:'DM Sans',sans-serif;font-size:1rem;">❌ Credenciales inválidas. Intenta de nuevo.</div>
+    </form>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     ADMIN SHELL (hidden until login)
+══════════════════════════════════ -->
+<div id="admin-shell" class="admin-shell hidden">
+  <div id="cursor2"></div>
+  <div id="cursor-ring2"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-logo">
+      <img src="/logo.svg" alt="Dark Rebel Design" class="admin-logo-img" />
+      Dark Rebel<span>.</span>
+      <div class="admin-badge" data-i18n="admin.badge">Admin</div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">
+        <div class="admin-nav-label" data-i18n="admin.nav.dashboard">Dashboard</div>
+        <div class="admin-nav-link active" onclick="showPanel('dashboard',this)">
+          📊 <span data-i18n="admin.nav.overview">Overview</span>
+        </div>
+      </div>
+      <div class="admin-nav-section" style="margin-top:1rem">
+        <div class="admin-nav-label" data-i18n="admin.nav.catalog">Catalog</div>
+        <div class="admin-nav-link" onclick="showPanel('products',this)">📦 <span data-i18n="admin.nav.products">Products / Services</span></div>
+        <div class="admin-nav-link" onclick="showPanel('add-product',this)">➕ <span data-i18n="admin.nav.add">Add New Product</span></div>
+      </div>
+      <div class="admin-nav-section" style="margin-top:1rem">
+        <div class="admin-nav-label" data-i18n="admin.nav.site">Site</div>
+        <div class="admin-nav-link" onclick="showPanel('settings',this)">⚙️ <span data-i18n="admin.nav.settings">Settings</span></div>
+        <div class="admin-nav-link" onclick="window.open('/index.html','_blank')">🔗 <span data-i18n="admin.nav.viewSite">View Site</span></div>
+      </div>
+    </nav>
+    <div style="padding:1.5rem;border-top:1px solid var(--border);margin-top:auto">
+      <div style="font-size:0.75rem;color:var(--text2);margin-bottom:0.75rem"><span data-i18n="admin.loggedAs">Logged in as</span> <strong style="color:var(--text)">admin</strong></div>
+      <button class="btn btn-sm w-100" onclick="doLogout()" data-i18n="admin.logout">Logout</button>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div class="admin-page-title" id="admin-page-title">Overview</div>
+      <div style="display:flex;gap:1rem;align-items:center">
+        <span style="font-size:0.75rem;color:var(--text2)" id="admin-clock"></span>
+        <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">EN</button>
+        <a href="/shop.html" class="btn btn-sm" target="_blank" data-i18n="admin.liveShop">Live Shop ↗</a>
+      </div>
+    </div>
+
+    <!-- ── DASHBOARD PANEL ── -->
+    <div class="admin-panel active" id="panel-dashboard">
+      <div class="stat-cards" id="stat-cards"></div>
+      <h3 class="subhead" style="margin-bottom:1.5rem" data-i18n="admin.recent">Recent Activity</h3>
+      <div class="admin-activity" id="activity-log">
+        <div class="activity-item"><div class="activity-dot"></div><div><div class="activity-text" data-i18n="admin.activity.init">Admin panel initialized</div><div class="activity-time" data-i18n="admin.activity.now">Just now</div></div></div>
+      </div>
+    </div>
+
+    <!-- ── PRODUCTS PANEL ── -->
+    <div class="admin-panel" id="panel-products">
+      <div class="panel-header">
+        <h3 class="subhead" data-i18n="admin.products.all">Todos los proyectos</h3>
+        <button class="btn btn-primary btn-sm" onclick="showPanel('add-product', document.querySelector('[onclick*=add-product]'))" data-i18n="admin.products.add">+ Agregar nuevo</button>
+      </div>
+      <div class="table-responsive">
+        <table class="admin-table table-main" id="products-table">
+          <thead>
+            <tr>
+              <th data-i18n="admin.table.image">Imagen</th>
+              <th data-i18n="admin.table.name">Nombre</th>
+              <th data-i18n="admin.table.category">Categoría</th>
+              <th data-i18n="admin.table.price">Precio</th>
+              <th data-i18n="admin.table.status">Estado</th>
+              <th data-i18n="admin.table.actions">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="products-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── ADD/EDIT PRODUCT PANEL ── -->
+    <div class="admin-panel" id="panel-add-product">
+      <h3 class="subhead" id="form-panel-title" style="margin-bottom:2rem" data-i18n="admin.form.addTitle">Add New Product</h3>
+      <form onsubmit="saveProduct(event)" style="max-width:720px">
+        <input type="hidden" id="edit-id" value="">
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="admin.form.name">Product / Service Name *</label>
+            <input type="text" id="f-name" placeholder="e.g. Brand Identity Package" required />
+          </div>
+          <div class="form-group">
+            <label data-i18n="admin.form.category">Category *</label>
+            <select id="f-cat" required>
+              <option value="">Select…</option>
+              <option value="Branding">Branding</option>
+              <option value="Web Design">Web Design</option>
+              <option value="Consulting">Consulting</option>
+              <option value="Motion">Motion</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="admin.form.price">Precio (MXN) *</label>
+            <input type="number" id="f-price" placeholder="299" min="0" required />
+          </div>
+          <div class="form-group">
+            <label data-i18n="admin.form.oldPrice">Precio anterior (opcional)</label>
+            <input type="number" id="f-oldprice" placeholder="399" min="0" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="admin.form.badge">Badge (optional)</label>
+            <input type="text" id="f-badge" placeholder="Popular, New, Best Value…" maxlength="20" />
+          </div>
+          <div class="form-group">
+            <label data-i18n="admin.form.status">Status *</label>
+            <select id="f-status" required>
+              <option value="active" data-i18n="admin.status.active">Active (visible in shop)</option>
+              <option value="draft" data-i18n="admin.status.draft">Draft (hidden)</option>
+              <option value="out" data-i18n="admin.status.out">Out of stock</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="admin.form.description">Description *</label>
+          <textarea id="f-desc" rows="3" placeholder="Brief description of what this service includes…" required></textarea>
+        </div>
+        <div class="form-group">
+          <label data-i18n="admin.form.imageUrl">Image URL</label>
+          <input type="url" id="f-img" placeholder="https://images.unsplash.com/…" oninput="previewImg(this.value)" />
+          <img id="img-preview" class="img-preview hidden" alt="preview" />
+        </div>
+        <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap">
+          <button type="submit" class="btn btn-primary" data-i18n="admin.form.save">Save product</button>
+          <button type="button" class="btn" onclick="resetForm()" data-i18n="admin.form.cancel">Cancel / Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ── SETTINGS PANEL ── -->
+    <div class="admin-panel" id="panel-settings">
+      <h3 class="subhead" style="margin-bottom:2rem" data-i18n="admin.settings.title">Site Settings</h3>
+      <div style="max-width:560px">
+        <div class="form-group">
+          <label data-i18n="admin.settings.studio">Studio Name</label>
+          <input type="text" id="s-name" placeholder="DARK REBEL DESIGN" />
+        </div>
+        <div class="form-group">
+          <label data-i18n="admin.settings.email">Contact Email</label>
+          <input type="email" id="s-email" placeholder="info@darkrebel.store" />
+        </div>
+        <div class="form-group">
+          <label data-i18n="admin.settings.tagline">Tagline</label>
+          <input type="text" id="s-tagline" placeholder="Digital Design Studio" />
+        </div>
+        <div class="form-group">
+          <label data-i18n="admin.settings.password">Change Admin Password</label>
+          <input type="password" id="s-pass" placeholder="Leave blank to keep current" />
+        </div>
+        <button class="btn btn-primary" onclick="saveSettings()" data-i18n="admin.settings.save">Save settings</button>
+        <div style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border)">
+          <h4 class="subhead" style="margin-bottom:1rem; color:var(--red)" data-i18n="admin.settings.danger">Danger Zone</h4>
+          <button class="btn btn-red btn-sm" onclick="resetAllData()" data-i18n="admin.settings.reset">Reset all products to defaults</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- EDIT CONFIRM MODAL -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" data-i18n="admin.modal.title">Confirm Delete</div>
+      <button class="modal-close" onclick="closeModal('delete-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <p><span data-i18n="admin.modal.textStart">Are you sure you want to delete</span> <strong id="delete-name"></strong>? <span data-i18n="admin.modal.textEnd">This cannot be undone.</span></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('delete-modal')" data-i18n="admin.modal.cancel">Cancel</button>
+      <button class="btn btn-red" id="confirm-delete-btn" data-i18n="admin.modal.delete">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/i18n.js"></script>
+<script src="/js/main.js"></script>
+<script>
+// ══════════════════════════
+// AUTH
+// ══════════════════════════
+const ADMIN_CREDS_KEY = 'ks_admin_creds';
+function getCreds() {
+  try { return JSON.parse(localStorage.getItem(ADMIN_CREDS_KEY)) || { user: 'admin', pass: 'rebel2026' }; }
+  catch { return { user: 'admin', pass: 'rebel2026' }; }
+}
+
+function doLogin() {
+  const user = document.getElementById('login-user').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const creds = getCreds();
+  const err = document.getElementById('login-error');
+
+  if (user === creds.user && pass === creds.pass) {
+    sessionStorage.setItem('ks_admin_logged', '1');
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('admin-shell').classList.remove('hidden');
+    err.style.display = 'none';
+    initAdmin();
+  } else {
+    err.style.display = 'block';
+    document.getElementById('login-pass').value = '';
+    document.getElementById('login-pass').focus();
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('ks_admin_logged');
+  location.reload();
+}
+
+// Check if already logged in (same session)
+if (sessionStorage.getItem('ks_admin_logged') === '1') {
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('admin-shell').classList.remove('hidden');
+  document.addEventListener('DOMContentLoaded', initAdmin);
+}
+
+// ══════════════════════════
+// CURSOR (re-init for admin)
+// ══════════════════════════
+function initCursor(dotId, ringId) {
+  const dot = document.getElementById(dotId);
+  const ring = document.getElementById(ringId);
+  if (!dot || !ring) return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; });
+  (function anim(){ rx+=(mx-rx)*0.15; ry+=(my-ry)*0.15;
+    dot.style.left=mx+'px'; dot.style.top=my+'px';
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(anim);
+  })();
+}
+initCursor('cursor','cursor-ring');
+document.addEventListener('DOMContentLoaded', () => initCursor('cursor2','cursor-ring2'));
+
+// ══════════════════════════
+// CLOCK
+// ══════════════════════════
+function updateClock() {
+  const el = document.getElementById('admin-clock');
+  if (el) el.textContent = new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ══════════════════════════
+// PANEL NAVIGATION
+// ══════════════════════════
+const pageTitles = {
+  dashboard: 'admin.nav.overview',
+  products: 'admin.nav.products',
+  'add-product': 'admin.nav.add',
+  settings: 'admin.nav.settings'
+};
+
+function showPanel(name, clickedEl) {
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  document.querySelectorAll('.admin-nav-link').forEach(l => l.classList.remove('active'));
+  if (clickedEl) clickedEl.classList.add('active');
+  const titleKey = pageTitles[name] || name;
+  document.getElementById('admin-page-title').textContent = typeof t === 'function' ? t(titleKey) : titleKey;
+  if (name === 'products') renderProductsTable();
+  if (name === 'dashboard') renderDashboard();
+}
+
+// ══════════════════════════
+// DASHBOARD
+// ══════════════════════════
+function renderDashboard() {
+  const products = getProducts();
+  const active = products.filter(p => p.status === 'active').length;
+  const draft  = products.filter(p => p.status === 'draft').length;
+  const total  = products.length;
+  const avgPrice = total ? Math.round(products.reduce((s,p)=>s+p.price,0)/total) : 0;
+  const cartItems = getCart().reduce((s,i)=>s+i.qty,0);
+
+  document.getElementById('stat-cards').innerHTML = `
+    <div class="stat-card"><div class="stat-value">${total}</div><div class="stat-label">${t('admin.stats.total')}</div><div class="stat-change">↑ ${t('admin.stats.allServices')}</div></div>
+    <div class="stat-card"><div class="stat-value">${active}</div><div class="stat-label">${t('admin.stats.activeVisible')}</div><div class="stat-change" style="color:var(--accent)">${t('admin.stats.inShop')}</div></div>
+    <div class="stat-card"><div class="stat-value">${draft}</div><div class="stat-label">${t('admin.stats.drafts')}</div><div class="stat-change" style="color:var(--text2)">${t('admin.stats.hidden')}</div></div>
+    <div class="stat-card"><div class="stat-value">MXN$${avgPrice}</div><div class="stat-label">${t('admin.stats.avgPrice')}</div><div class="stat-change">${t('admin.stats.perService')}</div></div>
+    <div class="stat-card"><div class="stat-value">${cartItems}</div><div class="stat-label">${t('admin.stats.cartItems')}</div><div class="stat-change" style="color:var(--accent)">${t('admin.stats.activeSession')}</div></div>
+  `;
+}
+
+// ══════════════════════════
+// PRODUCTS TABLE
+// ══════════════════════════
+function renderProductsTable() {
+  const products = getProducts();
+  const statusLabel = {
+    active: t('admin.status.short.active'),
+    draft: t('admin.status.short.draft'),
+    out: t('admin.status.short.out')
+  };
+  const statusClass = { active:'status-active', draft:'status-draft', out:'status-out' };
+
+  document.getElementById('products-tbody').innerHTML = products.map((p,i) => `
+    <tr>
+      <td><div style="width:56px;height:56px;overflow:hidden;background:var(--bg3)"><img src="${p.img||''}" alt="" style="width:100%;height:100%;object-fit:cover"></div></td>
+      <td><strong>${p.name}</strong>${p.badge ? `<br><span class="product-badge" style="position:static;display:inline-block;margin-top:4px">${p.badge}</span>` : ''}</td>
+      <td>${p.cat}</td>
+      <td><strong style="color:var(--accent)">MXN$${p.price}</strong>${p.oldPrice?`<br><span style="font-size:0.75rem;color:var(--text2);text-decoration:line-through">MXN$${p.oldPrice}</span>`:''}</td>
+      <td><span class="status-badge ${statusClass[p.status]}">${statusLabel[p.status]}</span></td>
+      <td style="display:flex;gap:0.5rem;flex-wrap:wrap">
+        <button class="btn btn-sm" onclick="editProduct('${p.id}')">${t('admin.table.edit')}</button>
+        <button class="btn btn-sm btn-red" onclick="confirmDelete('${p.id}','${p.name.replace(/'/g,"\\'")}')">${t('admin.table.delete')}</button>
+      </td>
+    </tr>
+  `).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:2rem">${t('admin.table.empty')}</td></tr>`;
+}
+
+// ══════════════════════════
+// ADD / EDIT PRODUCT
+// ══════════════════════════
+function resetForm() {
+  document.getElementById('edit-id').value = '';
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-cat').value = '';
+  document.getElementById('f-price').value = '';
+  document.getElementById('f-oldprice').value = '';
+  document.getElementById('f-badge').value = '';
+  document.getElementById('f-status').value = 'active';
+  document.getElementById('f-desc').value = '';
+  document.getElementById('f-img').value = '';
+  document.getElementById('img-preview').classList.add('hidden');
+  document.getElementById('form-panel-title').textContent = t('admin.form.addTitle');
+}
+
+function editProduct(id) {
+  const p = getProducts().find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('edit-id').value = p.id;
+  document.getElementById('f-name').value = p.name;
+  document.getElementById('f-cat').value = p.cat;
+  document.getElementById('f-price').value = p.price;
+  document.getElementById('f-oldprice').value = p.oldPrice || '';
+  document.getElementById('f-badge').value = p.badge || '';
+  document.getElementById('f-status').value = p.status;
+  document.getElementById('f-desc').value = p.desc;
+  document.getElementById('f-img').value = p.img || '';
+  previewImg(p.img || '');
+  document.getElementById('form-panel-title').textContent = t('admin.form.editTitle');
+  showPanel('add-product', document.querySelector('[onclick*="add-product"]'));
+}
+
+function previewImg(url) {
+  const img = document.getElementById('img-preview');
+  if (url && url.startsWith('http')) {
+    img.src = url;
+    img.classList.remove('hidden');
+  } else {
+    img.classList.add('hidden');
+  }
+}
+
+function saveProduct(e) {
+  e.preventDefault();
+  const products = getProducts();
+  const editId = document.getElementById('edit-id').value;
+  const product = {
+    id:       editId || 'p' + Date.now(),
+    name:     document.getElementById('f-name').value.trim(),
+    cat:      document.getElementById('f-cat').value,
+    price:    Number(document.getElementById('f-price').value),
+    oldPrice: document.getElementById('f-oldprice').value ? Number(document.getElementById('f-oldprice').value) : null,
+    badge:    document.getElementById('f-badge').value.trim(),
+    status:   document.getElementById('f-status').value,
+    desc:     document.getElementById('f-desc').value.trim(),
+    img:      document.getElementById('f-img').value.trim(),
+  };
+
+  if (editId) {
+    const idx = products.findIndex(p => p.id === editId);
+    if (idx > -1) products[idx] = product;
+  } else {
+    products.push(product);
+  }
+  saveProducts(products);
+  addActivity(`${editId ? t('admin.activity.updated') : t('admin.activity.created')} "${product.name}"`);
+  showToast(editId ? t('admin.toast.updated') : t('admin.toast.added'));
+  resetForm();
+  showPanel('products', document.querySelector('[onclick*="products,"]'));
+  renderDashboard();
+}
+
+// ══════════════════════════
+// DELETE
+// ══════════════════════════
+let _pendingDeleteId = null;
+function confirmDelete(id, name) {
+  _pendingDeleteId = id;
+  document.getElementById('delete-name').textContent = name;
+  document.getElementById('delete-modal').classList.add('open');
+  document.getElementById('confirm-delete-btn').onclick = () => {
+    const products = getProducts().filter(p => p.id !== id);
+    saveProducts(products);
+    addActivity(`${t('admin.activity.deleted')} "${name}"`);
+    renderProductsTable();
+    renderDashboard();
+    closeModal('delete-modal');
+    showToast(t('admin.toast.deleted'));
+  };
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// ══════════════════════════
+// ACTIVITY LOG
+// ══════════════════════════
+function addActivity(text) {
+  const log = document.getElementById('activity-log');
+  if (!log) return;
+  const now = new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+  const item = document.createElement('div');
+  item.className = 'activity-item';
+  item.innerHTML = `<div class="activity-dot"></div><div><div class="activity-text">${text}</div><div class="activity-time">${now}</div></div>`;
+  log.insertBefore(item, log.firstChild);
+}
+
+// ══════════════════════════
+// SETTINGS
+// ══════════════════════════
+function saveSettings() {
+  const newPass = document.getElementById('s-pass').value;
+  const creds = getCreds();
+  if (newPass) {
+    creds.pass = newPass;
+    localStorage.setItem(ADMIN_CREDS_KEY, JSON.stringify(creds));
+    document.getElementById('s-pass').value = '';
+    showToast(t('admin.toast.password'));
+  } else {
+    localStorage.setItem(ADMIN_CREDS_KEY, JSON.stringify(creds));
+    showToast(t('admin.toast.settings'));
+  }
+  addActivity(t('admin.activity.settings'));
+}
+
+function resetAllData() {
+  if (!confirm(t('admin.confirm.reset'))) return;
+  localStorage.removeItem('ks_products');
+  showToast(t('admin.toast.reset'));
+  renderProductsTable();
+  renderDashboard();
+}
+
+document.addEventListener('langchange', () => {
+  const activePanel = document.querySelector('.admin-panel.active');
+  if (activePanel && activePanel.id === 'panel-products') renderProductsTable();
+  if (activePanel && activePanel.id === 'panel-dashboard') renderDashboard();
+  if (activePanel && activePanel.id === 'panel-add-product') {
+    const isEditing = !!document.getElementById('edit-id').value;
+    document.getElementById('form-panel-title').textContent = isEditing ? t('admin.form.editTitle') : t('admin.form.addTitle');
+  }
+  const pageName = (activePanel && activePanel.id || '').replace('panel-', '');
+  const key = pageTitles[pageName] || 'admin.nav.overview';
+  document.getElementById('admin-page-title').textContent = t(key);
+});
+
+// ══════════════════════════
+// INIT
+// ══════════════════════════
+function initAdmin() {
+  renderDashboard();
+  // Load settings fields
+  const s = JSON.parse(localStorage.getItem('ks_settings') || '{}');
+  document.getElementById('s-name').value    = s.name    || 'DARK REBEL DESIGN';
+  document.getElementById('s-email').value   = s.email   || 'info@darkrebel.store';
+  document.getElementById('s-tagline').value = s.tagline || 'Digital Design Studio';
+}
+
+if (document.getElementById('admin-shell') && !document.getElementById('admin-shell').classList.contains('hidden')) {
+  initAdmin();
+}
+</script>
+</body>
+</html>
