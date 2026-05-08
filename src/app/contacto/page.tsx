@@ -1,5 +1,7 @@
 "use client";
 
+export const runtime = "edge";
+
 import { useState } from "react";
 import { ArrowRight, Instagram, Linkedin, Twitter, Dribbble } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
@@ -7,7 +9,7 @@ import { Footer } from "@/components/Footer";
 import { useAppContext } from "@/context/AppContext";
 import { TRANSLATIONS } from "@/lib/translations";
 
-export const runtime = "edge";
+
 
 export default function Contacto() {
   const { lang } = useAppContext();
@@ -156,3 +158,4 @@ export default function Contacto() {
     </div>
   );
 }
+

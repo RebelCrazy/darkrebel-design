@@ -1,5 +1,7 @@
 "use client";
 
+export const runtime = "edge";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,7 +12,7 @@ import { Footer } from "@/components/Footer";
 import { useAppContext } from "@/context/AppContext";
 import { TRANSLATIONS } from "@/lib/translations";
 
-export const runtime = "edge";
+
 
 const Marquee = () => {
   const { lang } = useAppContext();
@@ -536,3 +538,4 @@ export default function Home() {
     </div>
   );
 }
+

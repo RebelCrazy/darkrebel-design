@@ -1,5 +1,7 @@
 "use client";
 
+export const runtime = "edge";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Target, Users, Award } from "lucide-react";
@@ -8,7 +10,7 @@ import { Footer } from "@/components/Footer";
 import { useAppContext } from "@/context/AppContext";
 import { TRANSLATIONS } from "@/lib/translations";
 
-export const runtime = "edge";
+
 
 export default function Nosotros() {
   const { lang } = useAppContext();
@@ -168,3 +170,4 @@ export default function Nosotros() {
     </div>
   );
 }
+

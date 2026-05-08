@@ -25,6 +25,13 @@ function needsSessionGate(pathname: string): boolean {
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const hostname = req.headers.get("host") || "";
+
+  if (hostname.includes("proyectos.darkrebel.store") && pathname === "/") {
+    const toLogin = req.nextUrl.clone();
+    toLogin.pathname = "/admin/login";
+    return withSecurityHeaders(NextResponse.redirect(toLogin));
+  }
 
   if (pathname === "/login") {
     const toLogin = req.nextUrl.clone();

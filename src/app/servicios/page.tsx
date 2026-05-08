@@ -1,5 +1,7 @@
 "use client";
 
+export const runtime = "edge";
+
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,7 +11,7 @@ import { Footer } from "@/components/Footer";
 import { useAppContext } from "@/context/AppContext";
 import { TRANSLATIONS } from "@/lib/translations";
 
-export const runtime = "edge";
+
 
 const services = [
   {
@@ -173,3 +175,4 @@ export default function Servicios() {
     </div>
   );
 }
+
