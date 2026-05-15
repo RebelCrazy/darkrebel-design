@@ -4,6 +4,7 @@ import { obtenerProyectoPorId, actualizarProyecto, eliminarProyecto } from "@/li
 import { verifySessionToken, SESSION_COOKIE_NAME, isTrustedOrigin } from "@/lib/auth";
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 function getCookieValue(cookieHeader: string, cookieName: string): string | null {
   const parts = cookieHeader.split(";");
