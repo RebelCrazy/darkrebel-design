@@ -72,7 +72,7 @@ export default function Contacto() {
                   <div className="space-y-2">
                     <p className="headline text-2xl">{lang === 'es' ? 'Estudio Remoto' : 'Remote Studio'}</p>
                     <p className="text-[var(--text3)] body-lg">
-                      {lang === 'es' ? 'Con base en Jalisco, NYC y Berlín.' : 'Based in Jalisco, NYC and Berlin.'}
+                      {lang === 'es' ? 'En Zona Metropolitana de Guadalajara, Jalisco.' : 'Based in the Metropolitan Zone of Guadalajara, Jalisco.'}
                     </p>
                   </div>
                 </div>
