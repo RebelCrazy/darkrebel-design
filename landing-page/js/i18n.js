@@ -1,4 +1,4 @@
-﻿/* ═══════════════════════════════════
+/* ═══════════════════════════════════
    DARK REBEL DESIGN — i18n (ES / EN)
 ═══════════════════════════════════ */
 
@@ -273,8 +273,8 @@ const TRANSLATIONS = {
     'contact.hero.title': 'Let\'s<br><span class="text-accent">talk.</span>',
     'contact.hero.desc': 'We respond within 48 hours. For urgent inquiries, email us directly at <a href="mailto:info@darkrebel.store" style="color:var(--accent)">info@darkrebel.store</a>.',
     'contact.phone': 'Phone', 'contact.email.label': 'Email',
-    'contact.location': 'Location', 'contact.remote': 'Guadalajara, Jalisco',
-    'contact.based': 'Tel: +52 33 4007 9524', 'contact.social': 'Social',
+    'contact.location': 'Location', 'contact.remote': 'Remote studio',
+    'contact.based': 'Based in the Metropolitan Zone of Guadalajara, Jalisco.', 'contact.social': 'Social',
     'contact.form.title': 'Start your<br><span class="text-accent">project today</span>',
     'contact.fullname': 'Full name *', 'contact.fullname.ph': 'Your name',
     'contact.email2': 'Email address *', 'contact.email2.ph': 'you@company.com',
@@ -488,8 +488,8 @@ const TRANSLATIONS = {
     'contact.hero.title': 'Hablemos<br><span class="text-accent">ya.</span>',
     'contact.hero.desc': 'Respondemos en 48 horas. Para consultas urgentes, escríbenos directamente a <a href="mailto:info@darkrebel.store" style="color:var(--accent)">info@darkrebel.store</a>.',
     'contact.phone': 'Teléfono', 'contact.email.label': 'Correo',
-    'contact.location': 'Ubicación', 'contact.remote': 'Guadalajara, Jalisco',
-    'contact.based': 'Tel: 33 4007 9524', 'contact.social': 'Redes sociales',
+    'contact.location': 'Ubicación', 'contact.remote': 'Estudio remoto',
+    'contact.based': 'En Zona Metropolitana de Guadalajara, Jalisco.', 'contact.social': 'Redes sociales',
     'contact.form.title': 'Comienza tu<br><span class="text-accent">proyecto hoy</span>',
     'contact.fullname': 'Nombre completo *', 'contact.fullname.ph': 'Tu nombre',
     'contact.email2': 'Correo electrónico *', 'contact.email2.ph': 'tú@empresa.com',

@@ -1,7 +1,5 @@
 "use client";
 
-export const runtime = "edge";
-
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,8 +9,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useAppContext } from "@/context/AppContext";
 import { TRANSLATIONS } from "@/lib/translations";
-
-
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 
 const Marquee = () => {
   const { lang } = useAppContext();
@@ -153,9 +151,60 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const t = (key: string) => (TRANSLATIONS[lang] as any)[key] || key;
 
+  const [homeProjects, setHomeProjects] = useState<any[]>([
+    { img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80', cat: 'Identidad Visual TechStartup' },
+    { img: 'https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80', cat: 'Diseño Web Inmobiliaria Premium' },
+    { img: 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=800&q=80', cat: 'Auditoría UX y SaaS Dashboard' },
+    { img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', cat: 'Campaña Digital y Social Kit' }
+  ]);
+  
+  const [homePosts, setHomePosts] = useState<any[]>([
+    { title: 'Los 5 principios del diseño de marca atemporal', titleEn: 'The 5 Principles of Timeless Brand Design', date: '1 de marzo de 2026', dateEn: 'March 1, 2026', img: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&q=80', excerpt: '¿Qué separa a las marcas que perduran de las que se desvanecen en su primera temporada?' },
+    { title: 'Por qué el diseño dark mode exige un enfoque diferente', titleEn: 'Why Dark Mode Design Demands a Different Approach', date: '18 de feb de 2026', dateEn: 'Feb 18, 2026', img: 'https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80', excerpt: 'Las interfaces oscuras no son solo inversiones de las claras. El dark mode requiere repensar todo.' },
+    { title: 'Elegir tipografía que vende, no solo que se ve bien', titleEn: 'Choosing Typography That Sells, Not Just Looks Good', date: '5 de feb de 2026', dateEn: 'Feb 5, 2026', img: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&q=80', excerpt: 'La elección tipográfica nunca es neutral. Cada fuente lleva un peso emocional profundo.' }
+  ]);
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 300);
     window.addEventListener("scroll", handleScroll);
+    
+    async function fetchHomeData() {
+      try {
+        const projectsData = await client.fetch(`*[_type == "project" && !(_id in drafts)] | order(order asc)[0...4]`);
+        if (projectsData && projectsData.length > 0) {
+          const mappedProjects = projectsData.map((project: any) => ({
+            img: project.coverImage ? urlFor(project.coverImage).url() : 'https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80',
+            cat: project.title
+          }));
+          setHomeProjects(mappedProjects);
+        }
+      } catch (err) {
+        console.error("Failed to fetch projects, using fallback:", err);
+      }
+
+      try {
+        const postsData = await client.fetch(`*[_type == "post" && !(_id in drafts)] | order(publishedAt desc)[0...3]`);
+        if (postsData && postsData.length > 0) {
+          const mappedPosts = postsData.map((post: any) => ({
+            title: post.title,
+            titleEn: post.title,
+            date: post.publishedAt 
+              ? new Date(post.publishedAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) 
+              : '1 de marzo de 2026',
+            dateEn: post.publishedAt 
+              ? new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) 
+              : 'March 1, 2026',
+            img: post.coverImage ? urlFor(post.coverImage).url() : 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&q=80',
+            excerpt: post.excerpt
+          }));
+          setHomePosts(mappedPosts);
+        }
+      } catch (err) {
+        console.error("Failed to fetch posts, using fallback:", err);
+      }
+    }
+
+    fetchHomeData();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -291,12 +340,7 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 bg-[var(--border)]">
-            {[
-              { img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80', cat: t('gallery.cat1') },
-              { img: 'https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80', cat: t('gallery.cat2') },
-              { img: 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=800&q=80', cat: t('gallery.cat3') },
-              { img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', cat: t('gallery.cat4') }
-            ].map((item, i) => (
+            {homeProjects.map((item, i) => (
               <div key={i} className="group relative aspect-[4/5] overflow-hidden bg-[var(--bg)]">
                 <Image 
                   src={item.img} 
@@ -388,17 +432,13 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-1 bg-[var(--border)]">
-            {[
-              { title: lang === 'es' ? 'Los 5 principios del diseño de marca atemporal' : 'The 5 Principles of Timeless Brand Design', date: lang === 'es' ? '1 de marzo de 2026' : 'March 1, 2026', img: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&q=80', excerpt: lang === 'es' ? '¿Qué separa a las marcas que perduran de las que se desvanecen en su primera temporada?' : 'What separates brands that last from those that fade away in their first season?' },
-              { title: lang === 'es' ? 'Por qué el diseño dark mode exige un enfoque diferente' : 'Why Dark Mode Design Demands a Different Approach', date: lang === 'es' ? '18 de feb de 2026' : 'Feb 18, 2026', img: 'https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80', excerpt: lang === 'es' ? 'Las interfaces oscuras no son solo inversiones de las claras. El dark mode requiere repensar todo.' : 'Dark interfaces are not just inversions of light ones. Dark mode requires rethinking everything.' },
-              { title: lang === 'es' ? 'Elegir tipografía que vende, no solo que se ve bien' : 'Choosing Typography That Sells, Not Just Looks Good', date: lang === 'es' ? '5 de feb de 2026' : 'Feb 5, 2026', img: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&q=80', excerpt: lang === 'es' ? 'La elección tipográfica nunca es neutral. Cada fuente lleva un peso emocional profundo.' : 'Typographic choice is never neutral. Each font carries a deep emotional weight.' }
-            ].map((post, i) => (
+            {homePosts.map((post, i) => (
               <div key={i} className="bg-[var(--bg)] p-12 group border border-[var(--border)] hover:border-[var(--accent)] transition-all">
                 <div className="aspect-video relative overflow-hidden mb-10 bg-[var(--surface2)]">
-                  <Image src={post.img} alt={post.title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-60 group-hover:opacity-100" />
+                  <Image src={post.img} alt={lang === 'es' ? post.title : post.titleEn} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-60 group-hover:opacity-100" />
                 </div>
-                <div className="label text-[9px] text-[var(--text3)] mb-6">{post.date}</div>
-                <h3 className="headline text-2xl mb-6 group-hover:text-[var(--accent)] transition-colors">{post.title}</h3>
+                <div className="label text-[9px] text-[var(--text3)] mb-6">{lang === 'es' ? post.date : post.dateEn}</div>
+                <h3 className="headline text-2xl mb-6 group-hover:text-[var(--accent)] transition-colors">{lang === 'es' ? post.title : post.titleEn}</h3>
                 <p className="text-[var(--text2)] mb-10 line-clamp-2">{post.excerpt}</p>
                 <Link href="/blog" className="inline-flex items-center gap-3 label text-[9px] text-[var(--accent)] group-hover:gap-5 transition-all">
                   {t('blog.read')} <ArrowRight size={14} />
@@ -538,4 +578,3 @@ export default function Home() {
     </div>
   );
 }
-

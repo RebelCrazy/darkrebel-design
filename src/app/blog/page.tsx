@@ -1,7 +1,6 @@
 "use client";
 
-export const runtime = "edge";
-
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Calendar } from "lucide-react";
@@ -9,8 +8,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useAppContext } from "@/context/AppContext";
 import { TRANSLATIONS } from "@/lib/translations";
-
-
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 
 const posts = [
   {
@@ -59,6 +58,36 @@ export default function Blog() {
   const { lang } = useAppContext();
   const t = (key: string) => (TRANSLATIONS[lang] as any)[key] || key;
 
+  const [blogPosts, setBlogPosts] = useState<any[]>(posts);
+
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const data = await client.fetch(`*[_type == "post" && !(_id in drafts)] | order(publishedAt desc)`);
+        if (data && data.length > 0) {
+          const mappedPosts = data.map((post: any) => ({
+            id: post._id,
+            title: post.title,
+            titleEn: post.title,
+            date: post.publishedAt 
+              ? new Date(post.publishedAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) 
+              : '1 de marzo de 2026',
+            dateEn: post.publishedAt 
+              ? new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) 
+              : 'March 1, 2026',
+            excerpt: post.excerpt,
+            excerptEn: post.excerpt,
+            img: post.coverImage ? urlFor(post.coverImage).url() : 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&q=80'
+          }));
+          setBlogPosts(mappedPosts);
+        }
+      } catch (error) {
+        console.error("Failed to fetch blog posts from Sanity, using fallback:", error);
+      }
+    }
+    fetchPosts();
+  }, []);
+
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] font-sans selection:bg-red-600 selection:text-white overflow-x-hidden">
       <Navbar />
@@ -89,7 +118,7 @@ export default function Blog() {
         <section className="py-24 px-6 md:px-12">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-1 bg-[var(--border)]">
-              {posts.map((post) => (
+              {blogPosts.map((post) => (
                 <article key={post.id} className="bg-[var(--bg)] group border border-[var(--border)] hover:border-[var(--accent)] transition-all duration-500">
                   <div className="aspect-[16/9] relative overflow-hidden bg-[var(--surface2)]">
                     <Image src={post.img} alt={lang === 'es' ? post.title : post.titleEn} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-100" />
@@ -122,4 +151,3 @@ export default function Blog() {
     </div>
   );
 }
-

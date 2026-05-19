@@ -1,8 +1,6 @@
 "use client";
 
-export const runtime = "edge";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Star, Clock, Infinity as InfinityIcon } from "lucide-react";
@@ -10,8 +8,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useAppContext } from "@/context/AppContext";
 import { TRANSLATIONS } from "@/lib/translations";
-
-
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 
 const services = [
   {
@@ -51,7 +49,39 @@ export default function Servicios() {
   const [filter, setFilter] = useState('Todos');
   const t = (key: string) => (TRANSLATIONS[lang] as any)[key] || key;
 
-  const filteredServices = filter === 'Todos' ? services : services.filter(s => s.cat === filter);
+  const [shopServices, setShopServices] = useState<any[]>(services);
+
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        const data = await client.fetch(`*[_type == "service" && !(_id in drafts)] | order(order asc)`);
+        if (data && data.length > 0) {
+          const categoryMap: Record<string, string> = {
+            'branding': 'Branding',
+            'web': 'Web Design',
+            'uiux': 'Consulting',
+            'social': 'Branding',
+            'realestate': 'Web Design'
+          };
+          const mappedServices = data.map((service: any) => ({
+            id: service._id,
+            name: service.title,
+            cat: categoryMap[service.category] || 'Web Design',
+            price: service.price?.from || 0,
+            desc: service.description,
+            badge: service.featured ? 'Destacado' : '',
+            img: service.image ? urlFor(service.image).url() : 'https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&q=80'
+          }));
+          setShopServices(mappedServices);
+        }
+      } catch (error) {
+        console.error("Failed to fetch services from Sanity, using fallback:", error);
+      }
+    }
+    fetchServices();
+  }, []);
+
+  const filteredServices = filter === 'Todos' ? shopServices : shopServices.filter(s => s.cat === filter);
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] font-sans selection:bg-red-600 selection:text-white overflow-x-hidden">
@@ -112,7 +142,7 @@ export default function Servicios() {
                     <div className="mt-auto flex items-center justify-between">
                       <div className="text-3xl headline text-[var(--accent)]">
                         ${service.price}
-                        {service.oldPrice && <span className="text-sm text-[var(--text3)] line-through ml-3">${service.oldPrice}</span>}
+                        {(service as any).oldPrice && <span className="text-sm text-[var(--text3)] line-through ml-3">${(service as any).oldPrice}</span>}
                       </div>
                       <Link href="/contacto" className="w-12 h-12 border border-[var(--border)] flex items-center justify-center hover:bg-[var(--accent)] hover:text-black transition-all">
                         <ArrowRight size={20} />
@@ -175,4 +205,3 @@ export default function Servicios() {
     </div>
   );
 }
-
