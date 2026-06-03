@@ -14,14 +14,71 @@ import { TRANSLATIONS } from "@/lib/translations";
 export default function Contacto() {
   const { lang } = useAppContext();
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [errorMsg, setErrorMsg] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [company, setCompany] = useState<string>("");
+  const [service, setService] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   const t = (key: string) => (TRANSLATIONS[lang] as any)[key] || key;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
+    if (!accessKey) {
+      setErrorMsg(
+        lang === "es"
+          ? "Falta configurar NEXT_PUBLIC_WEB3FORMS_KEY (Web3Forms) en variables de entorno."
+          : "Missing NEXT_PUBLIC_WEB3FORMS_KEY (Web3Forms) environment variable."
+      );
+      return;
+    }
+
+    setErrorMsg("");
     setFormStatus("sending");
-    setTimeout(() => {
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name,
+          email,
+          company,
+          service,
+          message,
+          subject:
+            lang === "es"
+              ? `Contacto — ${service || "General"}`
+              : `Contact — ${service || "General"}`,
+        }),
+      });
+
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.message || "Request failed");
+      }
+
       setFormStatus("sent");
-    }, 1500);
+      setName("");
+      setEmail("");
+      setCompany("");
+      setService("");
+      setMessage("");
+    } catch (err) {
+      console.error("[contact] Failed to submit contact form", err);
+      setFormStatus("idle");
+      setErrorMsg(
+        lang === "es"
+          ? "No se pudo enviar el mensaje. Intenta de nuevo o escríbenos a info@darkrebel.store."
+          : "Couldn't send your message. Please try again or email info@darkrebel.store."
+      );
+    }
   };
 
   return (
@@ -113,22 +170,46 @@ export default function Contacto() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                       <label className="label text-[10px] mb-3 block">{t('contact.name')} *</label>
-                      <input required type="text" placeholder="Josepe" className="w-full bg-[var(--bg)] border border-[var(--border)] p-5 focus:border-[var(--accent)] outline-none transition-all placeholder:text-[var(--text3)]" />
+                      <input
+                        required
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Josepe"
+                        className="w-full bg-[var(--bg)] border border-[var(--border)] p-5 focus:border-[var(--accent)] outline-none transition-all placeholder:text-[var(--text3)]"
+                      />
                     </div>
                     <div>
                       <label className="label text-[10px] mb-3 block">{t('contact.email')} *</label>
-                      <input required type="email" placeholder="josepe@empresa.com" className="w-full bg-[var(--bg)] border border-[var(--border)] p-5 focus:border-[var(--accent)] outline-none transition-all placeholder:text-[var(--text3)]" />
+                      <input
+                        required
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="josepe@empresa.com"
+                        className="w-full bg-[var(--bg)] border border-[var(--border)] p-5 focus:border-[var(--accent)] outline-none transition-all placeholder:text-[var(--text3)]"
+                      />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                       <label className="label text-[10px] mb-3 block">{lang === 'es' ? 'Empresa / Marca' : 'Company / Brand'}</label>
-                      <input type="text" placeholder={lang === 'es' ? 'Opcional' : 'Optional'} className="w-full bg-[var(--bg)] border border-[var(--border)] p-5 focus:border-[var(--accent)] outline-none transition-all placeholder:text-[var(--text3)]" />
+                      <input
+                        type="text"
+                        value={company}
+                        onChange={(e) => setCompany(e.target.value)}
+                        placeholder={lang === 'es' ? 'Opcional' : 'Optional'}
+                        className="w-full bg-[var(--bg)] border border-[var(--border)] p-5 focus:border-[var(--accent)] outline-none transition-all placeholder:text-[var(--text3)]"
+                      />
                     </div>
                     <div>
                       <label className="label text-[10px] mb-3 block">{t('contact.service')}</label>
-                      <select className="w-full bg-[var(--bg)] border border-[var(--border)] p-5 focus:border-[var(--accent)] outline-none transition-all text-[var(--text3)]">
+                      <select
+                        value={service}
+                        onChange={(e) => setService(e.target.value)}
+                        className="w-full bg-[var(--bg)] border border-[var(--border)] p-5 focus:border-[var(--accent)] outline-none transition-all text-[var(--text3)]"
+                      >
                         <option value="">{lang === 'es' ? 'Selecciona un servicio…' : 'Select a service…'}</option>
                         <option>Identidad de Marca</option>
                         <option>Diseño Web</option>
@@ -141,8 +222,21 @@ export default function Contacto() {
 
                   <div>
                     <label className="label text-[10px] mb-3 block">{t('contact.message')} *</label>
-                    <textarea required rows={5} placeholder={lang === 'es' ? 'Cuéntanos sobre tu proyecto...' : 'Tell us about your project...'} className="w-full bg-[var(--bg)] border border-[var(--border)] p-5 focus:border-[var(--accent)] outline-none transition-all resize-none placeholder:text-[var(--text3)]"></textarea>
+                    <textarea
+                      required
+                      rows={5}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder={lang === 'es' ? 'Cuéntanos sobre tu proyecto...' : 'Tell us about your project...'}
+                      className="w-full bg-[var(--bg)] border border-[var(--border)] p-5 focus:border-[var(--accent)] outline-none transition-all resize-none placeholder:text-[var(--text3)]"
+                    ></textarea>
                   </div>
+
+                  {errorMsg ? (
+                    <div className="border border-[var(--accent)] bg-[var(--surface)] p-4 text-[var(--accent)] body">
+                      {errorMsg}
+                    </div>
+                  ) : null}
 
                   <button type="submit" disabled={formStatus === "sending"} className="btn btn-primary w-full py-6 flex items-center justify-center gap-3">
                     {formStatus === "sending" ? (lang === 'es' ? "Enviando..." : "Sending...") : t('contact.send')} <ArrowRight size={20} />

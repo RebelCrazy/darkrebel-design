@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-// @ts-ignore
-import { DB } from '@/lib/db';
 import { guardarZohoTokens } from '@/lib/db';
 
 export const runtime = 'edge';
+
+function getEnv(name: string): string {
+  const fromProcess = (typeof process !== 'undefined' && (process.env as any)[name]) || '';
+  if (fromProcess) return fromProcess;
+
+  const fromGlobal = (globalThis as any).__ENV__?.[name] || '';
+  if (fromGlobal) return fromGlobal;
+
+  const fromGlobalDirect = (globalThis as any)[name] || '';
+  return fromGlobalDirect;
+}
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
@@ -12,10 +21,16 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'No code provided' }, { status: 400 });
   }
 
-  // Configura tus credenciales aquí
-  const client_id = '1000.OONQK4REOQ6C4UKGCH6912DLS1MYWI';
-  const client_secret = '4336496defead834211ee2bc9340851811bbc8a070';
-  const redirect_uri = 'https://proyectos.darkrebel.store/api/zoho/callback';
+  const client_id = getEnv('ZOHO_CLIENT_ID');
+  const client_secret = getEnv('ZOHO_CLIENT_SECRET');
+  const redirect_uri = getEnv('ZOHO_REDIRECT_URI') || 'https://proyectos.darkrebel.store/api/zoho/callback';
+
+  if (!client_id || !client_secret) {
+    return NextResponse.json(
+      { error: 'Zoho credentials not configured in environment variables' },
+      { status: 500 }
+    );
+  }
 
   const params = new URLSearchParams({
     code,

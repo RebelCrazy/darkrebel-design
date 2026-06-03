@@ -2,6 +2,17 @@ import type { D1Database } from "@cloudflare/workers-types";
 
 export const runtime = "edge";
 
+function getEnv(name: string): string {
+  const fromProcess = (typeof process !== "undefined" && (process.env as any)[name]) || "";
+  if (fromProcess) return fromProcess;
+
+  const fromGlobal = (globalThis as any).__ENV__?.[name] || "";
+  if (fromGlobal) return fromGlobal;
+
+  const fromGlobalDirect = (globalThis as any)[name] || "";
+  return fromGlobalDirect;
+}
+
 // ─── SOLUCIÓN AL BUG PRINCIPAL ───────────────────────────────────────────────
 // En Cloudflare Pages/Workers el binding D1 NO está en process.env.
 // next-on-pages lo expone en globalThis.__ENV__ en producción.
@@ -321,7 +332,21 @@ export async function obtenerZohoTokenActual() {
 }
 
 export async function refrescarZohoToken(refresh_token: string) {
-  const params = new URLSearchParams({ refresh_token, client_id: "1000.OONQK4REOQ6C4UKGCH6912DLS1MYWI", client_secret: "4336496defead834211ee2bc9340851811bbc8a070", redirect_uri: "https://proyectos.darkrebel.store/api/zoho/callback", grant_type: "refresh_token" });
+  const client_id = getEnv("ZOHO_CLIENT_ID");
+  const client_secret = getEnv("ZOHO_CLIENT_SECRET");
+  const redirect_uri = getEnv("ZOHO_REDIRECT_URI") || "https://proyectos.darkrebel.store/api/zoho/callback";
+
+  if (!client_id || !client_secret) {
+    throw new Error("Zoho credentials not configured (ZOHO_CLIENT_ID / ZOHO_CLIENT_SECRET)");
+  }
+
+  const params = new URLSearchParams({
+    refresh_token,
+    client_id,
+    client_secret,
+    redirect_uri,
+    grant_type: "refresh_token",
+  });
   const tokenRes = await fetch("https://accounts.zoho.com/oauth/v2/token", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: params.toString() });
   const data = await tokenRes.json();
   if (data.access_token) await guardarZohoTokens(data);

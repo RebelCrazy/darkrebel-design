@@ -15,18 +15,21 @@ function getBucket(): R2Bucket {
   );
 }
 
-// GET /api/files/list
-export async function GET(_req: NextRequest) {
+// POST /api/files/upload
+export async function POST(req: NextRequest) {
   const bucket = getBucket();
-
-  const { objects } = await bucket.list();
-  const files = (objects ?? []).map((obj) => ({
-    name: obj.key,
-    size: obj.size,
-    isDirectory: false,
-    path: obj.key,
-    id: obj.key,
-  }));
-
-  return NextResponse.json({ success: true, files });
+  const formData = await req.formData();
+  const file = formData.get('file');
+  if (!file || typeof file === 'string') {
+    return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+  }
+  // Guardar archivo en R2
+  const arrayBuffer = await file.arrayBuffer();
+  const objectName = file.name;
+  await bucket.put(objectName, arrayBuffer, {
+    httpMetadata: {
+      contentType: file.type || 'application/octet-stream',
+    },
+  });
+  return NextResponse.json({ success: true, message: 'Archivo guardado en R2', name: objectName });
 }

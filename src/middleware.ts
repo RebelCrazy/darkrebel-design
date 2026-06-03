@@ -67,9 +67,15 @@ export async function middleware(req: NextRequest) {
   }
 
   if (!session) {
+    // Allow public GET for projects list
+    if (pathname.startsWith("/api/proyectos") && req.method === "GET") {
+      return withSecurityHeaders(NextResponse.next());
+    }
+
     if (isApi) {
       return withSecurityHeaders(NextResponse.json({ error: "No autorizado" }, { status: 401 }));
     }
+
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/admin/login";
     redirectUrl.searchParams.set("next", pathname);
