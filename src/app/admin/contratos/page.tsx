@@ -1,3 +1,6 @@
+export const runtime = "edge";
+export const dynamic = "force-dynamic";
+
 import PlantillasPanel from "@/components/admin/PlantillasPanel";
 
 export default function ContratosPage() {
